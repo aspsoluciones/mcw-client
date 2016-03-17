@@ -4,13 +4,14 @@
 import React, {PropTypes} from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import ImageUploader from '../components/ImageUploader';
 
 class Dashboard extends React.Component {
   render(){
     return(
       <div className="row">
         <div className="column">
-            <h1>Welcome to amasing</h1>
+          <ImageUploader/>
         </div>
       </div>
     );

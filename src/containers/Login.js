@@ -4,7 +4,6 @@
 
 
 import React, {Component, PropTypes } from 'react'
-import { render } from 'react-dom';
 import { connect } from 'react-redux';
 import { Router } from 'react-router'
 import { loginUser } from "../actions/AuthActions"
@@ -20,21 +19,22 @@ class Login extends Component {
 
   showModal() {
     $('.ui.modal')
-        .modal({
-            onApprove : () => {
-                loginUser()
-            }
-        })
-        .modal({
-            blurring:true
-        })
-        .modal('setting', 'transition', 'fade up')
-        .modal('show')
+      .modal({
+          onApprove : () => {
+          loginUser()
+        }
+  })
+  .modal({
+      blurring:true
+    })
+      .modal('setting', 'transition', 'fade up')
+      .modal('show')
   }
-  
+
   sendRecoveryMail() {
-      console.log(this.refs.recoverEmail)
+    console.log(this.refs.recoverEmail)
   }
+
 
   render(){
     const {dispatch, errorMessage, isAuthenticated, params} = this.props;
@@ -45,73 +45,101 @@ class Login extends Component {
 
     return(
       <div className="ui one column center aligned grid">
-         className="column six wide form-holder">
-        <h2 className="center aligned header form-head">Mi Clinica Web Login</h2>
-        <div className="ui form">
-            <Formsy.Form ref="mailRecovery" className="ui form"
-                >
-                <div className="row ui">
-                    <div className="one column ui section">
-                    <FormsyText
-                        name='email'
-                        validations='isWords'
-                        required
-                        value=""
-                    />
-                    </div>
-                    <div className="one column ui section">
-                    <FormsyText
-                        name='password'
-                        validations='isWords'
-                        required
-                        value=""
-                    />
-                    </div>
-                </div>
-            </Formsy.Form>
-        <div className="ui column">
-            <button className="ui button" onClick={this.showModal}> Forgot password? </button>
-        </div>
-        
-        
-        
-        <div className="ui small modal">
-          <div className="header">
-            Recover password
-          </div>
-          <div className="content">
-            <div className="description">
-              <p>Introduce your email for recover your password</p>
-            </div>
-            <div className="description">
-              <Formsy.Form ref="mailRecovery"
-                  >
-                    <div className="row ui">
-                      <div className="one column ui section">
-                        <FormsyText
-                          name='recoverEmail'
-                          validations='isWords'
-                          required
-                          value=""
-                        />
-                      </div>
-                    </div>
-                </Formsy.Form>
-            </div>
-          </div>
-          <div className="actions">
-            <div className="two fluid ui  buttons">
-              <button className="ui red deny button">
-                Cancel
-              </button>
-              <button className="ui green positive button">
-                Send
-              </button>
-            </div>
-          </div>
-        </div>
+      <form  onSubmit={e => {
+      e.preventDefault();
+      const username = this.refs.username.value.trim();
+      const password = this.refs.password.value.trim();
+      const credentials = {password, username, userType };
+      dispatch(loginUser(credentials));
+      store.subscribe(function()  {
+        var _state = store.getState();
+        if(_state.auth.isAuthenticated) {
+          router.push('/app');
+        }
+      })
+    }}
+
+    className="column six wide form-holder">
+      <h2 className="center aligned header form-head">AMASING　ログイン</h2>
+    <div className="ui form">
+      <div className="field">
+      <input ref="username" type="text" placeholder="ユーサー名"/>
+      </div>
+      <div className="field">
+      <input ref="password" type="password" placeholder="パスワード"/>
+      </div>
+      <div className="field">
+      <input type="submit" value="ログイン" className="ui button large fluid green"/>
+      </div>
+      <div className="inline field">
+      <div className="ui checkbox">
+      <input type="checkbox"/>
+      <label>Remember me</label>
     </div>
-    )
+    </div>
+    {
+      errorMessage == 'LOGIN_FAILED' && <span>Contraseña o usuario incorrectos</span>
+  }
+  </div>
+
+    </form>
+
+
+    <div className="ui column">
+      <button className="ui button" onClick={this.showModal}> Forgot password? </button>
+    </div>
+
+    <div className="column three">
+      <button className="ui facebook button" onClick={() => {}}>
+    Facebook
+    </button>
+    <button className="ui twitter button">
+      <i className="twitter icon"></i>
+      Twitter
+      </button>
+      <button className="ui google plus button">
+      <i className="google plus icon"></i>
+      Google Plus
+    </button>
+    </div>
+
+    <div className="ui small modal">
+      <div className="header">
+      Recover password
+    </div>
+    <div className="content">
+      <div className="description">
+      <p>Introduce your email for recover your password</p>
+    </div>
+    <div className="description">
+      <Formsy.Form ref="mailRecovery"
+      >
+      <div className="row ui">
+      <div className="one column ui section">
+      <FormsyText
+    name='recoverEmail'
+    validations='isWords'
+    required
+    value=""
+      />
+      </div>
+      </div>
+      </Formsy.Form>
+      </div>
+      </div>
+      <div className="actions">
+      <div className="two fluid ui  buttons">
+      <button className="ui red deny button">
+      Cancel
+      </button>
+      <button className="ui green positive button">
+      Send
+      </button>
+      </div>
+      </div>
+      </div>
+      </div>
+  )
   }
 }
 
@@ -133,5 +161,3 @@ function mapStateProps(state) {
 Login = connect(mapStateProps)(Login);
 
 export default Login;
-
-
