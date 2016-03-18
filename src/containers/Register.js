@@ -6,7 +6,6 @@ import { registerUser } from "../actions/AuthActions"
 import Firebase from 'firebase';
 
 class Register extends Component {
-
    render() {
     const { dispatch } = this.props;
     const { store, router} = this.context;
@@ -20,10 +19,10 @@ class Register extends Component {
         dispatch(registerUser(credentials));
       }}
          className="column six wide form-holder">
-          <h2 className="center aligned header form-head">AMASING</h2>
+          <h2 className="center aligned header form-head">Mi Clinica Web</h2>
           <div className="ui form">
             <div className="field">
-              <input ref="email" type="email" placeholder="メールアドレス"/>
+              <input ref="email" type="email" placeholder="Email"/>
             </div>
             <div className="field">
               <input type="submit" value="登録" className="ui button large fluid green"/>
@@ -31,8 +30,7 @@ class Register extends Component {
           </div>
         </form>
       </div>
-       )
-
+     )
    }
 }
 
@@ -51,6 +49,5 @@ Register.contextType = {
 }
 
 Register = connect(mapStateProps)(Register);
-
 
 export default Register;

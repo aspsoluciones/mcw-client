@@ -60,16 +60,16 @@ class Login extends Component {
     }}
 
     className="column six wide form-holder">
-      <h2 className="center aligned header form-head">AMASING　ログイン</h2>
+      <h2 className="center aligned header form-head">Mi clinica web</h2>
     <div className="ui form">
       <div className="field">
-      <input ref="username" type="text" placeholder="ユーサー名"/>
+      <input ref="username" type="text" placeholder="Email"/>
       </div>
       <div className="field">
-      <input ref="password" type="password" placeholder="パスワード"/>
+      <input ref="password" type="password" placeholder="Password"/>
       </div>
       <div className="field">
-      <input type="submit" value="ログイン" className="ui button large fluid green"/>
+      <input type="submit" value="Ingresar" className="ui button large fluid green"/>
       </div>
       <div className="inline field">
       <div className="ui checkbox">
@@ -83,24 +83,8 @@ class Login extends Component {
   </div>
 
     </form>
-
-
     <div className="ui column">
       <button className="ui button" onClick={this.showModal}> Forgot password? </button>
-    </div>
-
-    <div className="column three">
-      <button className="ui facebook button" onClick={() => {}}>
-    Facebook
-    </button>
-    <button className="ui twitter button">
-      <i className="twitter icon"></i>
-      Twitter
-      </button>
-      <button className="ui google plus button">
-      <i className="google plus icon"></i>
-      Google Plus
-    </button>
     </div>
 
     <div className="ui small modal">
