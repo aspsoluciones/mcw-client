@@ -23,7 +23,8 @@ class ImageUploader extends Component {
       let _percentage = (result[0].loaded * 100) / result[0].total;
       dispatch(imageReadProgress(_percentage));
       if(e.target.result) {
-        dispatch(UploadImage(e.target.result, 'users', 'd3aecdc9-2ded-4689-93fa-2a6a95c74b06', 'avatar'));
+        //TODO Change for dinamyc values
+        dispatch(UploadImage(e.target.result, 'users', '1', 'avatar'));
       }
     })
   }
