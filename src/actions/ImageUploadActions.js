@@ -41,6 +41,7 @@ export function UploadImageProgress(progress) {
 
 export function UploadImage(file, collection, entityId, saveInKey ) {
   var _instance = new Firebase(FireRef + '/jobs');
+  // var file = new Uint8Array( imageBuffer );
   _instance.push({
     file, collection, entityId, saveInKey, jobType: 'IMAGE_UPLOAD'
   })
