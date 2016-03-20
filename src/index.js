@@ -25,6 +25,7 @@ const store = configureStore();
 injectTapEventPlugin();
 
 render(
+
   <Provider store={store}>
     <Router history={hashHistory}>
       <Route name="forbidden" component={Forbidden}/>

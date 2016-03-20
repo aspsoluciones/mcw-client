@@ -9,6 +9,7 @@ import { Dropdown, Text, Icon, Menu, Item } from "react-semantify";
 import { Link } from "react-router";
 import UserAvatar  from './userAvatar';
 import Firebase from 'firebase';
+
 import { FireRef, UidRef } from '../constants/Commons';
 var uid = localStorage.getItem(UidRef);
 function generateRightMenu(isAuthenticated, router) {

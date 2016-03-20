@@ -7,6 +7,15 @@ import { default as NavBar } from "../components/NavBar";
 import Firebase from 'firebase';
 import { FireRef } from '../constants/Commons';
 import { getUser } from '../actions/UserActions'
+import ActionNotifications from '../components/ActionNotifications';
+
+//TODO Remove, is only for test purposes
+let messages = {
+  'IMAGE_UPLOAD': {
+    error: 'Error al intentar subir la nueva imágen',
+    success: 'Nueva imágen subida con éxito'
+  }
+}
 
 class App extends React.Component{
 
@@ -18,12 +27,12 @@ class App extends React.Component{
     }
   }
 
-
   render() {
     return (
       <div>
         <NavBar/>
         <main className="ui page grid main content-container">
+          <ActionNotifications entityToObserveUrl="users/1/doneJobs" messages={messages}/>
           <div className="row">
             {this.props.children}
           </div>
