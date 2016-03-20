@@ -6,7 +6,6 @@ import Rebase from 're-base';
 import Snackbar from 'material-ui/lib/snackbar';
 import { FireRef } from '../constants/Commons';
 const base = Rebase.createClass(FireRef)
-
 class ActionNotifications extends Component {
   constructor(props) {
     super(props);
@@ -30,9 +29,6 @@ class ActionNotifications extends Component {
   }
 
   componentDidMount() {
-    console.log('Some previous work');
-    console.log(this.props);
-
     base.listenTo(this.props.entityToObserveUrl, {
       context: this,
       asArray: true,
@@ -40,7 +36,6 @@ class ActionNotifications extends Component {
         limitToLast: 1
       },
       then(newDoneJob) {
-        console.log(newDoneJob);
         this.showMessage(newDoneJob);
       }
     })
