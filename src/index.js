@@ -13,6 +13,7 @@ import Forbidden from './containers/Forbidden';
 import Auth from './containers/Auth';
 import Register from './containers/Register';
 import configureStore from './store/configureStore';
+import { messages } from  './i18n/messages';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import './styles/styles.scss'; //Yep, that's right. You can import SASS/CSS files too! Webpack will run the associated loader and plug this into the page.

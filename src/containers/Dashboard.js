@@ -11,7 +11,12 @@ class Dashboard extends React.Component {
     return(
       <div className="row">
         <div className="column">
-          <ImageUploader/>
+          <ImageUploader
+            collection="users"
+            entityId="1"
+            saveInKey="avatar"
+            keyToObserve="url"
+          />
         </div>
       </div>
     );
