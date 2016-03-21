@@ -3,10 +3,9 @@
  */
 
 import  React, {Component, PropTypes } from 'react'
-import { UidRef } from '../constants/Commons'
+import { UidRef, FireRef } from '../constants/Commons'
 import  FileReaderInput from 'react-file-reader-input';
 import Firebase from 'firebase';
-import { FireRef } from '../constants/Commons';
 import Rebase from 're-base'
 const base = Rebase.createClass(FireRef)
 import { connect } from 'react-redux';
@@ -43,11 +42,6 @@ class ImageUploader extends Component {
 
   componentDidMount() {
     const { collection, saveInKey, entityId, keyToObserve} = this.props;
-    const entityReference = Rebase.createClass(FireRef
-      + collection
-      + '/' + entityId
-    );
-
     let entityUrl = [collection, entityId, saveInKey, keyToObserve || null].join('/')
     base.listenTo(entityUrl, {
       context: this,
@@ -61,13 +55,8 @@ class ImageUploader extends Component {
     })
   }
 
-  upload() {
-
-  }
-
   render() {
-    const { dispatch, imageUpload } = this.props;
-
+    const { dispatch } = this.props;
     return(
       <div className="ui shape">
         <div className="sides">

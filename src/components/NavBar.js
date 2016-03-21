@@ -13,6 +13,7 @@ import Firebase from 'firebase';
 import { FireRef, UidRef } from '../constants/Commons';
 var uid = localStorage.getItem(UidRef);
 function generateRightMenu(isAuthenticated, router) {
+
   if(isAuthenticated) {
     return(
     <a className="ui dropdown item"><UserAvatar className="item"/>
