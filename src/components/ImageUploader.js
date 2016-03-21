@@ -9,14 +9,6 @@ import Firebase from 'firebase';
 import { FireRef } from '../constants/Commons';
 import Rebase from 're-base'
 const base = Rebase.createClass(FireRef)
-
-import {
-  UploadImage,
-  UploadImageProgress,
-  imageReadProgress,
-  imageReadSuccess
-}  from '../actions/ImageUploadActions';
-
 import { connect } from 'react-redux';
 
 class ImageUploader extends Component {
@@ -26,20 +18,25 @@ class ImageUploader extends Component {
     this.state = {}
   }
 
+  UploadImage(file, collection, entityId, saveInKey ) {
+    var _instance = new Firebase(FireRef + '/jobs');
+    // var file = new Uint8Array( imageBuffer );
+    _instance.push({
+      file, collection, entityId, saveInKey, jobType: 'IMAGE_UPLOAD'
+    })
+  }
+
   handleChange(e, results, dispatch)  {
     const { collection, saveInKey, entityId} = this.props;
-
     results.forEach(result => {
       const [e, file] = result;
-      let _percentage = (result[0].loaded * 100) / result[0].total;
-      dispatch(imageReadProgress(_percentage));
       if(e.target.result) {
-        dispatch(UploadImage(
+        this.UploadImage(
           e.target.result,
           collection,
           entityId,
           saveInKey
-        ));
+        );
       }
     })
   }
