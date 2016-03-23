@@ -16,16 +16,9 @@ class ActionNotifications extends Component {
   }
 
   showMessage(actionNotification) {
-    let Action = actionNotification[0];
-    let OperationResult;
-
-    if(Action._error) {
-        OperationResult = 'error'
-      } else {
-        OperationResult = 'success'
-      }
+    const {_error, _actionType } = actionNotification[0];
       this.setState({
-        message: this.props.messages[Action._actionType][OperationResult],
+        message: this.props.messages[_actionType][(_error) ? 'error': 'success'],
         open: true
       })
   }
