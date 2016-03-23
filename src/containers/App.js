@@ -32,7 +32,7 @@ class App extends React.Component{
       <div>
         <NavBar/>
         <main className="ui page grid main content-container">
-          <ActionNotifications entityToObserveUrl="users/1/doneJobs" messages={messages}/>
+          <ActionNotifications entityToObserveUrl="users/1/actions" messages={messages}/>
           <div className="row">
             {this.props.children}
           </div>

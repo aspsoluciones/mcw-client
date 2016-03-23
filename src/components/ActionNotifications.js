@@ -16,14 +16,16 @@ class ActionNotifications extends Component {
   }
 
   showMessage(actionNotification) {
+    let Action = actionNotification[0];
     let OperationResult;
-    if(actionNotification.error) {
+
+    if(Action._error) {
         OperationResult = 'error'
       } else {
         OperationResult = 'success'
       }
       this.setState({
-        message: this.props.messages[actionNotification[0].type][OperationResult],
+        message: this.props.messages[Action._actionType][OperationResult],
         open: true
       })
   }
@@ -35,8 +37,8 @@ class ActionNotifications extends Component {
       queries: {
         limitToLast: 1
       },
-      then(newDoneJob) {
-        this.showMessage(newDoneJob);
+      then(operationData) {
+        this.showMessage(operationData);
       }
     })
 

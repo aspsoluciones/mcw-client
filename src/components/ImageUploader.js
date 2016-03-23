@@ -18,10 +18,10 @@ class ImageUploader extends Component {
   }
 
   UploadImage(file, collection, entityId, saveInKey ) {
-    var _instance = new Firebase(FireRef + '/jobs');
+    var _instance = new Firebase(FireRef + '/queue/tasks');
     // var file = new Uint8Array( imageBuffer );
     _instance.push({
-      file, collection, entityId, saveInKey, jobType: 'IMAGE_UPLOAD'
+      file, collection, entityId, saveInKey, jobType: 'uploadImage'
     })
   }
 
