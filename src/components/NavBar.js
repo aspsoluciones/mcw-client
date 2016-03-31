@@ -19,17 +19,16 @@ function generateRightMenu(isAuthenticated, router) {
     <a className="ui dropdown item"><UserAvatar className="item"/>
       <i className="dropdown icon"></i>
       <div className="menu">
-        <div className="item">マイページ</div>
-        <div className="item" onClick={ router.push('app/' + uid + '/audition/creation')}>New audition</div>
+        <div className="item">My Page</div>
         <div className="ui divider"></div>
-        <div className="item">ログアウト</div>
+        <div className="item">Log out</div>
       </div>
     </a>
     )
   }
 
   return(
-    <Link className="item" to="/access/login">ログイン</Link>
+    <Link className="item" to="/access/login">Login</Link>
   )
 }
 

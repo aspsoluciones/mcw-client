@@ -1,12 +1,11 @@
 /**
  * Created by epotignano on 25/02/16.
  */
-
-
 import React, {Component, PropTypes } from 'react'
+import { render } from 'react-dom';
 import { connect } from 'react-redux';
 import { Router } from 'react-router'
-import { loginUser } from "../actions/AuthActions"
+import { loginUser, FacebookLogin } from "../actions/AuthActions"
 import Formsy from 'formsy-react';
 import { FormsyText }  from 'formsy-material-ui';
 
@@ -20,13 +19,13 @@ class Login extends Component {
   showModal() {
     $('.ui.modal')
       .modal({
-          onApprove : () => {
+        onApprove : () => {
           loginUser()
         }
-  })
-  .modal({
-      blurring:true
-    })
+      })
+      .modal({
+        blurring:true
+      })
       .modal('setting', 'transition', 'fade up')
       .modal('show')
   }
@@ -42,88 +41,89 @@ class Login extends Component {
     const {store, router, route}  = this.context;
 
     console.log(params);
+    var _form = (<form  onSubmit={e => {
+            e.preventDefault();
+            const username = this.refs.username.value.trim();
+            const password = this.refs.password.value.trim();
+            const credentials = {password, username, userType };
+            dispatch(loginUser(credentials));
+            store.subscribe(function()  {
+              var _state = store.getState();
+              if(_state.auth.isAuthenticated) {
+                router.push('/app');
+              }
+            })
+          }} className="ui large form">
+      <div className="ui segment">
+        <div className="field">
+          <input ref="username" type="text" placeholder="Usuario"/>
+        </div>
+        <div className="field">
+          <input ref="password" type="password" placeholder="Password"/>
+        </div>
+        <div className="field">
+          <input type="submit" value="Ingresar" className="ui button large fluid green"/>
+        </div>
+        <div className="inline field">
+          <div className="ui checkbox">
+            <input type="checkbox"/>
+            <label>Recordarme</label>
+          </div>
+        </div>
+
+      </div>
+
+    </form>);
+
 
     return(
-      <div className="ui one column center aligned grid">
-      <form  onSubmit={e => {
-      e.preventDefault();
-      const username = this.refs.username.value.trim();
-      const password = this.refs.password.value.trim();
-      const credentials = {password, username, userType };
-      dispatch(loginUser(credentials));
-      store.subscribe(function()  {
-        var _state = store.getState();
-        if(_state.auth.isAuthenticated) {
-          router.push('/app');
-        }
-      })
-    }}
+      <div className="ui one column stackable center aligned page grid">
+        <div className="ui column twelve wide">
+          <h2 className="ui image header">
+            <div className="content" >Mi clinica web </div>
+          </h2>
+          <div className="ui column">
+            { _form }
+          </div>
+          <div className="ui small modal">
+            <div className="header">
+              Recover password
+            </div>
+            <div className="content">
+              <div className="description">
+                <p>Introduce your email for recover your password</p>
+              </div>
+              <div className="description">
+                <Formsy.Form ref="mailRecovery"
+                >
+                  <div className="row ui">
+                    <div className="one column ui section">
+                      <FormsyText
+                        name='recoverEmail'
+                        validations='isWords'
+                        required
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </Formsy.Form>
+              </div>
+            </div>
+            <div className="actions">
+              <div className="two fluid ui  buttons">
+                <button className="ui red deny button">
+                  Cancel
+                </button>
+                <button className="ui green positive button">
+                  Send
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
 
-    className="column six wide form-holder">
-      <h2 className="center aligned header form-head">Mi clinica web</h2>
-    <div className="ui form">
-      <div className="field">
-      <input ref="username" type="text" placeholder="Email"/>
-      </div>
-      <div className="field">
-      <input ref="password" type="password" placeholder="Password"/>
-      </div>
-      <div className="field">
-      <input type="submit" value="Ingresar" className="ui button large fluid green"/>
-      </div>
-      <div className="inline field">
-      <div className="ui checkbox">
-      <input type="checkbox"/>
-      <label>Remember me</label>
-    </div>
-    </div>
-    {
-      errorMessage == 'LOGIN_FAILED' && <span>Contraseña o usuario incorrectos</span>
-  }
-  </div>
-
-    </form>
-    <div className="ui column">
-      <button className="ui button" onClick={this.showModal}> Forgot password? </button>
-    </div>
-
-    <div className="ui small modal">
-      <div className="header">
-      Recover password
-    </div>
-    <div className="content">
-      <div className="description">
-      <p>Introduce your email for recover your password</p>
-    </div>
-    <div className="description">
-      <Formsy.Form ref="mailRecovery"
-      >
-      <div className="row ui">
-      <div className="one column ui section">
-      <FormsyText
-    name='recoverEmail'
-    validations='isWords'
-    required
-    value=""
-      />
-      </div>
-      </div>
-      </Formsy.Form>
-      </div>
-      </div>
-      <div className="actions">
-      <div className="two fluid ui  buttons">
-      <button className="ui red deny button">
-      Cancel
-      </button>
-      <button className="ui green positive button">
-      Send
-      </button>
-      </div>
-      </div>
-      </div>
-      </div>
-  )
+    )
   }
 }
 
@@ -145,3 +145,4 @@ function mapStateProps(state) {
 Login = connect(mapStateProps)(Login);
 
 export default Login;
+

@@ -5,7 +5,9 @@ import React, { Component, PropTypes } from 'react';
 import Rebase from 're-base';
 import Snackbar from 'material-ui/lib/snackbar';
 import { FireRef } from '../constants/Commons';
-const base = Rebase.createClass(FireRef)
+
+const base = Rebase.createClass(FireRef);
+
 class ActionNotifications extends Component {
   constructor(props) {
     super(props);
@@ -51,6 +53,6 @@ class ActionNotifications extends Component {
 ActionNotifications.propTypes = {
   entityToObserveUrl: PropTypes.string,
   messages: PropTypes.string
-}
+};
 
 export default ActionNotifications

@@ -6,12 +6,12 @@ import { render } from 'react-dom'
 import { browserHistory, Router, Route, Link } from 'react-router'
 
 class Auth extends React.Component {
-
   render(){
     return (
-      <div className="">
+      <div className="ui page grid">
         { this.props.children }
       </div>
+
     )
   }
 }
