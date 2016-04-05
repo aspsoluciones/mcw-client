@@ -4,13 +4,11 @@
 import React, {Component, PropTypes } from 'react'
 import { render } from 'react-dom';
 import { connect } from 'react-redux';
-import { Router } from 'react-router'
-import { loginUser, FacebookLogin } from "../actions/AuthActions"
+import { loginUser } from "../actions/AuthActions"
 import Formsy from 'formsy-react';
 import { FormsyText }  from 'formsy-material-ui';
 
 class Login extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -25,7 +23,7 @@ class Login extends Component {
     $('.ui.modal')
       .modal({
         onApprove : () => {
-          loginUser()
+          //this.sendRecoveryMail();
         }
       })
       .modal({
@@ -40,7 +38,8 @@ class Login extends Component {
   }
 
   sendCredentials(credentials) {
-
+    const { dispatch } = this.props;
+    dispatch(loginUser(credentials));
   }
 
   enableButton() {
@@ -67,7 +66,7 @@ class Login extends Component {
       <Formsy.Form ref="loginForm" className="ui large form"
            onValid={this.enableButton}
            onInvalid={this.disableButton}
-           onValidSubmit={this.sendCredentials}
+           onValidSubmit={this.sendCredentials.bind(this)}
       >
         <div className="row ui">
           <div className="one column ui segment">
@@ -84,7 +83,6 @@ class Login extends Component {
               <FormsyText
                 name='password'
                 hintText="Contraseña"
-                validations='isWords'
                 required
                 value=""
               />

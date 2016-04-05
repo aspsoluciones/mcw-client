@@ -1,7 +1,8 @@
 /**
  * Created by epotignano on 25/02/16.
  */
-import { FireRef, UidRef } from '../constants/Commons';
+import { UidRef, ApiRef, TokenRef } from '../constants/Commons';
+const LoginEndpoint = ApiRef + '/oauth/token';
 import Firebase from 'firebase';
 import { getUser } from '../actions/UserActions';
 
@@ -76,23 +77,23 @@ function RegisterSuccess(user) {
 }
 
 export function loginUser(credentials) {
+  credentials.grant_type = 'password';
   return dispatch => {
-    var _fireRef = new Firebase(FireRef);
     dispatch(LoginAttempt(credentials));
-    _fireRef.authWithPassword({email: credentials.username, password: credentials.password }, (err, authData)  => {
-      if(err){
-        dispatch(loginError(err));
-        return Promise.reject(err)
-      } else{
-        localStorage.setItem(UidRef, authData.uid);
-        dispatch(loginSuccess(authData));
-        getUser();
-      }
+    fetch(LoginEndpoint, {
+      'method': 'POST',
+      body: JSON.stringify(credentials)
+    }).then(data => {
+      console.log(data);
+        dispatch(loginSuccess(data));
+    }).cacth(error => {
+      console.log(error);
+      dispatch(loginError(error));
     });
   }
 }
 
-export function registerUser(userData) {
+/*export function registerUser(userData) {
   return dispatch => {
     var _modifiedEmail = userData.email.replace(/\./g, '');
     var _optins = new Firebase(FireRef + 'optins/' + _modifiedEmail);
@@ -114,4 +115,4 @@ export function registerUser(userData) {
       }
     });
   }
-}
+}*/

@@ -3,9 +3,7 @@
  */
 
 import React, {PropTypes} from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Dropdown, Text, Icon, Menu, Item } from "react-semantify";
 import { Link } from "react-router";
 import UserAvatar  from './userAvatar';
 import Firebase from 'firebase';

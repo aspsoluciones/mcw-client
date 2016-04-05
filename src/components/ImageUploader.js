@@ -6,8 +6,6 @@ import  React, {Component, PropTypes } from 'react'
 import { UidRef, FireRef } from '../constants/Commons'
 import  FileReaderInput from 'react-file-reader-input';
 import Firebase from 'firebase';
-import Rebase from 're-base'
-const base = Rebase.createClass(FireRef)
 import { connect } from 'react-redux';
 
 class ImageUploader extends Component {

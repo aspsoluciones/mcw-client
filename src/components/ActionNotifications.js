@@ -2,11 +2,8 @@
  * Created by epotignano on 20/03/16.
  */
 import React, { Component, PropTypes } from 'react';
-import Rebase from 're-base';
 import Snackbar from 'material-ui/lib/snackbar';
 import { FireRef } from '../constants/Commons';
-
-const base = Rebase.createClass(FireRef);
 
 class ActionNotifications extends Component {
   constructor(props) {
@@ -26,16 +23,7 @@ class ActionNotifications extends Component {
   }
 
   componentDidMount() {
-    base.listenTo(this.props.entityToObserveUrl, {
-      context: this,
-      asArray: true,
-      queries: {
-        limitToLast: 1
-      },
-      then(operationData) {
-        this.showMessage(operationData);
-      }
-    })
+    
 
   }
 
