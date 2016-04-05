@@ -8,7 +8,7 @@ import { browserHistory, Router, Route, Link } from 'react-router'
 class Auth extends React.Component {
   render(){
     return (
-      <div className="ui page grid">
+      <div className="auth ui middle aligned center aligned grid">
         { this.props.children }
       </div>
 

@@ -1,3 +1,4 @@
+@import 'colors';
 /* Styles */
 .ui.grid.main {
     margin-top: 1rem;
@@ -5,4 +6,32 @@
 
 .content-container {
  padding-top : 5.5rem
+}
+
+.auth{
+  height: 100vh;
+  // background-image: url('../assets/auth_bg.jpg');
+  background-color: $mcwLightBlue;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -ms-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  overflow: hidden;
+
+  &.grid{
+    margin: 0!important;
+  }
+}
+
+/*login*/
+.login {
+  z-index: 2;
+  &.column {
+    max-width: 450px;
+  }
+
+  .image {
+    margin-top: -100px;
+  }
 }

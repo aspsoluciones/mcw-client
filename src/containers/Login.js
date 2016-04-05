@@ -62,10 +62,10 @@ class Login extends Component {
           <input ref="password" type="password" placeholder="Password"/>
         </div>
         <div className="field">
-          <input type="submit" value="Ingresar" className="ui button large fluid green"/>
+          <input type="submit" value="Ingresar" className="ui button large fluid blue"/>
         </div>
         <div className="inline field">
-          <div className="ui checkbox">
+          <div className="ui left aligned checkbox">
             <input type="checkbox"/>
             <label>Recordarme</label>
           </div>
@@ -77,9 +77,9 @@ class Login extends Component {
 
 
     return(
-      <div className="ui one column stackable center aligned page grid">
-        <div className="ui column twelve wide">
+      <div className="login column">
           <h2 className="ui image header">
+
             <div className="content" >Mi clinica web </div>
           </h2>
           <div className="ui column">
@@ -120,7 +120,6 @@ class Login extends Component {
               </div>
             </div>
           </div>
-        </div>
         </div>
 
     )
