@@ -105,9 +105,9 @@ class Login extends Component {
 
     return(
       <div className="login column">
-          <h2 className="ui image">
+          <h3 className="ui image medium">
             <img  src="../assets/Logo.png" alt="Mi clinica web Logo"/>
-          </h2>
+          </h3>
           <div className="ui column">
             { _form }
           </div>
