@@ -34,6 +34,11 @@ class Login extends Component {
     console.log(this.refs.recoverEmail)
   }
 
+  sendCredentials(credentials) {
+
+
+
+  }
 
   render(){
     const {dispatch, errorMessage, isAuthenticated, params} = this.props;
@@ -41,6 +46,25 @@ class Login extends Component {
     const {store, router, route}  = this.context;
 
     console.log(params);
+
+    var _materialForm = (
+
+      <Formsy.Form ref="loginForm">
+        <div className="row ui">
+          <div className="one column ui section">
+            <FormsyText
+              name='username'
+              validations='isWords'
+              required
+              value=""
+            />
+          </div>
+        </div>
+
+      </Formsy.Form>
+    );
+
+
     var _form = (<form  onSubmit={e => {
             e.preventDefault();
             const username = this.refs.username.value.trim();
@@ -55,6 +79,9 @@ class Login extends Component {
             })
           }} className="ui large form">
       <div className="ui segment">
+
+
+
         <div className="field">
           <input ref="username" type="text" placeholder="Usuario"/>
         </div>
@@ -78,9 +105,8 @@ class Login extends Component {
 
     return(
       <div className="login column">
-          <h2 className="ui image header">
-
-            <div className="content" >Mi clinica web </div>
+          <h2 className="ui image">
+            <img  src="../assets/Logo.png" alt="Mi clinica web Logo"/>
           </h2>
           <div className="ui column">
             { _form }
@@ -144,4 +170,3 @@ function mapStateProps(state) {
 Login = connect(mapStateProps)(Login);
 
 export default Login;
-
