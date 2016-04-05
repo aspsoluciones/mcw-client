@@ -11,11 +11,16 @@ import { FormsyText }  from 'formsy-material-ui';
 
 class Login extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      canSubmit: false
+    }
+  }
+
   componentDidMount() {
     $('.ui.modal').modal();
   }
-
-
   showModal() {
     $('.ui.modal')
       .modal({
@@ -36,8 +41,18 @@ class Login extends Component {
 
   sendCredentials(credentials) {
 
+  }
 
+  enableButton() {
+    this.setState({
+      canSubmit: true
+    });
+  }
 
+  disableButton() {
+    this.setState({
+      canSubmit: false
+    });
   }
 
   render(){
@@ -49,67 +64,64 @@ class Login extends Component {
 
     var _materialForm = (
 
-      <Formsy.Form ref="loginForm">
+      <Formsy.Form ref="loginForm" className="ui large form"
+           onValid={this.enableButton}
+           onInvalid={this.disableButton}
+           onValidSubmit={this.sendCredentials}
+      >
         <div className="row ui">
-          <div className="one column ui section">
-            <FormsyText
-              name='username'
-              validations='isWords'
-              required
-              value=""
-            />
+          <div className="one column ui segment">
+            <div className="column">
+              <FormsyText
+                name='username'
+                validations='isWords'
+                hintText="Usuario"
+                required
+                value=""
+              />
+            </div>
+            <div className="column">
+              <FormsyText
+                name='password'
+                hintText="Contraseña"
+                validations='isWords'
+                required
+                value=""
+              />
+            </div>
+            <div className="column">
+              <FormsyText
+                name='domain'
+                hintText="Cuenta"
+                validations='isWords'
+                required
+                value=""
+              />
+            </div>
+
+          </div>
+          <div className="column">
+            <button type="submit" className="ui button fluid blue">
+              Ingresar
+            </button>
           </div>
         </div>
 
       </Formsy.Form>
     );
 
-
-    var _form = (<form  onSubmit={e => {
-            e.preventDefault();
-            const username = this.refs.username.value.trim();
-            const password = this.refs.password.value.trim();
-            const credentials = {password, username, userType };
-            dispatch(loginUser(credentials));
-            store.subscribe(function()  {
-              var _state = store.getState();
-              if(_state.auth.isAuthenticated) {
-                router.push('/app');
-              }
-            })
-          }} className="ui large form">
-      <div className="ui segment">
-
-
-
-        <div className="field">
-          <input ref="username" type="text" placeholder="Usuario"/>
-        </div>
-        <div className="field">
-          <input ref="password" type="password" placeholder="Password"/>
-        </div>
-        <div className="field">
-          <input type="submit" value="Ingresar" className="ui button large fluid blue"/>
-        </div>
-        <div className="inline field">
-          <div className="ui left aligned checkbox">
-            <input type="checkbox"/>
-            <label>Recordarme</label>
-          </div>
-        </div>
-
-      </div>
-
-    </form>);
-
-
     return(
-      <div className="login column">
+      <div className="login ui one column">
           <h3 className="ui image medium">
             <img  src="../assets/Logo.png" alt="Mi clinica web Logo"/>
           </h3>
           <div className="ui column">
-            { _form }
+            { _materialForm }
+          </div>
+          <div className="ui column">
+            <div className="ui text container">
+              <div onClick={this.showModal} className="authscreen link">¿Olvidó su contraseña?</div>
+            </div>
           </div>
           <div className="ui small modal">
             <div className="header">
