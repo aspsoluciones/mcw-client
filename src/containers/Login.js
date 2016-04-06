@@ -117,9 +117,15 @@ class Login extends Component {
             { _materialForm }
           </div>
           <div className="ui column">
-            <div className="ui text container">
-              <div onClick={this.showModal} className="authscreen link">¿Olvidó su contraseña?</div>
-            </div>
+              <div className="ui items">
+                <div className="item">
+                  <div className="center aligned middle aligned content">
+                    <h5>
+                      <a onClick={this.showModal} className="authLink">¿Olvidó su contraseña?</a>
+                    </h5>
+                  </div>
+                </div>
+              </div>
           </div>
           <div className="ui small modal">
             <div className="header">
