@@ -37,5 +37,11 @@
 }
 
 a.authLink {
-  color:white
+   color:white;
+   border-bottom: white solid 1px;
+ }
+
+a:hover.authLink {
+  color:white;
+  border-bottom: white solid 1px;
 }

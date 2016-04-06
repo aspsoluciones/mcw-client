@@ -109,7 +109,7 @@ class Login extends Component {
     );
 
     return(
-      <div className="login ui one column">
+      <div className="login ui one column grid">
           <h3 className="ui image medium">
             <img  src="../assets/Logo.png" alt="Mi clinica web Logo"/>
           </h3>
