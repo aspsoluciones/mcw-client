@@ -82,8 +82,10 @@ export function loginUser(credentials) {
     dispatch(LoginAttempt(credentials));
     fetch(LoginEndpoint, {
       'method': 'POST',
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Accept':'application/json',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept':'application/json'
+      },
       body: JSON.stringify(credentials)
     }).then(data => {
       console.log(data);
