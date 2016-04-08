@@ -93,9 +93,11 @@ export function loginUser(credentials) {
     }).then(data => {
       console.log(data);
         if(data.status == 200) {
-          dispatch(loginSuccess(data));
+          alert('Success');
+          //dispatch(loginSuccess(data));
         } else {
-          dispatch(loginError(data));
+          alert('Error');
+          //dispatch(loginError(data));
         }
     })
   }
