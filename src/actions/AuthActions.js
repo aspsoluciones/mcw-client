@@ -92,7 +92,11 @@ export function loginUser(credentials) {
       body: _url
     }).then(data => {
       console.log(data);
-        dispatch(loginSuccess(data));
+        if(data.status == 200) {
+          dispatch(loginSuccess(data));
+        } else {
+          dispatch(loginError(data));
+        }
     })
   }
 }
