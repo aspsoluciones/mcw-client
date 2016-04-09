@@ -21,9 +21,13 @@ class ActionNotifications extends Component {
         open: true
       })
   }
+  
+  onRequestClose() {
+    console.log('Close Requested');
+  }
 
   componentDidMount() {
-    
+
 
   }
 
@@ -33,6 +37,7 @@ class ActionNotifications extends Component {
         open={this.state.open}
         message={this.state.message}
         autoHideDuration={4000}
+        onRequestClose={this.onRequestClose}
       />
     )
   }

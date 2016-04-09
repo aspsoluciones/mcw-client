@@ -5,6 +5,7 @@
 'use strict';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
+import expect from 'expect';
 import ActionNotifications from '../components/ActionNotifications';
 
 describe("ActionNotifications", function(){
@@ -12,7 +13,7 @@ describe("ActionNotifications", function(){
       var actionNotifications = TestUtils.renderIntoDocument(
         <ActionNotifications/>
       );
-      expect(ActionNotifications).toExist();
+      expect(actionNotifications).toExist();
     })
 });
 
