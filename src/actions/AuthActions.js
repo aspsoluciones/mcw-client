@@ -9,7 +9,6 @@ import {
     LOGIN_FAILURE,
     LOGIN_SUCCESS,
     REGISTER_ATTEMP,
-    LOGIN_ATTEMP_FACEBOOK,
    REGISTER_SUCCESS,
    REGISTER_FAILURE
 } from "../constants/ActionTypes";
@@ -18,26 +17,18 @@ function LoginAttempt (credentials) {
   return {
     type: LOGIN_ATTEMP,
     isFetching: true,
-    isAuthenticated: false,
-    credentials
-  }
-}
-
-function LoginAttempFacebook() {
-  return {
-    type: LOGIN_ATTEMP_FACEBOOK,
-    isFetching: true,
     isAuthenticated: false
   }
 }
 
-function loginSuccess(user, loginType) {
+
+function loginSuccess() {
   return {
     type: LOGIN_SUCCESS,
     isFetching: false,
     isAuthenticated: true,
-    loginType,
-    token: user.token
+    error: false,
+    code: ''
   }
 }
 
@@ -46,7 +37,8 @@ function loginError(error) {
     type: LOGIN_FAILURE,
     isFetching: false,
     isAuthenticated: false,
-    code: error.code
+    error: true,
+    code: error
   }
 }
 
@@ -91,13 +83,10 @@ export function loginUser(credentials) {
       },
       body: _url
     }).then(data => {
-      console.log(data);
         if(data.status == 200) {
-          alert('Success');
-          //dispatch(loginSuccess(data));
+          dispatch(loginSuccess());
         } else {
-          alert('Error');
-          //dispatch(loginError(data));
+          dispatch(loginError(data.statusText));
         }
     })
   }

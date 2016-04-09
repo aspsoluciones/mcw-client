@@ -8,6 +8,7 @@ import Firebase from 'firebase';
 import { FireRef } from '../constants/Commons';
 import { getUser } from '../actions/UserActions'
 import ActionNotifications from '../components/ActionNotifications';
+import Loader from '../components/Loader';
 
 //TODO Remove, is only for test purposes
 let messages = {
@@ -18,7 +19,6 @@ let messages = {
 }
 
 class App extends React.Component{
-
   componentDidMount() {
     let _instance = new Firebase(FireRef);
     var _status = _instance.getAuth();
@@ -32,7 +32,6 @@ class App extends React.Component{
       <div>
         <NavBar/>
         <main className="ui page grid main content-container">
-          <ActionNotifications entityToObserveUrl="users/1/actions" messages={messages}/>
           <div className="row">
             {this.props.children}
           </div>

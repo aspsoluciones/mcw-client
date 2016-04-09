@@ -3,7 +3,6 @@
  */
 import React from 'react'
 import { render } from 'react-dom'
-import { browserHistory, Router, Route, Link } from 'react-router'
 
 class Auth extends React.Component {
   render(){

@@ -10,6 +10,7 @@ const productionEnvironment = 'production';
 const testEnvironment = 'test';
 
 const getPlugins = function (env) {
+  console.log(env);
   const GLOBALS = {
     'process.env.NODE_ENV': JSON.stringify(env),
     __DEV__: env === developmentEnvironment

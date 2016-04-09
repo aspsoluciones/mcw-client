@@ -8,6 +8,7 @@ import { loginUser } from "../actions/AuthActions"
 import Formsy from 'formsy-react';
 import { FormsyText }  from 'formsy-material-ui';
 
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -176,10 +177,9 @@ Login.contextTypes = {
 
 function mapStateProps(state) {
   const { auth } = state;
-  const {isAuthenticated, errorMessage} = auth;
 
   return {
-    isAuthenticated, errorMessage
+    auth
   }
 }
 
