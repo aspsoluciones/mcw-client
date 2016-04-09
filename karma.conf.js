@@ -16,6 +16,13 @@ module.exports = function (config) {
     },
     reporters: ['dots'],
     webpack: {
+
+      plugins: [ new webpack.ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery'
+      }), new webpack.ProvidePlugin({
+        $: 'semantic'
+      })],
       module: {
         loaders: [
           {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader'}

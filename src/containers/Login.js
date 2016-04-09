@@ -6,8 +6,7 @@ import { render } from 'react-dom';
 import { connect } from 'react-redux';
 import { loginUser } from "../actions/AuthActions"
 import Formsy from 'formsy-react';
-import { FormsyText }  from 'formsy-material-ui';
-
+import { FormsyText} from 'formsy-material-ui';
 
 class Login extends Component {
   constructor(props) {
@@ -18,7 +17,7 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    $('.ui.modal').modal();
+    //$('.ui.modal').modal();
   }
   showModal() {
     $('.ui.modal')
@@ -57,16 +56,13 @@ class Login extends Component {
 
   render(){
     const {dispatch, errorMessage, isAuthenticated, params} = this.props;
-    const { userType } = params;
     const {store, router, route}  = this.context;
-
-    console.log(params);
 
     var _materialForm = (
 
       <Formsy.Form ref="loginForm" className="ui large form"
-           onValid={this.enableButton}
-           onInvalid={this.disableButton}
+           onValid={this.enableButton.bind(this)}
+           onInvalid={this.disableButton.bind(this)}
            onValidSubmit={this.sendCredentials.bind(this)}
       >
         <div className="row ui">
