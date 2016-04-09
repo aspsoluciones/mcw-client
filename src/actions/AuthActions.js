@@ -14,7 +14,7 @@ import {
 } from "../constants/ActionTypes";
 
 import {
- initTokenRefreshCount
+  TokenRefreshCount
 } from '../actions/TokenActions';
 
 function LoginAttempt (credentials) {
@@ -90,7 +90,7 @@ export function loginUser(credentials) {
     })
       .success((data) => {
         dispatch(loginSuccess());
-        dispatch(initTokenRefreshCount());
+        dispatch(TokenRefreshCount());
         localStorage.setItem(TokenRef, data.access_token)
       }).error((data)=> {
         if(data.status == 401) {

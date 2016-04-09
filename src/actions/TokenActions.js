@@ -1,9 +1,9 @@
 /**
  * Created by epotignano on 9/4/16.
  */
-import { ApiRef } from '../constants/Commons'
+import { ApiRef, TokenRef} from '../constants/Commons'
 const OAuthEndpoint = ApiRef + '/oauth';
-let tokenTimeOut = 10000;
+let tokenTimeOut = 3000;
 
 function startCount(time) {
   //TODO refresh token call
@@ -16,14 +16,16 @@ function startCount(time) {
       },
       data: $.param({
         grant_type: "refresh_token",
-        refresh_token: "XXXXXXXXXX"
+        refresh_token: localStorage.getItem(TokenRef)
       })
     }).success((data) => {
         console.log(data);
-        //Deal with it
+        // restart count
+        startCount(tokenTimeOut);
       }).error((data) => {
-      console.log(data);
       //Deal with it
+      // When the token is not valid, kick the user to the login or render a login modal
+      console.log(data);
     })
   }, time);
 
@@ -33,16 +35,8 @@ function startCount(time) {
 }
 
 
-export function initTokenRefreshCount() {
+export function TokenRefreshCount() {
   return dispatch => {
     dispatch(startCount(tokenTimeOut))
   }
-}
-
-export function refreshCount() {
-  startCount(tokenTimeOut);
-}
-
-export function refreshToken() {
-
 }
