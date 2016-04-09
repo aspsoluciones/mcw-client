@@ -32,13 +32,13 @@ function loginSuccess() {
   }
 }
 
-function loginError(error) {
+function loginError(code) {
   return {
     type: LOGIN_FAILURE,
     isFetching: false,
     isAuthenticated: false,
     error: true,
-    code: error
+    code
   }
 }
 
@@ -75,20 +75,28 @@ export function loginUser(credentials) {
 
   return dispatch => {
     dispatch(LoginAttempt(credentials));
-    fetch(LoginEndpoint, {
-      'method': 'POST',
+    $.ajax({
+      type: "POST",
+      url: "http://desa-prog03.miclinicaweb.com/WebApi/oauth/token",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept':'application/json'
+        "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: _url
-    }).then(data => {
-        if(data.status == 200) {
-          dispatch(loginSuccess());
-        } else {
-          dispatch(loginError(data.statusText));
-        }
+      data: $.param({
+        grant_type: "password",
+        username: credentials.username,
+        password: credentials.password,
+        domain: credentials.domain
+      })
     })
+      .success((data) => {
+        dispatch(loginSuccess());
+        localStorage.setItem(TokenRef, data.access_token)
+      }).error((data)=> {
+        if(data.status == 401) {
+          dispatch(loginError('INVALID_PERMISSIONS'));
+        }
+      })
+
   }
 }
 
