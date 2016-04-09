@@ -21,12 +21,12 @@ function startCount(time) {
 }
 
 
-export function InitCount() {
+export function initTokenRefreshCount() {
   startCount(tokenTimeOut)
 }
 
 export function refreshCount() {
-
+  startCount(tokenTimeOut);
 }
 
 export function refreshToken() {
