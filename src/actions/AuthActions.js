@@ -13,6 +13,10 @@ import {
    REGISTER_FAILURE
 } from "../constants/ActionTypes";
 
+import {
+ initTokenRefreshCount
+} from '../actions/TokenActions';
+
 function LoginAttempt (credentials) {
   return {
     type: LOGIN_ATTEMP,
@@ -86,6 +90,7 @@ export function loginUser(credentials) {
     })
       .success((data) => {
         dispatch(loginSuccess());
+        dispatch(initTokenRefreshCount());
         localStorage.setItem(TokenRef, data.access_token)
       }).error((data)=> {
         if(data.status == 401) {
