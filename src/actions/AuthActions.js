@@ -69,15 +69,11 @@ function RegisterSuccess(user) {
 export function loginUser(credentials) {
   credentials.grant_type = 'password';
 
-  var _url = Object.keys(credentials).map(function(k) {
-    return encodeURIComponent(k) + '=' + encodeURIComponent(credentials[k])
-  }).join('&');
-
   return dispatch => {
     dispatch(LoginAttempt(credentials));
     $.ajax({
       type: "POST",
-      url: "http://desa-prog03.miclinicaweb.com/WebApi/oauth/token",
+      url: LoginEndpoint,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
