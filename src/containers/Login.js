@@ -81,6 +81,7 @@ class Login extends Component {
                 name='password'
                 hintText="Contraseña"
                 required
+                type="password"
                 value=""
               />
             </div>
