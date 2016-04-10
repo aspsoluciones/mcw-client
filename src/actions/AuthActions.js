@@ -13,6 +13,10 @@ import {
    REGISTER_FAILURE
 } from "../constants/ActionTypes";
 
+import {
+  TokenRefreshCount
+} from '../actions/TokenActions';
+
 function LoginAttempt (credentials) {
   return {
     type: LOGIN_ATTEMP,
@@ -32,13 +36,13 @@ function loginSuccess() {
   }
 }
 
-function loginError(error) {
+function loginError(code) {
   return {
     type: LOGIN_FAILURE,
     isFetching: false,
     isAuthenticated: false,
     error: true,
-    code: error
+    code
   }
 }
 
@@ -69,26 +73,31 @@ function RegisterSuccess(user) {
 export function loginUser(credentials) {
   credentials.grant_type = 'password';
 
-  var _url = Object.keys(credentials).map(function(k) {
-    return encodeURIComponent(k) + '=' + encodeURIComponent(credentials[k])
-  }).join('&');
-
   return dispatch => {
     dispatch(LoginAttempt(credentials));
-    fetch(LoginEndpoint, {
-      'method': 'POST',
+    $.ajax({
+      type: "POST",
+      url: LoginEndpoint,
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept':'application/json'
+        "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: _url
-    }).then(data => {
-        if(data.status == 200) {
-          dispatch(loginSuccess());
-        } else {
-          dispatch(loginError(data.statusText));
-        }
+      data: $.param({
+        grant_type: "password",
+        username: credentials.username,
+        password: credentials.password,
+        domain: credentials.domain
+      })
     })
+      .success((data) => {
+        dispatch(loginSuccess());
+        dispatch(TokenRefreshCount());
+        localStorage.setItem(TokenRef, data.access_token)
+      }).error((data)=> {
+        if(data.status == 401) {
+          dispatch(loginError('INVALID_PERMISSIONS'));
+        }
+      })
+
   }
 }
 
