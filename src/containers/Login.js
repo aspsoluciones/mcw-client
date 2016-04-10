@@ -7,13 +7,16 @@ import { connect } from 'react-redux';
 import { loginUser } from "../actions/AuthActions"
 import Formsy from 'formsy-react';
 import { FormsyText} from 'formsy-material-ui';
-
+import ErrorsDisplayer from '../components/ErrorsDisplayer';
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      canSubmit: false
-    }
+      canSubmit: false,
+      messages : {
+      'INVALID_PERMISSIONS' : 'Usuario, contraseña o dominio no válidos'
+      }
+    };
   }
 
   componentDidMount() {
@@ -55,9 +58,9 @@ class Login extends Component {
   }
 
   render(){
-    const {dispatch, errorMessage, isAuthenticated, params} = this.props;
+    const {dispatch, auth, params} = this.props;
     const {store, router, route}  = this.context;
-
+    console.log(auth);
     var _materialForm = (
 
       <Formsy.Form ref="loginForm" className="ui large form"
@@ -67,16 +70,15 @@ class Login extends Component {
       >
         <div className="row ui">
           <div className="one column ui segment">
-            <div className="column">
+            <div className="ui column">
               <FormsyText
                 name='username'
-                validations='isWords'
                 hintText="Usuario"
                 required
                 value=""
               />
             </div>
-            <div className="column">
+            <div className="ui column">
               <FormsyText
                 name='password'
                 hintText="Contraseña"
@@ -85,15 +87,18 @@ class Login extends Component {
                 value=""
               />
             </div>
-            <div className="column">
+            <div className="ui column">
               <FormsyText
                 name='domain'
                 hintText="Cuenta"
-                validations='isWords'
                 required
                 value=""
               />
             </div>
+            {
+              auth.errorMessage && <ErrorsDisplayer message={ this.state.messages[auth.errorMessage] }/>
+            }
+
 
           </div>
           <div className="column">
