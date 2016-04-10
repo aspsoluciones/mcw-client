@@ -6,7 +6,7 @@ import { render } from 'react-dom';
 import { connect } from 'react-redux';
 import { loginUser } from "../actions/AuthActions"
 import Formsy from 'formsy-react';
-import { FormsyText} from 'formsy-material-ui';
+import { FormsyText, FormsyCheckbox } from 'formsy-material-ui';
 import ErrorsDisplayer from '../components/ErrorsDisplayer';
 class Login extends Component {
   constructor(props) {
@@ -132,12 +132,9 @@ class Login extends Component {
           </div>
           <div className="ui small modal">
             <div className="header">
-              Recover password
+              Olvidó su contraseña
             </div>
             <div className="content">
-              <div className="description">
-                <p>Introduce your email for recover your password</p>
-              </div>
               <div className="description">
                 <Formsy.Form ref="mailRecovery"
                 >
@@ -146,6 +143,7 @@ class Login extends Component {
                       <FormsyText
                         name='recoverEmail'
                         validations='isWords'
+                        hintText="Ingrese su e-mail"
                         required
                         value=""
                       />
@@ -155,13 +153,14 @@ class Login extends Component {
               </div>
             </div>
             <div className="actions">
-              <div className="two fluid ui  buttons">
-                <button className="ui red deny button">
-                  Cancel
-                </button>
-                <button className="ui green positive button">
-                  Send
-                </button>
+              <div className="ui column centered grid">
+                <div className="ui row">
+                  <div className="middle aligned content">
+                    <div className="item">
+                      <a className="header">Enviar</a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

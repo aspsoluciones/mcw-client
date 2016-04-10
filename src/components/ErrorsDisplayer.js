@@ -12,7 +12,6 @@ class ErrorsDisplayer extends Component {
             <h5 className="ui header red">
               { this.props.message }
             </h5>
-            <i className="warning circle icon"/>
           </div>
         </div>
       </div>
