@@ -7,116 +7,96 @@ import { connect } from 'react-redux';
 import Formsy from 'formsy-react';
 import { FormsyText } from 'formsy-material-ui';
 import ErrorsDisplayer from '../components/ErrorsDisplayer';
+import Dialog from 'material-ui/lib/dialog';
+import RaisedButton from 'material-ui/lib/raised-button';
+import { loginUser } from '../actions/AuthActions';
+
 
 class SessionTracker extends Component {
   constructor(props) {
     super(props);
-
+    console.log(this.props);
     this.state = {
-      canSubmit: false
+      canSubmit: false,
+      messages : {
+        'INVALID_PERMISSIONS' : 'Usuario, contraseña o dominio no válidos'
+      }
     }
   }
 
-  componentDidMount() {
-    $('.ui.modal').modal();
-
-    const { auth } = this.props;
-
-    //Todo, remove this, find a different way to do it
-    setTimeout(() => {
-      if(!auth.isAuthenticated) {
-        this.showLoginModal();
-      }
-    } , 500)
-  }
-
-
-  componentDidUpdate() {
-  }
-
-
-  showLoginModal(){
-    $('.ui.modal')
-      .modal({
-        blurred: true
-      })
-      .modal({
-        blurring:true
-      })
-      .modal('setting', 'closable', false)
-      .modal('setting', 'transition', 'horizontal flip')
-      .modal('show')
-  }
-
-  sendCredentials(credentials) {
+  sendCredentials() {
     const { dispatch } = this.props;
+    const { loginForm } = this.refs;
+    var _credentials = loginForm.getCurrentValues();
+    dispatch(loginUser(_credentials));
   }
 
-  enableButton() {
-    this.setState({
-      canSubmit: true
-    });
-  }
 
-  disableButton() {
-    this.setState({
-      canSubmit: false
-    });
-  }
+  handleClose = () => {
+
+    this.setState({openModal: false});
+  };
 
   render() {
     const { auth } = this.props;
+
+    const actions = [
+      <RaisedButton
+        label="Ok"
+        primary={true}
+        keyboardFocused={true}
+        onTouchTap={this.sendCredentials.bind(this)}
+      />
+    ];
+
     return(
-      <div className="ui modal">
-        <div className="header">Introduce tu contraseña de nuevo por favor</div>
-
-          <Formsy.Form ref="loginForm" className="content"
-                       onValid={this.enableButton.bind(this)}
-                       onInvalid={this.disableButton.bind(this)}
-                       onValidSubmit={this.sendCredentials.bind(this)}
-          >
-            <div className="row ui">
-              <div className="one column ui segment">
-                <div className="ui column">
-                  <FormsyText
-                    name='username'
-                    hintText="Usuario"
-                    required
-                    value=""
-                  />
-                </div>
-                <div className="ui column">
-                  <FormsyText
-                    name='password'
-                    hintText="Contraseña"
-                    required
-                    type="password"
-                    value=""
-                  />
-                </div>
-                <div className="ui column">
-                  <FormsyText
-                    name='domain'
-                    hintText="Cuenta"
-                    required
-                    value=""
-                  />
-                </div>
-                {
-                  auth.errorMessage && <ErrorsDisplayer message={ this.state.messages[auth.errorMessage] }/>
-                }
-
-
+      <Dialog
+        title="Debe volver a introducir sus datos para continuar"
+        actions={actions}
+        modal={true}
+        open={ !this.props.auth.isAuthenticated }
+        onRequestClose={this.sendCredentials}
+      >
+        <Formsy.Form ref="loginForm" className="ui large form"
+        >
+          <div className="row ui">
+            <div className="one column">
+              <div className="ui column">
+                <FormsyText
+                  name='username'
+                  hintText="Usuario"
+                  required
+                  value=""
+                />
               </div>
-              <div className="column">
-                <button type="submit" className="ui button fluid blue">
-                  Ingresar
-                </button>
+              <div className="ui column">
+                <FormsyText
+                  name='password'
+                  hintText="Contraseña"
+                  required
+                  type="password"
+                  value=""
+                />
               </div>
+              <div className="ui column">
+                <FormsyText
+                  name='domain'
+                  hintText="Cuenta"
+                  required
+                  value=""
+                />
+              </div>
+              {
+                auth.errorMessage && <ErrorsDisplayer message={ this.state.messages[auth.errorMessage] }/>
+              }
+
+
             </div>
+          </div>
 
-          </Formsy.Form>
-        </div>
+        </Formsy.Form>
+
+      </Dialog>
 
     )
   }
