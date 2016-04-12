@@ -89,8 +89,6 @@ class SessionTracker extends Component {
               {
                 auth.errorMessage && <ErrorsDisplayer message={ this.state.messages[auth.errorMessage] }/>
               }
-
-
             </div>
           </div>
 
