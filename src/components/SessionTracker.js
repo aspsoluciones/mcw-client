@@ -9,13 +9,12 @@ import { FormsyText } from 'formsy-material-ui';
 import ErrorsDisplayer from '../components/ErrorsDisplayer';
 import Dialog from 'material-ui/lib/dialog';
 import RaisedButton from 'material-ui/lib/raised-button';
-import { loginUser } from '../actions/AuthActions';
+import { loginUser, invalidateSession } from '../actions/AuthActions';
 
 
 class SessionTracker extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props);
     this.state = {
       canSubmit: false,
       messages : {

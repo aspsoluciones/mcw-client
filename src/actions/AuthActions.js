@@ -10,7 +10,8 @@ import {
     LOGIN_SUCCESS,
     REGISTER_ATTEMP,
    REGISTER_SUCCESS,
-   REGISTER_FAILURE
+   REGISTER_FAILURE,
+  INVALID_SESSION
 } from "../constants/ActionTypes";
 
 import {
@@ -69,6 +70,21 @@ function RegisterSuccess(user) {
     user
   }
 }
+
+function invalidSession() {
+  return {
+    type: INVALID_SESSION,
+    isFetching: false,
+    isAuthorized: false
+  }
+}
+
+export function invalidateSession() {
+  return dispatch => {
+    dispatch(invalidateSession());
+  }
+}
+
 
 export function loginUser(credentials) {
   credentials.grant_type = 'password';
