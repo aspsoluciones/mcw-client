@@ -4,33 +4,32 @@
 
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-
-function toObservable(store) {
-  return {
-    subscribe({ onNext }) {
-      let dispose = store.subscribe(() => onNext(store.getState()));
-      onNext(store.getState());
-      return { dispose };
-    }
-  }
-}
-
-
+import Formsy from 'formsy-react';
+import { FormsyText } from 'formsy-material-ui';
+import ErrorsDisplayer from '../components/ErrorsDisplayer';
 
 class SessionTracker extends Component {
-
   constructor(props) {
     super(props);
+
+    this.state = {
+      canSubmit: false
+    }
   }
 
   componentDidMount() {
     $('.ui.modal').modal();
 
+    const { auth } = this.props;
+
+    //Todo, remove this, find a different way to do it
     setTimeout(() => {
-      console.log('Hello');
-      this.showLoginModal();
-    },3000)
+      if(!auth.isAuthenticated) {
+        this.showLoginModal();
+      }
+    } , 500)
   }
+
 
   componentDidUpdate() {
   }
@@ -49,15 +48,75 @@ class SessionTracker extends Component {
       .modal('show')
   }
 
-  render() {
+  sendCredentials(credentials) {
+    const { dispatch } = this.props;
+  }
 
+  enableButton() {
+    this.setState({
+      canSubmit: true
+    });
+  }
+
+  disableButton() {
+    this.setState({
+      canSubmit: false
+    });
+  }
+
+  render() {
+    const { auth } = this.props;
     return(
       <div className="ui modal">
         <div className="header">Introduce tu contraseña de nuevo por favor</div>
-        <div className="content">
-          Introduce tu contraseña de nuevo por favor
+
+          <Formsy.Form ref="loginForm" className="content"
+                       onValid={this.enableButton.bind(this)}
+                       onInvalid={this.disableButton.bind(this)}
+                       onValidSubmit={this.sendCredentials.bind(this)}
+          >
+            <div className="row ui">
+              <div className="one column ui segment">
+                <div className="ui column">
+                  <FormsyText
+                    name='username'
+                    hintText="Usuario"
+                    required
+                    value=""
+                  />
+                </div>
+                <div className="ui column">
+                  <FormsyText
+                    name='password'
+                    hintText="Contraseña"
+                    required
+                    type="password"
+                    value=""
+                  />
+                </div>
+                <div className="ui column">
+                  <FormsyText
+                    name='domain'
+                    hintText="Cuenta"
+                    required
+                    value=""
+                  />
+                </div>
+                {
+                  auth.errorMessage && <ErrorsDisplayer message={ this.state.messages[auth.errorMessage] }/>
+                }
+
+
+              </div>
+              <div className="column">
+                <button type="submit" className="ui button fluid blue">
+                  Ingresar
+                </button>
+              </div>
+            </div>
+
+          </Formsy.Form>
         </div>
-      </div>
 
     )
   }
@@ -71,6 +130,9 @@ function mapStateProps(state) {
   }
 }
 
+SessionTracker.contextTypes = {
+  router: PropTypes.any
+};
 
 SessionTracker = connect(mapStateProps)(SessionTracker);
 export default SessionTracker;
