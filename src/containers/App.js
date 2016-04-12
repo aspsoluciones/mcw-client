@@ -4,8 +4,8 @@ import React, {PropTypes} from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { default as NavBar } from "../components/NavBar";
-import ActionNotifications from '../components/ActionNotifications';
 import Loader from '../components/Loader';
+import SessionTracker from '../components/SessionTracker';
 
 //TODO Remove, is only for test purposes
 let messages = {
@@ -29,9 +29,8 @@ class App extends React.Component{
       <div>
         <NavBar/>
         <main className="ui page grid main content-container">
-          <ActionNotifications entityToObserveUrl="users/1/actions" messages={messages}/>
           <div className="row">
-            <Loader/>
+            <SessionTracker/>
             {this.props.children}
           </div>
         </main>

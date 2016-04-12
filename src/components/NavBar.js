@@ -6,9 +6,8 @@ import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
 import { Link } from "react-router";
 import UserAvatar  from './userAvatar';
-import Firebase from 'firebase';
 
-import { FireRef, UidRef } from '../constants/Commons';
+import { UidRef } from '../constants/Commons';
 var uid = localStorage.getItem(UidRef);
 function generateRightMenu(isAuthenticated, router) {
 
@@ -39,7 +38,6 @@ class NavBar extends React.Component {
     $('.ui.dropdown.item').dropdown('refresh')
   }
   render() {
-    const instance = new Firebase(FireRef);
     const { router } = this.context;
 
     return (
@@ -47,7 +45,7 @@ class NavBar extends React.Component {
         <div className="row">
           <div className="ui inverted fixed menu navbar page grid">
             <div className="right menu">
-              { generateRightMenu(instance.getAuth(), router) }
+              TEST
             </div>
           </div>
         </div>

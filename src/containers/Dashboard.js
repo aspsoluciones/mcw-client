@@ -8,7 +8,8 @@ class Dashboard extends React.Component {
     return(
       <div className="row">
         <div className="column">
-        
+          <h1>Dashboard title</h1>
+          <h2>This will be our dashboard</h2>
         </div>
       </div>
     );
