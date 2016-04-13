@@ -54,6 +54,11 @@ function YearMonthForm({ date, localeUtils, onChange }) {
   )
 }
 
+var _timesDisplayer = function() {
+
+}
+
+
 
 class AvailabilityDisplayer extends Component {
   calculateNextAvailableAppointMent() {
@@ -91,23 +96,29 @@ class AvailabilityDisplayer extends Component {
             <div className="ui blue inverted very padded segment">
                 <div className="ui one column center aligned grid">
                   <div className="ui column">
-                    <h1>
+                    <h4>
                       { this.state.displayDay.format('dddd')}
-                    </h1>
+                    </h4>
                   </div>
                   <div className="ui column">
                     <h1>
-                      { this.state.displayDay.get('day')}
+                      { this.state.displayDay.format('d')}
                     </h1>
                   </div>
+                  <div className="ui column">
+                    <h3>
+                      { this.state.displayDay.format('MMMM')}
+                    </h3>
+                  </div>
                 </div>
-
               <div className="ui column">
-                <h5>Horarios disponibles</h5>
-                { availability[0].times.map((time, i) =>{
-                  return <p key={i}>{time}</p>;
-                }) }
+                <h4 className="ui center aligned header inverted white">Horarios disponibles</h4>
               </div>
+              { availability[0].times.map((time, i) =>{
+                return <div className="ui column">
+                  <a className="authLink" key={i}>{time}</a>
+                </div>;
+              }) }
             </div>
           </div>
         </div>
