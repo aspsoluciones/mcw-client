@@ -18,27 +18,38 @@ const toMonth = new Date(currentYear + 10, 11, 31, 23, 59);
 function YearMonthForm({ date, localeUtils, onChange }) {
 
   const months = localeUtils.getMonths();
-
+  let _month = 4;
+  let _year = 2016;
   const years = [];
   for (let i = fromMonth.getFullYear(); i <= toMonth.getFullYear(); i++) {
     years.push(i);
   }
 
-  const handleChange = function(event, index, value) {
-    const { year, month } = event.target.form;
-    onChange(new Date(year.value, month.value));
+  console.log(years);
+
+  const yearChange = function(event, index, value) {
+    //TODO repensar
+    _year = years[index];
+
+    onChange(new Date(_year, _month));
   }
 
+  const monthChange = function(event, index, value) {
+    _month = value;
+    onChange(new Date(_year, _month));
+  }
   return (
     <form className="DayPicker-Caption">
-      <SelectField value={date.getMonth()} onChange={handleChange}>
-        { months.map((month, i) =>
-          <MenuItem value={i} primaryText={month}/>)}
-      </SelectField>
-      <SelectField maxHeight={300} onChange={ handleChange } value={ date.getFullYear() }>
-        { years.map((year, i) =>
-          <MenuItem key={ i } primaryText={ year }/>)}
-      </SelectField>
+      <div>
+        <SelectField value={date.getMonth()} onChange={monthChange}>
+          { months.map((month, i) =>
+            <MenuItem value={i} primaryText={month} key={i}/>)}
+        </SelectField>
+        <SelectField maxHeight={300} onChange={ yearChange } value={ 2016 }>
+          { years.map((year, i) =>
+            <MenuItem key={ i } primaryText={ year } key={i}/>)}
+        </SelectField>
+      </div>
     </form>
   )
 }
@@ -52,8 +63,8 @@ class AvailabilityDisplayer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      today: moment(),
-      selectedDay: moment()
+      selectedDay: moment(),
+      displayDay : moment()
     }
   }
 
@@ -62,7 +73,7 @@ class AvailabilityDisplayer extends Component {
 
     return(
       <div className="ui grid">
-        <div className="ui column">
+        <div className="ui column grid stackable container">
           <div className="ui eight wide column">
             <DayPicker
               className="Availability"
@@ -70,15 +81,34 @@ class AvailabilityDisplayer extends Component {
               initialMonth={ this.state.initialMonth }
               fromMonth={ fromMonth }
               toMonth={ toMonth }
+              onDayClick={ (e, day) => alert(day) }
               captionElement={
                 <YearMonthForm onChange={ initialMonth => this.setState({ initialMonth }) } />
               }
             />
           </div>
-          <div className="ui eight wide column">
-            <h3 className="ui header">
-              Selected day here
-            </h3>
+          <div className="ui eight wide column grid stackable">
+            <div className="ui blue inverted very padded segment">
+                <div className="ui one column center aligned grid">
+                  <div className="ui column">
+                    <h1>
+                      { this.state.displayDay.format('dddd')}
+                    </h1>
+                  </div>
+                  <div className="ui column">
+                    <h1>
+                      { this.state.displayDay.get('day')}
+                    </h1>
+                  </div>
+                </div>
+
+              <div className="ui column">
+                <h5>Horarios disponibles</h5>
+                { availability[0].times.map((time, i) =>{
+                  return <p key={i}>{time}</p>;
+                }) }
+              </div>
+            </div>
           </div>
         </div>
       </div>

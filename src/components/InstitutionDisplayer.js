@@ -22,14 +22,19 @@ class InstitutionDisplayer extends Component {
 
     return(
       <div className="ui segment">
-        <div className="ui grid container">
+        <div className="ui grid stackable container">
           <div className="ui row">
-            <div className="ui six wide column">
-              <i className="large location arrow icon"/>
-              { institution.name }
+            <div className="ui column">
+              <h1 className="ui blue header inverted">
+                { institution.name }
+              </h1>
             </div>
-            <div className="ui eight wide column">
-              <AvailabilityDisplayer availability={institution.availability}/>
+          </div>
+          <div className="ui row">
+            <div className="ui column grid">
+              <div className="ui column">
+                <AvailabilityDisplayer availability={institution.availability}/>
+              </div>
             </div>
           </div>
         </div>

@@ -28,7 +28,7 @@ class Appointment extends Component {
               },
               location: {}, //Coordenadas
               address: '9077 Ave. de la Amistad, Colonia Federal Tijuana, B. C., México',
-              availability: [{date: new Date(), times: ['09:00', '09:30', '15.00']}]
+              availability: [{date: new Date(), times: ['09:00', '09:30', '15:00']}]
             }]
           }
         }
@@ -43,8 +43,8 @@ class Appointment extends Component {
           { DoctorProfileCard(this.state.response.doctor)}
         </div>
         {
-          this.state.response.doctor.institutions.map((institution) =>{
-            return <div className="ui row">
+          this.state.response.doctor.institutions.map((institution, i) =>{
+            return <div className="ui row" key={i}>
               <div className="ui column">
                 <InstitutionDisplayer institution={institution}/>
               </div>
