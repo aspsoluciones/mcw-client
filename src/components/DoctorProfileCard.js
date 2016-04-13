@@ -29,10 +29,19 @@ export function DoctorProfileCard(doctorData) {
                     <h5 className="ui header">{doctorData.categories[0]}, {doctorData.categories[1]}</h5>
                   </div>
                   <div className="ui column">
-                    <span> Enfoques:</span><a className="ui blue image label">
-                    <img src="../assets/DrChapatin.jpg"/>
-                    { doctorData.focuses[0]}
-                  </a>
+                    <span> Enfoques:</span>
+                    <a className="ui blue label">
+                      { doctorData.focuses[0]}
+                    </a>
+                    <a className="ui red label">
+                      { doctorData.focuses[1]}
+                    </a>
+                    <a className="ui purple label">
+                      { doctorData.focuses[2]}
+                    </a>
+                  </div>
+                  <div className="ui column">
+
                   </div>
                 </div>
             </div>
