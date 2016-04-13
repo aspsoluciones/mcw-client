@@ -115,7 +115,7 @@ class AvailabilityDisplayer extends Component {
                 <h4 className="ui center aligned header inverted white">Horarios disponibles</h4>
               </div>
               { availability[0].times.map((time, i) =>{
-                return <div className="ui column">
+                return <div className="ui column" key={i}>
                   <a className="authLink" key={i}>{time}</a>
                 </div>;
               }) }

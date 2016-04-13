@@ -54,3 +54,10 @@ a:hover.authLink {
 .no-padded {
   padding: 0 !important;
 }
+
+.leaflet-container {
+  padding: 0 !important;
+  height: 250px;
+  width: 100%;
+  margin: 0 !important;
+}

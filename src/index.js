@@ -21,6 +21,7 @@ import '../node_modules/jquery/dist/jquery';
 
 require('../semantic/dist/semantic');
 require('../semantic/dist/semantic.min.css');
+require('leaflet');
 
 const store = configureStore();
 injectTapEventPlugin();
