@@ -8,8 +8,9 @@ import moment from 'moment';
 import DayPicker from 'react-day-picker';
 import "react-day-picker/lib/style.css";
 import "../styles/dayPicker.scss";
-import SelectField from 'material-ui/lib/select-field';
-import MenuItem from 'material-ui/lib/menus/menu-item';
+
+import WeekDisplayer from './WeekDisplayer';
+
 
 const currentYear = (new Date()).getFullYear();
 const fromMonth = new Date(currentYear, 0, 1, 0, 0);
@@ -38,20 +39,6 @@ function YearMonthForm({ date, localeUtils, onChange }) {
     _month = value;
     onChange(new Date(_year, _month));
   }
-  return (
-    <form className="DayPicker-Caption">
-      <div>
-        <SelectField value={date.getMonth()} onChange={monthChange}>
-          { months.map((month, i) =>
-            <MenuItem value={i} primaryText={month} key={i}/>)}
-        </SelectField>
-        <SelectField maxHeight={300} onChange={ yearChange } value={ 2016 }>
-          { years.map((year, i) =>
-            <MenuItem key={ i } primaryText={ year } key={i}/>)}
-        </SelectField>
-      </div>
-    </form>
-  )
 }
 
 var _timesDisplayer = function() {
@@ -83,7 +70,7 @@ class AvailabilityDisplayer extends Component {
     return(
       <div className="ui grid">
         <div className="ui column grid stackable container">
-          <div className="ui four wide column">
+          <div className="ui five wide column">
             <DayPicker
               className="Availability"
               initialMonth={ this.state.initialMonth }
@@ -92,36 +79,11 @@ class AvailabilityDisplayer extends Component {
               onDayClick={ (e, day) => alert(day) }
             />
           </div>
-          <div className="ui ten wide column grid stackable">
+          <div className="ui nine wide column grid stackable">
             <div className="ui column">
-                <div className="ui one column center aligned grid">
-                  <div className="ui column">
-                    <h4>
-                      { this.state.displayDay.format('dddd')}
-                    </h4>
-                  </div>
-                  <div className="ui column">
-                    <h1>
-                      { this.state.displayDay.format('d')}
-                    </h1>
-                  </div>
-                  <div className="ui column">
-                    <h3>
-                      { this.state.displayDay.format('MMMM')}
-                    </h3>
-                  </div>
-                </div>
-              <div className="ui column">
-                <h4 className="ui center aligned header">Horarios disponibles</h4>
-              </div>
-               <div className="ui three column grid">
-                  { availability[0].times.map((time, i) => {
-                      return <a  className="ui column" key={i}>{time}</a>
-                    })
-                  }
-              </div>
-
+              <WeekDisplayer/>
             </div>
+
           </div>
         </div>
       </div>

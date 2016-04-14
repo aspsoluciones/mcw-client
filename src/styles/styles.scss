@@ -62,3 +62,43 @@ a:hover.authLink {
   width: 100%;
   margin: 0 !important;
 }
+
+.simple-table {
+  border: none !important;
+
+  thead {
+    th {
+      text-align: center !important;
+      padding: 1rem !important;
+      vertical-align: top !important;
+      border: none !important;
+      -webkit-transition: all 0.3s ease !important;
+      -o-transition: all 0.3s ease !important;
+      transition: all 0.3s ease !important;
+      th{
+        border: none !important;
+
+      }
+    }
+
+    tbody {
+      tr{
+        border: none !important;
+        text-align: center !important;
+        td{
+          border: none !important;
+          .centered-cell {
+            text-align: center !important;
+          }
+        }
+      }
+    }
+
+  }
+
+
+
+
+}
+
+
