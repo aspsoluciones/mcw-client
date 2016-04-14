@@ -7,15 +7,12 @@ import moment from 'moment';
 
 class WeekDisplayer extends Component {
 
-  calculateWeekToDisplay() {
-
-    var _test = moment().add(3);
-
+   calculateWeekToDisplay(_day) {
     var _days = [];
-    _days.push(_test);
+    _days.push(_day);
 
     for (var i = 0; i < 6; i++) {
-      var _d = moment(_test).add(1+i, 'd');
+      var _d = moment(_day).add(1+i, 'd');
       _days.push(_d)
     }
 
@@ -25,8 +22,9 @@ class WeekDisplayer extends Component {
 
 
   render() {
-
-    var _weekdays = this.calculateWeekToDisplay();
+    console.log('render');
+    console.log(this);
+    var _weekdays = this.calculateWeekToDisplay(this.props.selectedDay);
 
     return (
       <div className="ui one column grid">
@@ -70,8 +68,9 @@ class WeekDisplayer extends Component {
 
 }
 
-WeekDisplayer.propTypes = {
-  selectedDay : PropTypes.any
+WeekDisplayer.stateTypes = {
+  selectedDay : PropTypes.any,
+  appointmentsForWeek: PropTypes.any
 };
 
 export default WeekDisplayer;

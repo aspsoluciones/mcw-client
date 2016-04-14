@@ -76,12 +76,18 @@ class AvailabilityDisplayer extends Component {
               initialMonth={ this.state.initialMonth }
               fromMonth={ fromMonth }
               toMonth={ toMonth }
-              onDayClick={ (e, day) => alert(day) }
+              onDayClick={ (e, day) => {
+                  console.log(day);
+                    this.setState({
+                      selectedDay : moment(day)
+                    })
+                }
+              }
             />
           </div>
           <div className="ui nine wide column grid stackable">
             <div className="ui column">
-              <WeekDisplayer/>
+              <WeekDisplayer appointmentsForWeek={{'foo':'bar'}} selectedDay={this.state.selectedDay} />
             </div>
 
           </div>
