@@ -48,9 +48,6 @@ var _timesDisplayer = function() {
 
 
 class AvailabilityDisplayer extends Component {
-  calculateNextAvailableAppointMent() {
-
-  }
 
   constructor(props) {
     super(props);
@@ -60,8 +57,23 @@ class AvailabilityDisplayer extends Component {
     }
   }
 
-  calculateWeek(){
+  generateRandomDatesWithTimes() {
+      const times = ['9.30','10.30','11.30'];
+      let { selectedDay }  = this.state;
 
+      var _days = [];
+      _days.push({date: selectedDay, times });
+      for (var i = 0; i < 6; i++) {
+        var _d = moment(selectedDay).add(1+i, 'd');
+        if(i%2) {
+          _days.push({date: _d, times})
+        } else{
+          _days.push({date: _d, times: []})
+        }
+      }
+
+      console.log(_days);
+      return _days;
   }
 
   render() {
@@ -87,9 +99,8 @@ class AvailabilityDisplayer extends Component {
           </div>
           <div className="ui nine wide column grid stackable">
             <div className="ui column">
-              <WeekDisplayer appointmentsForWeek={{'foo':'bar'}} selectedDay={this.state.selectedDay} />
+              <WeekDisplayer appointmentsForWeek={this.generateRandomDatesWithTimes()} selectedDay={this.state.selectedDay} />
             </div>
-
           </div>
         </div>
       </div>

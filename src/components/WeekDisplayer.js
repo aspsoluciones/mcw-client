@@ -43,10 +43,15 @@ class WeekDisplayer extends Component {
             </tr>
             <tr>
               {
-                _weekdays.map((day, i) => {
-                  return <th key={i} className="centered-cell"><span className="centered-cell">
-                    { day.format('DD') }
-                  </span></th>
+                this.props.appointmentsForWeek.map((day, i) => {
+                  return <th key={i} className="centered-cell">
+                    <div>
+                      { day.date.format('DD') }
+                    </div>
+                    <div>
+                      { (day.times.length) ? <div className="dot"></div>:  null  }
+                    </div>
+                  </th>
                 })
               }
             </tr>
@@ -54,8 +59,12 @@ class WeekDisplayer extends Component {
             <tbody>
               <tr>
                 {
-                  _weekdays.map((day, i) => {
-                    return <td key={i}>{ day.format('DD') }</td>
+                  this.props.appointmentsForWeek.map((day, i) => {
+                    return <td key={i} className="centered-cell">
+                      { day.times.map((time, j) => {
+                        return <div key={j}> {time}</div>
+                      })}
+                    </td>
                   })
                 }
               </tr>

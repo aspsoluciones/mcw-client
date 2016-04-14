@@ -63,6 +63,15 @@ a:hover.authLink {
   margin: 0 !important;
 }
 
+.dot {
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+
+  /* needs to be very contrasty color. E.g. light gray on white won't work */
+  background: black;
+}
+
 .simple-table {
   border: none !important;
 
