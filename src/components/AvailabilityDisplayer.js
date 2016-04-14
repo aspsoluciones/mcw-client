@@ -82,18 +82,14 @@ class AvailabilityDisplayer extends Component {
           <div className="ui eight wide column">
             <DayPicker
               className="Availability"
-              canChangeMonth={false}
               initialMonth={ this.state.initialMonth }
               fromMonth={ fromMonth }
               toMonth={ toMonth }
               onDayClick={ (e, day) => alert(day) }
-              captionElement={
-                <YearMonthForm onChange={ initialMonth => this.setState({ initialMonth }) } />
-              }
             />
           </div>
           <div className="ui eight wide column grid stackable">
-            <div className="ui blue inverted very padded segment">
+            <div className="ui column">
                 <div className="ui one column center aligned grid">
                   <div className="ui column">
                     <h4>
@@ -112,13 +108,15 @@ class AvailabilityDisplayer extends Component {
                   </div>
                 </div>
               <div className="ui column">
-                <h4 className="ui center aligned header inverted white">Horarios disponibles</h4>
+                <h4 className="ui center aligned header">Horarios disponibles</h4>
               </div>
-              { availability[0].times.map((time, i) =>{
-                return <div className="ui column" key={i}>
-                  <a className="authLink" key={i}>{time}</a>
-                </div>;
-              }) }
+               <div className="ui three column grid">
+                  { availability[0].times.map((time, i) => {
+                      return <a  className="ui column" key={i}>{time}</a>
+                    })
+                  }
+              </div>
+
             </div>
           </div>
         </div>
