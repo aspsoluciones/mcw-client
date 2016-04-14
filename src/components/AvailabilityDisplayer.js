@@ -73,13 +73,17 @@ class AvailabilityDisplayer extends Component {
     }
   }
 
+  calculateWeek(){
+
+  }
+
   render() {
     const { availability } = this.props;
 
     return(
       <div className="ui grid">
         <div className="ui column grid stackable container">
-          <div className="ui eight wide column">
+          <div className="ui four wide column">
             <DayPicker
               className="Availability"
               initialMonth={ this.state.initialMonth }
@@ -88,7 +92,7 @@ class AvailabilityDisplayer extends Component {
               onDayClick={ (e, day) => alert(day) }
             />
           </div>
-          <div className="ui eight wide column grid stackable">
+          <div className="ui ten wide column grid stackable">
             <div className="ui column">
                 <div className="ui one column center aligned grid">
                   <div className="ui column">

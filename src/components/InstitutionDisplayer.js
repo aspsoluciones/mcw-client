@@ -6,25 +6,23 @@ import React, { Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import AvailabilityDisplayer from '../components/AvailabilityDisplayer';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import Card from 'material-ui/lib/card/card';
+import CardMedia from 'material-ui/lib/card/card-media';
+import CardTitle from 'material-ui/lib/card/card-title';
+import FlatButton from 'material-ui/lib/flat-button';
+import FloatingActionButton from 'material-ui/lib/floating-action-button';
+import ContentAdd from 'material-ui/lib/svg-icons/content/add';
 
 const style = {
   marginRight: 20
 };
-
 class InstitutionDisplayer extends Component {
   constructor(props){
     super(props);
 
     this.state = {
-      selectedAppointment: {},
-      showContent : false
+      selectedAppointment: {}
     }
-  }
-
-  toggleContent() {
-    this.setState({
-      showContent : !this.state.showContent
-    })
   }
 
   render() {
@@ -32,42 +30,25 @@ class InstitutionDisplayer extends Component {
     const { institution } = this.props;
     const position = [51.505, -0.09];
 
-    var _map = (<div className="content">
-      <Map center={position} zoom={13} animate={true}>
-        <TileLayer
-          url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        />
-        <Marker position={position}>
-          <Popup>
-            <p>{institution.name}</p>
-          </Popup>
-        </Marker>
-      </Map>
-    </div>);
-
-    var _calendar = ( <div className="content">
-      <AvailabilityDisplayer availability={institution.availability}/>
-    </div>);
-
-
     return(
-      <div>
-        <div className="ui fluid card">
-          <div className="content">
-            <span className="ui header">{institution.name}</span>
-            <div class="right floated meta"><button onClick={this.toggleContent.bind(this)} className="ui button">
-              Open
-            </button></div>
-          </div>
-          { this.state.showContent && _map}
-          { this.state.showContent && _calendar}
-          <div className="extra content">
-            Some extra content
-          </div>
-        </div>
-      </div>
-
+    <Card>
+      <CardMedia
+        overlay={<CardTitle title={institution.name} subtitle={institution.address} />}
+      >
+        <Map center={position} zoom={13} animate={true}>
+          <TileLayer
+            url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          />
+          <Marker position={position}>
+            <Popup>
+              <span>{institution.name}</span>
+            </Popup>
+          </Marker>
+        </Map>
+      </CardMedia>
+      <AvailabilityDisplayer availability={institution.availability}/>
+    </Card>
     )
   }
 }
