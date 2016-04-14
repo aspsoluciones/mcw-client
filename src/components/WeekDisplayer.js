@@ -5,6 +5,13 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 
+var style = {
+
+
+
+}
+
+
 class WeekDisplayer extends Component {
 
    calculateWeekToDisplay(_day) {
@@ -20,7 +27,6 @@ class WeekDisplayer extends Component {
     return _days;
   }
 
-
   render() {
     console.log('render');
     console.log(this);
@@ -32,7 +38,7 @@ class WeekDisplayer extends Component {
           <h3>Month</h3>
         </div>
         <div className="ui one padded column">
-          <table className="ui table simple-table">
+          <table className="ui table simple-table unstackable">
             <thead>
             <tr>
               {
@@ -46,10 +52,7 @@ class WeekDisplayer extends Component {
                 this.props.appointmentsForWeek.map((day, i) => {
                   return <th key={i} className="centered-cell">
                     <div>
-                      { day.date.format('DD') }
-                    </div>
-                    <div>
-                      { (day.times.length) ? <div className="dot"></div>:  null  }
+                      { day.date.format('DD MMM') }
                     </div>
                   </th>
                 })
@@ -60,9 +63,11 @@ class WeekDisplayer extends Component {
               <tr>
                 {
                   this.props.appointmentsForWeek.map((day, i) => {
-                    return <td key={i} className="centered-cell">
+                    return <td key={i}>
                       { day.times.map((time, j) => {
-                        return <div key={j}> {time}</div>
+                        return <div class="ui column">
+                          <button className="ui button compact" key={j}> {time}</button>
+                      </div>
                       })}
                     </td>
                   })
