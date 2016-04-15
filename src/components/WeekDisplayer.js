@@ -4,7 +4,8 @@
 
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
-
+import { connect } from 'react-redux';
+import { TakeAppointment } from '../actions/Appointments';
 class WeekDisplayer extends Component {
 
    calculateWeekToDisplay(_day) {
@@ -18,11 +19,16 @@ class WeekDisplayer extends Component {
   }
 
   selectAppointment(day, time){
+
+    const {dispatch} = this.props;
+
     this.setState({
       selectedAppointment : {
         day, time
       }
-    })
+    });
+    
+    dispatch(TakeAppointment({day, time}))
   }
 
   render() {
@@ -89,5 +95,5 @@ WeekDisplayer.contextTypes = {
   router : PropTypes.any
 };
 
-export default WeekDisplayer;
+export default connect()(WeekDisplayer);
 

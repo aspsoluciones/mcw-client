@@ -19,13 +19,23 @@ const style = {
 class InstitutionDisplayer extends Component {
   constructor(props){
     super(props);
-
     this.state = {
       selectedAppointment: {}
     }
   }
 
+  componentDidMount(){
+    const { store } = this.context;
+    store.subscribe(() =>{
+      var _state = store.getState();
+      if(_state.appointment.keep) {
+        //Go to the next screen
+      }
+    })
+  }
+
   render() {
+
 
     const { institution } = this.props;
     const position = [51.505, -0.09];
@@ -55,6 +65,11 @@ class InstitutionDisplayer extends Component {
 
 InstitutionDisplayer.propTypes = {
   institution : PropTypes.any
+};
+
+InstitutionDisplayer.contextTypes = {
+  store: PropTypes.any,
+  router: PropTypes.any
 };
 
 function mapStateToProps(state) {

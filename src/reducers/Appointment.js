@@ -5,29 +5,30 @@
 import {
   APPOINTMENT_FAILURE,
   APPOINTMENT_REQUEST,
-  APPOINTMENT_SUCCESS
+  APPOINTMENT_SUCCESS,
+  APPOINTMENT_SELECTED
 } from "../constants/ActionTypes";
 
 function appointment(state = {
   isFetching: false
 }, action) {
   switch (action.type) {
+    case APPOINTMENT_SELECTED:
+      return Object.assign({}, state, {
+        isFetching: false,
+        keep : action.appointment
+      });
     case APPOINTMENT_REQUEST:
       return Object.assign({}, state, {
-        isFetching: true,
-        isAuthenticated: false,
-        user: action.creds
+        isFetching: true
       });
     case APPOINTMENT_SUCCESS:
       return Object.assign({}, state, {
-        isFetching: false,
-        isAuthenticated: true,
-        errorMessage: ''
+        isFetching: false
       });
     case APPOINTMENT_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
-        isAuthenticated: false,
         errorMessage: action.code
       });
     default:

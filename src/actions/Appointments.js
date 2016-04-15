@@ -3,9 +3,15 @@
  */
 
 import {
- APPOINTMENT_FAILURE, APPOINTMENT_REQUEST, APPOINTMENT_SUCCESS
+ APPOINTMENT_FAILURE, APPOINTMENT_REQUEST, APPOINTMENT_SUCCESS, APPOINTMENT_SELECTED
 } from '../constants/ActionTypes';
 
+function AppointmentSelected(appointment) {
+  return {
+    type: APPOINTMENT_SELECTED,
+    appointment
+  }
+}
 
 function AppointmentRequest(){
   return {
@@ -13,7 +19,7 @@ function AppointmentRequest(){
   }
 }
 
-function AppointmentFailure() {
+function AppointmentFailure(error) {
   return {
     type: APPOINTMENT_FAILURE,
     error
@@ -27,7 +33,13 @@ function AppointmentSuccess() {
 }
 
 
-export function TakeAppointment(){
+export function TakeAppointment(appointment){
+  return dispatch => {
+   dispatch(AppointmentSelected(appointment));
+  }
+}
+
+export function ConfirmAppointment(appointment) {
   return dispatch => {
     dispatch(AppointmentRequest());
     // Error
@@ -35,6 +47,5 @@ export function TakeAppointment(){
     //Success
     dispatch(AppointmentSuccess());
   }
-
 }
 
