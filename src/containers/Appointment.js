@@ -41,7 +41,9 @@ class Appointment extends Component {
     store.subscribe(() =>{
       var _state = store.getState();
       if(_state.appointment.keep) {
-        router.push('/doctor/' + this.props.params.doctorUsername + '/appointment/checkout')
+        router.push({
+          pathname: '/doctor/' + this.props.params.doctorUsername + '/appointment/checkout'
+        })
       }
     })
   }
@@ -49,8 +51,8 @@ class Appointment extends Component {
     render() {
       console.log(this.props.params);
 
-      return(<div className="ui stackable grid">
-        <div className="ui row">
+      return(<div className="ui grid">
+        <div className="">
           { DoctorProfileCard(this.state.response.doctor)}
         </div>
         {
