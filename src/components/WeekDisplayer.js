@@ -5,31 +5,27 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 
-var style = {
-
-
-
-}
-
-
 class WeekDisplayer extends Component {
 
    calculateWeekToDisplay(_day) {
-    var _days = [];
+    let _days = [];
     _days.push(_day);
-
-    for (var i = 0; i < 6; i++) {
+    for (let i = 0; i < 6; i++) {
       var _d = moment(_day).add(1+i, 'd');
       _days.push(_d)
     }
-
-    console.log(_days);
     return _days;
   }
 
+  selectAppointment(day, time){
+    this.setState({
+      selectedAppointment : {
+        day, time
+      }
+    })
+  }
+
   render() {
-    console.log('render');
-    console.log(this);
     var _weekdays = this.calculateWeekToDisplay(this.props.selectedDay);
 
     return (
@@ -66,7 +62,7 @@ class WeekDisplayer extends Component {
                     return <td key={i}>
                       { day.times.map((time, j) => {
                         return <div class="ui column">
-                          <button className="ui button compact" key={j}> {time}</button>
+                          <button className="ui button compact" onClick={ () => this.selectAppointment(day, time)} key={j}> {time}</button>
                       </div>
                       })}
                     </td>
@@ -84,7 +80,13 @@ class WeekDisplayer extends Component {
 
 WeekDisplayer.stateTypes = {
   selectedDay : PropTypes.any,
-  appointmentsForWeek: PropTypes.any
+  appointmentsForWeek: PropTypes.any,
+  selectedAppointment: PropTypes.any
+};
+
+WeekDisplayer.contextTypes = {
+  dispatch : PropTypes.any,
+  router : PropTypes.any
 };
 
 export default WeekDisplayer;

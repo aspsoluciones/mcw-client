@@ -8,6 +8,7 @@ import moment from 'moment';
 import DayPicker from 'react-day-picker';
 import "react-day-picker/lib/style.css";
 import "../styles/dayPicker.scss";
+import { connect } from "react-redux";
 
 import WeekDisplayer from './WeekDisplayer';
 
@@ -112,4 +113,11 @@ AvailabilityDisplayer.propTypes = {
   availability : PropTypes.any
 };
 
-export default AvailabilityDisplayer;
+function mapStateToProps(state) {
+  const { appointment } = state;
+  return {
+    appointment
+  }
+}
+
+export default connect(mapStateToProps)(AvailabilityDisplayer);
