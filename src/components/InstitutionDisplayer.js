@@ -58,7 +58,11 @@ InstitutionDisplayer.propTypes = {
 };
 
 function mapStateToProps(state) {
-  return state;
+  const { appointment } = state;
+
+  return {
+    appointment
+  };
 }
 
 InstitutionDisplayer = connect(mapStateToProps)(InstitutionDisplayer);
