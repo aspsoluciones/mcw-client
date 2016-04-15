@@ -35,6 +35,17 @@ class Appointment extends Component {
       }
     }
 
+  componentDidMount(){
+    console.log(this);
+    const { store, router } = this.context;
+    store.subscribe(() =>{
+      var _state = store.getState();
+      if(_state.appointment.keep) {
+        router.push('/doctor/' + this.props.params.doctorUsername + '/appointment/checkout')
+      }
+    })
+  }
+
     render() {
       console.log(this.props.params);
 
@@ -59,6 +70,10 @@ function mapStateToProps(state) {
   return state;
 }
 
+Appointment.contextTypes = {
+  store: PropTypes.any,
+  router: PropTypes.any
+};
 
 Appointment = connect(mapStateToProps)(Appointment);
 

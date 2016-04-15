@@ -24,16 +24,6 @@ class InstitutionDisplayer extends Component {
     }
   }
 
-  componentDidMount(){
-    const { store } = this.context;
-    store.subscribe(() =>{
-      var _state = store.getState();
-      if(_state.appointment.keep) {
-        //Go to the next screen
-      }
-    })
-  }
-
   render() {
 
 

@@ -11,6 +11,7 @@ import Dashboard from './containers/Dashboard';
 import Login from './containers/Login';
 import Forbidden from './containers/Forbidden';
 import Appointment from './containers/Appointment';
+import Checkout from './containers/Checkout';
 import Auth from './containers/Auth';
 import Register from './containers/Register';
 import configureStore from './store/configureStore';
@@ -33,6 +34,7 @@ render(
       <Route name="forbidden" component={Forbidden}/>
       <Route name="doctor" path="/doctor" component={Public}>
         <Route name="appointments" path="/doctor/:doctorUsername" components={Appointment}/>
+        <Route name="checkout" path="/doctor/:doctorUsername/appointment/checkout" components={Checkout}/>
       </Route>
       <Route name="app" path="/app" component={App}>
         <Route name="dashboard" path="/app/dashboard" component={Dashboard}/>
