@@ -1,7 +1,7 @@
 /**
  * Created by epotignano on 25/02/16.
  */
-import { UidRef, ApiRef, TokenRef } from '../constants/Commons';
+import { UidRef, ApiRef, TokenRef, RefreshTokenRef } from '../constants/Commons';
 const LoginEndpoint = ApiRef + '/oauth/token';
 
 import {
@@ -88,10 +88,11 @@ export function loginUser(credentials) {
         domain: credentials.domain
       })
     })
-      .success((data) => {
+      .success((response) => {
+        localStorage.setItem(TokenRef, response.access_token);
+        localStorage.setItem(RefreshTokenRef, response.refresh_token);
         dispatch(loginSuccess());
         dispatch(TokenRefreshCount());
-        localStorage.setItem(TokenRef, data.access_token)
       }).error((data)=> {
         if(data.status == 401) {
           dispatch(loginError('INVALID_PERMISSIONS'));
