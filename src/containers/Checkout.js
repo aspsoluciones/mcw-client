@@ -5,6 +5,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { DoctorProfileCard } from '../components/DoctorProfileCard';
+import Formsy from 'formsy-react';
+import { FormsyText } from 'formsy-material-ui';
+import { ConfirmAppointment } from '../actions/Appointments';
 
 class Checkout extends Component {
   constructor(props) {
@@ -13,7 +16,7 @@ class Checkout extends Component {
 
     this.state = {
       doctor: {
-        username: this.props.params.doctorUsername,
+        username: 'chapatin',
         lastName: 'Chespirito',
         firstName: 'Chapatin',
         categories: ['Odontología', 'Odontopediatría'],
@@ -34,22 +37,40 @@ class Checkout extends Component {
     }
   }
 
+  sendCredentials(appointment) {
+    const { dispatch } = this.props;
+    dispatch(ConfirmAppointment(appointment));
+  }
+
+  enableButton() {
+    this.setState({
+      canSubmit: true
+    });
+  }
+
+  disableButton() {
+    this.setState({
+      canSubmit: false
+    });
+  }
+
 
   render() {
-    console.log(this);
+    const { appointment } = this.props;
+    const { keep } = appointment;
 
     return (
       <div className="ui one column grid">
         <div className="ui column">
           <div className="ui steps">
-            <div className="step">
+            <div className="active step">
               <i className="truck icon"/>
               <div className="content">
                 <div className="title">Shipping</div>
                 <div className="description">Choose your shipping options</div>
               </div>
             </div>
-            <div className="active step">
+            <div className="step">
               <i className="payment icon"/>
               <div className="content">
                 <div className="title">Billing</div>
@@ -64,9 +85,78 @@ class Checkout extends Component {
             </div>
           </div>
         </div>
-        
+
         <div className="ui column">
           { DoctorProfileCard(this.state.doctor)}
+        </div>
+
+        <div className="ui one column grid segment">
+          <div className="ui column">
+            { keep.day.date.format("DD MMMM YYYY")}
+          </div>
+          <div className="ui column">
+            { keep.time }
+          </div>
+        </div>
+
+        <div className="ui one column grid segment">
+          <Formsy.Form ref="appointmentForm" className="ui large form"
+                       onValid={this.enableButton.bind(this)}
+                       onInvalid={this.disableButton.bind(this)}
+                       onValidSubmit={this.sendCredentials.bind(this)}
+          >
+            <div className="row ui">
+              <div className="one column ui segment">
+                <div className="ui column">
+                  <FormsyText
+                    name='email'
+                    hintText="Email"
+                    required
+                    value=""
+                  />
+                </div>
+                <div className="ui column">
+                  <FormsyText
+                    name='name'
+                    hintText="Nombre"
+                    required
+                    value=""
+                  />
+                </div>
+
+                <div className="ui column">
+                  <FormsyText
+                    name='lastName'
+                    hintText="Apellido"
+                    required
+                    value=""
+                  />
+                </div>
+                <div className="ui column">
+                  <FormsyText
+                    name='phone'
+                    hintText="Número de teléfono"
+                    required
+                    value=""
+                  />
+                </div>
+                <div className="ui column">
+                  <FormsyText
+                    name='note'
+                    hintText="Notas"
+                    value=""
+                  />
+                </div>
+
+              </div>
+              <div className="column">
+                <button type="submit" className="ui button fluid blue">
+                  Enviar
+                </button>
+              </div>
+            </div>
+
+          </Formsy.Form>
         </div>
       </div>
     )
@@ -79,6 +169,10 @@ function mapStateToProps(state) {
   return {
     appointment
   }
+}
+
+Checkout.propTypes = {
+  dispatch : PropTypes.any
 }
 
 Checkout.contextTypes = {
