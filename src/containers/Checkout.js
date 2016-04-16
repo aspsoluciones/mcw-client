@@ -106,7 +106,7 @@ class Checkout extends Component {
                        onValidSubmit={this.sendCredentials.bind(this)}
           >
             <div className="row ui">
-              <div className="one column ui segment">
+              <div className="ui one column grid">
                 <div className="ui column">
                   <FormsyText
                     name='email'
