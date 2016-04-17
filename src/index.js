@@ -6,9 +6,12 @@ import { Provider } from 'react-redux';
 import { Router, Route, browserHistory, hashHistory, IndexRoute } from 'react-router'
 
 import App from './containers/App';
+import Public from './containers/Public';
 import Dashboard from './containers/Dashboard';
 import Login from './containers/Login';
 import Forbidden from './containers/Forbidden';
+import Appointment from './containers/Appointment';
+import Checkout from './containers/Checkout';
 import Auth from './containers/Auth';
 import Register from './containers/Register';
 import configureStore from './store/configureStore';
@@ -19,6 +22,7 @@ import '../node_modules/jquery/dist/jquery';
 
 require('../semantic/dist/semantic');
 require('../semantic/dist/semantic.min.css');
+require('leaflet');
 
 const store = configureStore();
 injectTapEventPlugin();
@@ -28,8 +32,12 @@ render(
   <Provider store={store}>
     <Router history={hashHistory}>
       <Route name="forbidden" component={Forbidden}/>
-       <Route name="app" path="/app" component={App}>
-         <Route name="dashboard" path="/app/dashboard" component={Dashboard}/>
+      <Route name="doctor" path="/doctor" component={Public}>
+        <Route name="appointments" path="/doctor/:doctorUsername" components={Appointment}/>
+        <Route name="checkout" path="/doctor/:doctorUsername/appointment/checkout" components={Checkout}/>
+      </Route>
+      <Route name="app" path="/app" component={App}>
+        <Route name="dashboard" path="/app/dashboard" component={Dashboard}/>
       </Route>
       <Route name="access" path="/access" component={Auth}>
         <Route name="login" path="/access/login" component={Login}/>
