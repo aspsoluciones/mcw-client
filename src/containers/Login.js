@@ -96,7 +96,7 @@ class Login extends Component {
               />
             </div>
             {
-              auth.errorMessage && <ErrorsDisplayer message={ this.state.messages[auth.errorMessage] }/>
+              auth.error && <ErrorsDisplayer message={ this.state.messages[auth.code] }/>
             }
 
 

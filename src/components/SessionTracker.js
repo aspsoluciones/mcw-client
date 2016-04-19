@@ -2,6 +2,8 @@
  * Created by epotignano on 10/4/16.
  */
 
+import axios from 'axios';
+
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 
@@ -21,15 +23,24 @@ class SessionTracker extends Component {
 
   constructor(props) {
     super(props);
+
+    axios.interceptors.response.use((config) => {
+      // Do something before request is sent
+      console.log(config);
+      return config;
+    }, (error) => {
+      // Do something with request error
+      return Promise.reject(error);
+    });
   }
 
   componentDidMount() {
     $('.ui.modal').modal();
 
-    setTimeout(() => {
+    /*setTimeout(() => {
       console.log('Hello');
       this.showLoginModal();
-    },3000)
+    },3000)*/
   }
 
   componentDidUpdate() {

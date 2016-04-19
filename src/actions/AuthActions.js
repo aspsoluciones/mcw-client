@@ -13,6 +13,8 @@ import {
    REGISTER_FAILURE
 } from "../constants/ActionTypes";
 
+import axios from 'axios';
+
 import {
   TokenRefreshCount
 } from '../actions/TokenActions';
@@ -39,10 +41,8 @@ function loginSuccess() {
 function loginError(code) {
   return {
     type: LOGIN_FAILURE,
-    isFetching: false,
-    isAuthenticated: false,
-    error: true,
-    code
+    payload: new Error(code),
+    error: true
   }
 }
 
@@ -75,7 +75,32 @@ export function loginUser(credentials) {
 
   return dispatch => {
     dispatch(LoginAttempt(credentials));
-    $.ajax({
+
+    axios({
+      method: 'post',
+      url: LoginEndpoint,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      data: $.param({
+        grant_type: "password",
+        username: credentials.username,
+        password: credentials.password,
+        domain: credentials.domain
+      })
+    }).then((response) => {
+      localStorage.setItem(TokenRef, response.access_token);
+      localStorage.setItem(RefreshTokenRef, response.refresh_token);
+      dispatch(loginSuccess());
+      dispatch(TokenRefreshCount());
+    }).catch((data) => {
+      if(data.status == 401) {
+        dispatch(loginError('INVALID_PERMISSIONS'));
+      }
+    });
+
+
+    /*$.ajax({
       type: "POST",
       url: LoginEndpoint,
       headers: {
@@ -97,7 +122,7 @@ export function loginUser(credentials) {
         if(data.status == 401) {
           dispatch(loginError('INVALID_PERMISSIONS'));
         }
-      })
+      })*/
 
   }
 }

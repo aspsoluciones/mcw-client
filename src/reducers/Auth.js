@@ -2,7 +2,7 @@
  * Created by epotignano on 26/02/16.
  */
 
-import { 
+import {
     LOGIN_ATTEMP,
     LOGIN_FAILURE,
     LOGIN_SUCCESS,
@@ -19,8 +19,7 @@ function auth(state = {
     case LOGIN_ATTEMP:
       return Object.assign({}, state, {
         isFetching: true,
-        isAuthenticated: false,
-        user: action.creds
+        isAuthenticated: false
       });
     case LOGIN_SUCCESS:
       return Object.assign({}, state, {
@@ -30,9 +29,8 @@ function auth(state = {
       });
     case LOGIN_FAILURE:
       return Object.assign({}, state, {
-        isFetching: false,
-        isAuthenticated: false,
-        errorMessage: action.code
+        payload: action.payload,
+        error: action.error
       });
     case REGISTER_ATTEMP:
         return Object.assign({}, state, {
