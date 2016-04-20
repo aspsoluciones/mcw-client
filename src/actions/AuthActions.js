@@ -35,13 +35,11 @@ function LoginAttempt (credentials) {
 }
 
 
-function loginSuccess() {
+function loginSuccess(response) {
   return {
     type: LOGIN_SUCCESS,
-    isFetching: false,
-    isAuthenticated: true,
-    error: false,
-    code: ''
+    error:false,
+    payload: response
   }
 }
 
@@ -105,8 +103,7 @@ export function loginUser(credentials) {
     OauthInstance.post('/token', _params).then((response) => {
       localStorage.setItem(TokenRef, response.access_token);
       localStorage.setItem(RefreshTokenRef, response.refresh_token);
-      dispatch(loginSuccess());
-      dispatch(TokenRefreshCount());
+      dispatch(loginSuccess(response));
     }).catch((data) => {
       if(data.status == 401) {
         dispatch(loginError('INVALID_PERMISSIONS'));

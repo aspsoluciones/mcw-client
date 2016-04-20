@@ -97,8 +97,6 @@ class Login extends Component {
             {
               auth.payload && <ErrorsDisplayer message={ this.state.messages[auth.payload.message] }/>
             }
-
-
           </div>
           <div className="column">
             <button type="submit" className="ui button fluid blue">
