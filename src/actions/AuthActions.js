@@ -102,7 +102,6 @@ export function loginUser(credentials) {
   });
   return dispatch => {
     dispatch(LoginAttempt(credentials));
-
     OauthInstance.post('/token', _params).then((response) => {
       localStorage.setItem(TokenRef, response.access_token);
       localStorage.setItem(RefreshTokenRef, response.refresh_token);
@@ -113,32 +112,6 @@ export function loginUser(credentials) {
         dispatch(loginError('INVALID_PERMISSIONS'));
       }
     });
-
-
-    /*$.ajax({
-      type: "POST",
-      url: LoginEndpoint,
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      data: $.param({
-        grant_type: "password",
-        username: credentials.username,
-        password: credentials.password,
-        domain: credentials.domain
-      })
-    })
-      .success((response) => {
-        localStorage.setItem(TokenRef, response.access_token);
-        localStorage.setItem(RefreshTokenRef, response.refresh_token);
-        dispatch(loginSuccess());
-        dispatch(TokenRefreshCount());
-      }).error((data)=> {
-        if(data.status == 401) {
-          dispatch(loginError('INVALID_PERMISSIONS'));
-        }
-      })*/
-
   }
 }
 

@@ -3,12 +3,12 @@
  */
 
 import {
-    LOGIN_ATTEMP,
-    LOGIN_FAILURE,
-    LOGIN_SUCCESS,
-    REGISTER_ATTEMP,
-    REGISTER_SUCCESS,
-    REGISTER_FAILURE
+  LOGIN_ATTEMP,
+  LOGIN_FAILURE,
+  LOGIN_SUCCESS,
+  REGISTER_ATTEMP,
+  REGISTER_SUCCESS,
+  REGISTER_FAILURE
 } from "../constants/ActionTypes";
 
 function auth(state = {
@@ -19,7 +19,8 @@ function auth(state = {
     case LOGIN_ATTEMP:
       return Object.assign({}, state, {
         isFetching: true,
-        isAuthenticated: false
+        isAuthenticated: false,
+        user: action.creds
       });
     case LOGIN_SUCCESS:
       return Object.assign({}, state, {
@@ -29,24 +30,25 @@ function auth(state = {
       });
     case LOGIN_FAILURE:
       return Object.assign({}, state, {
-        payload: action.payload,
-        error: action.error
+        isFetching: false,
+        isAuthenticated: false,
+        payload: action.payload
       });
     case REGISTER_ATTEMP:
-        return Object.assign({}, state, {
-            isFetching: true,
-            provider: action.provider
-        });
+      return Object.assign({}, state, {
+        isFetching: true,
+        provider: action.provider
+      });
     case REGISTER_FAILURE:
-        return Object.assign({}, state, {
-            isFetching: false,
-            registerError: action.error
-        });
+      return Object.assign({}, state, {
+        isFetching: false,
+        registerError: action.error
+      });
     case REGISTER_SUCCESS:
-        return Object.assign({}, state, {
-            isFetching: false,
-            registerSuccess: true
-        });
+      return Object.assign({}, state, {
+        isFetching: false,
+        registerSuccess: true
+      });
     default:
       return state
   }
