@@ -5,4 +5,3 @@ import axios from 'axios';
 import { ApiRef } from '../constants/Commons'
 axios.defaults.baseURL = ApiRef;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-
