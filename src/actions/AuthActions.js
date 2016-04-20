@@ -1,7 +1,7 @@
 /**
  * Created by epotignano on 25/02/16.
  */
-import { UidRef, ApiRef, TokenRef, RefreshTokenRef, BaseRef, ExpiresInRef} from '../constants/Commons';
+import { TokenRef, RefreshTokenRef, BaseRef, ExpiresInRef } from '../constants/Commons';
 
 
 import {
@@ -123,7 +123,7 @@ function startCount(time) {
     OauthInstance.post('/token',_params)
       .then((response) => {
         saveResponseInLocalStorage(response.data);
-        startCount(localStorage.getItem(ExpiresInRef) * 1000 * .75);
+        startCount(localStorage.getItem(ExpiresInRef) * .75);
       }).catch((xhr, status, text) => {
       if(xhr.status == 400) {
         //Deal with it

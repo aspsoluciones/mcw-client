@@ -32,6 +32,7 @@ class SessionTracker extends Component {
   }
 
   componentDidUpdate() {
+
   }
 
 
