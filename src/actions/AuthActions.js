@@ -1,8 +1,8 @@
 /**
  * Created by epotignano on 25/02/16.
  */
-import { UidRef, ApiRef, TokenRef, RefreshTokenRef } from '../constants/Commons';
-const LoginEndpoint = ApiRef + '/oauth/token';
+import { UidRef, ApiRef, TokenRef, RefreshTokenRef, BaseRef } from '../constants/Commons';
+
 
 import {
     LOGIN_ATTEMP,
@@ -10,8 +10,17 @@ import {
     LOGIN_SUCCESS,
     REGISTER_ATTEMP,
    REGISTER_SUCCESS,
-   REGISTER_FAILURE
+   REGISTER_FAILURE,
+  INVALID_SESSION
 } from "../constants/ActionTypes";
+
+import axios from 'axios';
+
+let OauthInstance = axios.create({
+  'baseURL': BaseRef + '/oauth',
+  'headers': { 'Content-Type': 'application/x-www-form-urlencoded' }
+});
+
 
 import {
   TokenRefreshCount
@@ -26,23 +35,19 @@ function LoginAttempt (credentials) {
 }
 
 
-function loginSuccess() {
+function loginSuccess(response) {
   return {
     type: LOGIN_SUCCESS,
-    isFetching: false,
-    isAuthenticated: true,
-    error: false,
-    code: ''
+    error:false,
+    payload: response
   }
 }
 
 function loginError(code) {
   return {
     type: LOGIN_FAILURE,
-    isFetching: false,
-    isAuthenticated: false,
-    error: true,
-    code
+    payload: new Error(code),
+    error: true
   }
 }
 
@@ -70,35 +75,40 @@ function RegisterSuccess(user) {
   }
 }
 
+function invalidSession() {
+  return {
+    type: INVALID_SESSION,
+    isFetching: false,
+    isAuthorized: false
+  }
+}
+
+export function invalidateSession() {
+  return dispatch => {
+    dispatch(invalidateSession());
+  }
+}
+
+
 export function loginUser(credentials) {
   credentials.grant_type = 'password';
-
+  var _params = $.param({
+    grant_type: "password",
+    username: credentials.username,
+    password: credentials.password,
+    domain: credentials.domain
+  });
   return dispatch => {
     dispatch(LoginAttempt(credentials));
-    $.ajax({
-      type: "POST",
-      url: LoginEndpoint,
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      data: $.param({
-        grant_type: "password",
-        username: credentials.username,
-        password: credentials.password,
-        domain: credentials.domain
-      })
-    })
-      .success((response) => {
-        localStorage.setItem(TokenRef, response.access_token);
-        localStorage.setItem(RefreshTokenRef, response.refresh_token);
-        dispatch(loginSuccess());
-        dispatch(TokenRefreshCount());
-      }).error((data)=> {
-        if(data.status == 401) {
-          dispatch(loginError('INVALID_PERMISSIONS'));
-        }
-      })
-
+    OauthInstance.post('/token', _params).then((response) => {
+      localStorage.setItem(TokenRef, response.access_token);
+      localStorage.setItem(RefreshTokenRef, response.refresh_token);
+      dispatch(loginSuccess(response));
+    }).catch((data) => {
+      if(data.status == 401) {
+        dispatch(loginError('INVALID_PERMISSIONS'));
+      }
+    });
   }
 }
 

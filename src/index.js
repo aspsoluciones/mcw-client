@@ -23,6 +23,7 @@ import '../node_modules/jquery/dist/jquery';
 require('../semantic/dist/semantic');
 require('../semantic/dist/semantic.min.css');
 require('leaflet');
+require('./configs/axios.config');
 
 const store = configureStore();
 injectTapEventPlugin();
