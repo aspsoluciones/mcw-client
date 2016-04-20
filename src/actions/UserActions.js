@@ -8,6 +8,7 @@ import {USER_CREATE, USER_DELETE, USER_UPDATE, USER_UPDATE_ERROR, USER_UPDATE_SU
   USER_CREATE_FAILURE, USER_CREATE_SUCCESS, USER_READ, USER_READ_SUCCESS, USER_READ_FAILURE
 } from "../constants/ActionTypes";
 
+import axios from 'axios';
 
 function updateUserSuccess(userData) {
   return {
@@ -38,17 +39,10 @@ function userRetrieveSuccess(userData) {
 }
 
 
-export function getUser() {
+export function getUser(userData) {
+  //userData = { domain, username };
   return dispatch => {
-    const _uid = localStorage.getItem(UidRef);
-    let User = new Firebase(FireRef + '/users/' + _uid);
-    User.on('value', (err, snapshot) => {
-      if(err) {
-        dispatch(userRetrieveError(err));
-        Promise.reject(err);
-      }
-      dispatch(userRetrieveSuccess(snapshot.val()))
-    });
+    axios.get('/usuarios/' + 'dominio=' + userData.domain + '/username='+ userData.username)
   }
 }
 
@@ -56,15 +50,7 @@ export function updateUser(userData) {
   //We're talking about a profile owner
 
   return dispatch => {
-    const _uid = localStorage.getItem(UidRef);
-    let User = new Firebase(FireRef + '/users/' + _uid);
-    User.update(userData, (error) => {
-      if(error) {
-        dispatch(updateUserError(error));
-        Promise.reject(error);
-      }
-      dispatch(updateUserSuccess(userData))
-    })
+
   };
 }
 
