@@ -15,6 +15,7 @@ module.exports = function (config) {
       'tests.webpack.js': ['webpack']
     },
     reporters: ['dots'],
+    colors: true,
     webpack: {
 
       plugins: [ new webpack.ProvidePlugin({

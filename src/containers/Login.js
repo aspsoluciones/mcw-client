@@ -58,11 +58,10 @@ class Login extends Component {
   }
 
   render(){
-    const {dispatch, auth, params} = this.props;
+    const { auth } = this.props;
+    const {dispatch } = this.props;
     const {store, router, route}  = this.context;
-    console.log(auth);
     var _materialForm = (
-
       <Formsy.Form ref="loginForm" className="ui large form"
            onValid={this.enableButton.bind(this)}
            onInvalid={this.disableButton.bind(this)}
@@ -96,10 +95,8 @@ class Login extends Component {
               />
             </div>
             {
-              auth.error && <ErrorsDisplayer message={ this.state.messages[auth.code] }/>
+              auth.payload && <ErrorsDisplayer message={ this.state.messages[auth.payload.message] }/>
             }
-
-
           </div>
           <div className="column">
             <button type="submit" className="ui button fluid blue">
@@ -130,40 +127,7 @@ class Login extends Component {
                 </div>
               </div>
           </div>
-          <div className="ui small modal">
-            <div className="header">
-              Olvidó su contraseña
-            </div>
-            <div className="content">
-              <div className="description">
-                <Formsy.Form ref="mailRecovery"
-                >
-                  <div className="row ui">
-                    <div className="one column ui section">
-                      <FormsyText
-                        name='recoverEmail'
-                        validations='isWords'
-                        hintText="Ingrese su e-mail"
-                        required
-                        value=""
-                      />
-                    </div>
-                  </div>
-                </Formsy.Form>
-              </div>
-            </div>
-            <div className="actions">
-              <div className="ui column centered grid">
-                <div className="ui row">
-                  <div className="middle aligned content">
-                    <div className="item">
-                      <a className="header">Enviar</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+
         </div>
 
     )
@@ -178,9 +142,8 @@ Login.contextTypes = {
 
 function mapStateProps(state) {
   const { auth } = state;
-
   return {
-    auth
+   auth
   }
 }
 
