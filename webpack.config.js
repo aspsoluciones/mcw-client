@@ -67,15 +67,23 @@ const getLoaders = function (env) {
       test: /(\.css|\.scss)$/,
       loader: ExtractTextPlugin.extract("css?sourceMap!sass?sourceMap")
     });
+
+    loaders.push({ test: /\.png$/, include: path.join(__dirname, 'src/assets'), loader: "file!./file.png" });
+
+    loaders.push({
+      test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/,
+      loader: 'url-loader?limit=100000&name=[name]-[hash].[ext]'
+    });
   } else {
     loaders.push({
       test: /(\.css|\.scss)$/,
       loaders: ['style', 'css?sourceMap', 'sass?sourceMap']
     });
+    loaders.push({ test: /\.png$/, include: path.join(__dirname, 'src/assets'), loader: "file!./file.png" });
 
     loaders.push({
       test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/,
-      loader: 'url-loader?limit=30000&name=[name]-[hash].[ext]'
+      loader: 'url-loader?limit=100000&name=[name]-[hash].[ext]'
     })
   }
 
