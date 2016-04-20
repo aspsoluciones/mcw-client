@@ -20,7 +20,7 @@ function auth(state = {
       return Object.assign({}, state, {
         isFetching: true,
         isAuthenticated: false,
-        user: action.creds
+        payload: action.credentials
       });
     case LOGIN_SUCCESS:
       return Object.assign({}, state, {
