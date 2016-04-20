@@ -2,98 +2,73 @@
  * Created by epotignano on 10/4/16.
  */
 
+import axios from 'axios';
+
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-import Formsy from 'formsy-react';
-import { FormsyText } from 'formsy-material-ui';
-import ErrorsDisplayer from '../components/ErrorsDisplayer';
-import Dialog from 'material-ui/lib/dialog';
-import RaisedButton from 'material-ui/lib/raised-button';
-import { loginUser, invalidateSession } from '../actions/AuthActions';
+
+function toObservable(store) {
+  return {
+    subscribe({ onNext }) {
+      let dispose = store.subscribe(() => onNext(store.getState()));
+      onNext(store.getState());
+      return { dispose };
+    }
+  }
+}
+
 
 
 class SessionTracker extends Component {
+
   constructor(props) {
     super(props);
-    this.state = {
-      canSubmit: false,
-      messages : {
-        'INVALID_PERMISSIONS' : 'Usuario, contraseña o dominio no válidos'
-      }
-    }
+
+    axios.interceptors.response.use((config) => {
+      // Do something before request is sent
+      console.log(config);
+      return config;
+    }, (error) => {
+      // Do something with request error
+      return Promise.reject(error);
+    });
   }
 
-  sendCredentials() {
-    const { dispatch } = this.props;
-    const { loginForm } = this.refs;
-    var _credentials = loginForm.getCurrentValues();
-    dispatch(loginUser(_credentials));
+  componentDidMount() {
+    $('.ui.modal').modal();
+
+    /*setTimeout(() => {
+      console.log('Hello');
+      this.showLoginModal();
+    },3000)*/
+  }
+
+  componentDidUpdate() {
   }
 
 
-  handleClose = () => {
-
-    this.setState({openModal: false});
-  };
+  showLoginModal(){
+    $('.ui.modal')
+      .modal({
+        blurred: true
+      })
+      .modal({
+        blurring:true
+      })
+      .modal('setting', 'closable', false)
+      .modal('setting', 'transition', 'horizontal flip')
+      .modal('show')
+  }
 
   render() {
-    const { auth } = this.props;
-
-    const actions = [
-      <RaisedButton
-        label="Ok"
-        primary={true}
-        keyboardFocused={true}
-        onTouchTap={this.sendCredentials.bind(this)}
-      />
-    ];
 
     return(
-      <Dialog
-        title="Debe volver a introducir sus datos para continuar"
-        actions={actions}
-        modal={true}
-        open={ !this.props.auth.isAuthenticated }
-        onRequestClose={this.sendCredentials}
-      >
-        <Formsy.Form ref="loginForm" className="ui large form"
-        >
-          <div className="row ui">
-            <div className="one column">
-              <div className="ui column">
-                <FormsyText
-                  name='username'
-                  hintText="Usuario"
-                  required
-                  value=""
-                />
-              </div>
-              <div className="ui column">
-                <FormsyText
-                  name='password'
-                  hintText="Contraseña"
-                  required
-                  type="password"
-                  value=""
-                />
-              </div>
-              <div className="ui column">
-                <FormsyText
-                  name='domain'
-                  hintText="Cuenta"
-                  required
-                  value=""
-                />
-              </div>
-              {
-                auth.errorMessage && <ErrorsDisplayer message={ this.state.messages[auth.errorMessage] }/>
-              }
-            </div>
-          </div>
-
-        </Formsy.Form>
-
-      </Dialog>
+      <div className="ui modal">
+        <div className="header">Introduce tu contraseña de nuevo por favor</div>
+        <div className="content">
+          Introduce tu contraseña de nuevo por favor
+        </div>
+      </div>
 
     )
   }
@@ -107,9 +82,6 @@ function mapStateProps(state) {
   }
 }
 
-SessionTracker.contextTypes = {
-  router: PropTypes.any
-};
 
 SessionTracker = connect(mapStateProps)(SessionTracker);
 export default SessionTracker;
