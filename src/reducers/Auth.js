@@ -2,13 +2,13 @@
  * Created by epotignano on 26/02/16.
  */
 
-import { 
-    LOGIN_ATTEMP,
-    LOGIN_FAILURE,
-    LOGIN_SUCCESS,
-    REGISTER_ATTEMP,
-    REGISTER_SUCCESS,
-    REGISTER_FAILURE
+import {
+  LOGIN_ATTEMP,
+  LOGIN_FAILURE,
+  LOGIN_SUCCESS,
+  REGISTER_ATTEMP,
+  REGISTER_SUCCESS,
+  REGISTER_FAILURE
 } from "../constants/ActionTypes";
 
 function auth(state = {
@@ -26,29 +26,29 @@ function auth(state = {
       return Object.assign({}, state, {
         isFetching: false,
         isAuthenticated: true,
-        errorMessage: ''
+        payload: action.payload
       });
     case LOGIN_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
         isAuthenticated: false,
-        errorMessage: action.code
+        payload: action.payload
       });
     case REGISTER_ATTEMP:
-        return Object.assign({}, state, {
-            isFetching: true,
-            provider: action.provider
-        });
+      return Object.assign({}, state, {
+        isFetching: true,
+        provider: action.provider
+      });
     case REGISTER_FAILURE:
-        return Object.assign({}, state, {
-            isFetching: false,
-            registerError: action.error
-        });
+      return Object.assign({}, state, {
+        isFetching: false,
+        registerError: action.error
+      });
     case REGISTER_SUCCESS:
-        return Object.assign({}, state, {
-            isFetching: false,
-            registerSuccess: true
-        });
+      return Object.assign({}, state, {
+        isFetching: false,
+        registerSuccess: true
+      });
     default:
       return state
   }

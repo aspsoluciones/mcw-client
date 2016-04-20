@@ -4,11 +4,12 @@ import React, {PropTypes} from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { default as NavBar } from "../components/NavBar";
-import Firebase from 'firebase';
-import { FireRef } from '../constants/Commons';
-import { getUser } from '../actions/UserActions'
-import ActionNotifications from '../components/ActionNotifications';
 import Loader from '../components/Loader';
+import SessionTracker from '../components/SessionTracker';
+
+import {
+  TokenRefreshCount
+} from '../actions/TokenActions';
 
 //TODO Remove, is only for test purposes
 let messages = {
@@ -20,11 +21,13 @@ let messages = {
 
 class App extends React.Component{
   componentDidMount() {
-    let _instance = new Firebase(FireRef);
-    var _status = _instance.getAuth();
-    if(_status) {
-      getUser();
-    }
+    /*
+      TODO When component mount and the first dashboard be done, we will be watching here what is going on with
+      The user authorization, tokens, and so
+    */
+
+    const { dispatch } = this.props;
+      dispatch(TokenRefreshCount())
   }
 
   render() {
@@ -32,10 +35,8 @@ class App extends React.Component{
       <div>
         <NavBar/>
         <main className="ui page grid main content-container">
-
-          <ActionNotifications entityToObserveUrl="users/1/actions" messages={messages}/>
           <div className="row">
-            <Loader/>
+            <SessionTracker/>
             {this.props.children}
           </div>
         </main>
@@ -47,5 +48,7 @@ class App extends React.Component{
 App.propTypes = {
   dispatch: PropTypes.func.isRequired
 };
-
-export default connect()(App);
+function mapStateProps(state) {
+  return state;
+}
+export default connect(mapStateProps)(App);

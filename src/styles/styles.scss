@@ -45,3 +45,69 @@ a:hover.authLink {
   color:white;
   border-bottom: white solid 1px;
 }
+
+/*  Segments  */
+.no-padded-segment  {
+ padding: 0 !important;
+}
+
+.no-padded {
+  padding: 0 !important;
+}
+
+.leaflet-container {
+  padding: 0 !important;
+  position:absolute;
+  height: 250px;
+  width: 100%;
+  margin: 0 !important;
+}
+
+.dot {
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+
+  /* needs to be very contrasty color. E.g. light gray on white won't work */
+  background: black;
+}
+
+.simple-table {
+  border: none !important;
+
+  thead {
+    th {
+      text-align: center !important;
+      padding: 1rem !important;
+      vertical-align: top !important;
+      border: none !important;
+      -webkit-transition: all 0.3s ease !important;
+      -o-transition: all 0.3s ease !important;
+      transition: all 0.3s ease !important;
+      th{
+        border: none !important;
+
+      }
+    }
+
+    tbody {
+      tr{
+        border: none !important;
+        text-align: center !important;
+        td{
+          border: none !important;
+          .centered-cell {
+            text-align: center !important;
+          }
+        }
+      }
+    }
+
+  }
+
+
+
+
+}
+
+

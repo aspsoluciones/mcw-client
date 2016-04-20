@@ -6,14 +6,17 @@ import { render } from 'react-dom';
 import { connect } from 'react-redux';
 import { loginUser } from "../actions/AuthActions"
 import Formsy from 'formsy-react';
-import { FormsyText} from 'formsy-material-ui';
-
+import { FormsyText, FormsyCheckbox } from 'formsy-material-ui';
+import ErrorsDisplayer from '../components/ErrorsDisplayer';
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      canSubmit: false
-    }
+      canSubmit: false,
+      messages : {
+      'INVALID_PERMISSIONS' : 'Usuario, contraseña o dominio no válidos'
+      }
+    };
   }
 
   componentDidMount() {
@@ -55,11 +58,10 @@ class Login extends Component {
   }
 
   render(){
-    const {dispatch, errorMessage, isAuthenticated, params} = this.props;
+    const { auth } = this.props;
+    const {dispatch } = this.props;
     const {store, router, route}  = this.context;
-
     var _materialForm = (
-
       <Formsy.Form ref="loginForm" className="ui large form"
            onValid={this.enableButton.bind(this)}
            onInvalid={this.disableButton.bind(this)}
@@ -67,33 +69,34 @@ class Login extends Component {
       >
         <div className="row ui">
           <div className="one column ui segment">
-            <div className="column">
+            <div className="ui column">
               <FormsyText
                 name='username'
-                validations='isWords'
                 hintText="Usuario"
                 required
                 value=""
               />
             </div>
-            <div className="column">
+            <div className="ui column">
               <FormsyText
                 name='password'
                 hintText="Contraseña"
                 required
+                type="password"
                 value=""
               />
             </div>
-            <div className="column">
+            <div className="ui column">
               <FormsyText
                 name='domain'
                 hintText="Cuenta"
-                validations='isWords'
                 required
                 value=""
               />
             </div>
-
+            {
+              auth.payload && <ErrorsDisplayer message={ this.state.messages[auth.payload.message] }/>
+            }
           </div>
           <div className="column">
             <button type="submit" className="ui button fluid blue">
@@ -124,41 +127,7 @@ class Login extends Component {
                 </div>
               </div>
           </div>
-          <div className="ui small modal">
-            <div className="header">
-              Recover password
-            </div>
-            <div className="content">
-              <div className="description">
-                <p>Introduce your email for recover your password</p>
-              </div>
-              <div className="description">
-                <Formsy.Form ref="mailRecovery"
-                >
-                  <div className="row ui">
-                    <div className="one column ui section">
-                      <FormsyText
-                        name='recoverEmail'
-                        validations='isWords'
-                        required
-                        value=""
-                      />
-                    </div>
-                  </div>
-                </Formsy.Form>
-              </div>
-            </div>
-            <div className="actions">
-              <div className="two fluid ui  buttons">
-                <button className="ui red deny button">
-                  Cancel
-                </button>
-                <button className="ui green positive button">
-                  Send
-                </button>
-              </div>
-            </div>
-          </div>
+
         </div>
 
     )
@@ -173,9 +142,8 @@ Login.contextTypes = {
 
 function mapStateProps(state) {
   const { auth } = state;
-
   return {
-    auth
+   auth
   }
 }
 

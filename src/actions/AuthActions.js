@@ -1,8 +1,8 @@
 /**
  * Created by epotignano on 25/02/16.
  */
-import { UidRef, ApiRef, TokenRef } from '../constants/Commons';
-const LoginEndpoint = ApiRef + '/oauth/token';
+import { UidRef, ApiRef, TokenRef, RefreshTokenRef, BaseRef } from '../constants/Commons';
+
 
 import {
     LOGIN_ATTEMP,
@@ -10,8 +10,21 @@ import {
     LOGIN_SUCCESS,
     REGISTER_ATTEMP,
    REGISTER_SUCCESS,
-   REGISTER_FAILURE
+   REGISTER_FAILURE,
+  INVALID_SESSION
 } from "../constants/ActionTypes";
+
+import axios from 'axios';
+
+let OauthInstance = axios.create({
+  'baseURL': BaseRef + '/oauth',
+  'headers': { 'Content-Type': 'application/x-www-form-urlencoded' }
+});
+
+
+import {
+  TokenRefreshCount
+} from '../actions/TokenActions';
 
 function LoginAttempt (credentials) {
   return {
@@ -22,23 +35,19 @@ function LoginAttempt (credentials) {
 }
 
 
-function loginSuccess() {
+function loginSuccess(response) {
   return {
     type: LOGIN_SUCCESS,
-    isFetching: false,
-    isAuthenticated: true,
-    error: false,
-    code: ''
+    error:false,
+    payload: response
   }
 }
 
-function loginError(error) {
+function loginError(code) {
   return {
     type: LOGIN_FAILURE,
-    isFetching: false,
-    isAuthenticated: false,
-    error: true,
-    code: error
+    payload: new Error(code),
+    error: true
   }
 }
 
@@ -66,29 +75,40 @@ function RegisterSuccess(user) {
   }
 }
 
+function invalidSession() {
+  return {
+    type: INVALID_SESSION,
+    isFetching: false,
+    isAuthorized: false
+  }
+}
+
+export function invalidateSession() {
+  return dispatch => {
+    dispatch(invalidateSession());
+  }
+}
+
+
 export function loginUser(credentials) {
   credentials.grant_type = 'password';
-
-  var _url = Object.keys(credentials).map(function(k) {
-    return encodeURIComponent(k) + '=' + encodeURIComponent(credentials[k])
-  }).join('&');
-
+  var _params = $.param({
+    grant_type: "password",
+    username: credentials.username,
+    password: credentials.password,
+    domain: credentials.domain
+  });
   return dispatch => {
     dispatch(LoginAttempt(credentials));
-    fetch(LoginEndpoint, {
-      'method': 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept':'application/json'
-      },
-      body: _url
-    }).then(data => {
-        if(data.status == 200) {
-          dispatch(loginSuccess());
-        } else {
-          dispatch(loginError(data.statusText));
-        }
-    })
+    OauthInstance.post('/token', _params).then((response) => {
+      localStorage.setItem(TokenRef, response.access_token);
+      localStorage.setItem(RefreshTokenRef, response.refresh_token);
+      dispatch(loginSuccess(response));
+    }).catch((data) => {
+      if(data.status == 401) {
+        dispatch(loginError('INVALID_PERMISSIONS'));
+      }
+    });
   }
 }
 

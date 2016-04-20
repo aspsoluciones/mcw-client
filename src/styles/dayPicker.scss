@@ -1,0 +1,22 @@
+@import 'colors';
+.Availability {
+  .DayPicker-Caption {
+    font-weight: 300;
+    font-size: 2rem;
+    height: auto;
+    text-align: center;
+    color: #a6b0b0;
+  }
+  .DayPicker-Weekday {
+    text-align: center;
+    vertical-align: middle;
+    color: $mcwLightBlue;
+  }
+  .DayPicker-Day {
+    width: 72px;
+    height: 64px;
+    vertical-align: top;
+    text-align: center;
+    border: none !important;
+  }
+}
