@@ -1,8 +1,8 @@
 /**
  * Created by epotignano on 25/02/16.
  */
-import { UidRef, ApiRef, TokenRef, RefreshTokenRef } from '../constants/Commons';
-const LoginEndpoint = ApiRef + '/oauth/token';
+import { UidRef, ApiRef, TokenRef, RefreshTokenRef, BaseRef } from '../constants/Commons';
+
 
 import {
     LOGIN_ATTEMP,
@@ -15,6 +15,12 @@ import {
 } from "../constants/ActionTypes";
 
 import axios from 'axios';
+
+let OauthInstance = axios.create({
+  'baseURL': BaseRef + '/oauth',
+  'headers': { 'Content-Type': 'application/x-www-form-urlencoded' }
+});
+
 
 import {
   TokenRefreshCount
@@ -88,23 +94,16 @@ export function invalidateSession() {
 
 export function loginUser(credentials) {
   credentials.grant_type = 'password';
-
+  var _params = $.param({
+    grant_type: "password",
+    username: credentials.username,
+    password: credentials.password,
+    domain: credentials.domain
+  });
   return dispatch => {
     dispatch(LoginAttempt(credentials));
 
-    axios({
-      method: 'post',
-      url: LoginEndpoint,
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      data: $.param({
-        grant_type: "password",
-        username: credentials.username,
-        password: credentials.password,
-        domain: credentials.domain
-      })
-    }).then((response) => {
+    OauthInstance.post('/token', _params).then((response) => {
       localStorage.setItem(TokenRef, response.access_token);
       localStorage.setItem(RefreshTokenRef, response.refresh_token);
       dispatch(loginSuccess());
