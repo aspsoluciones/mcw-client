@@ -7,18 +7,6 @@ import axios from 'axios';
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 
-function toObservable(store) {
-  return {
-    subscribe({ onNext }) {
-      let dispose = store.subscribe(() => onNext(store.getState()));
-      onNext(store.getState());
-      return { dispose };
-    }
-  }
-}
-
-
-
 class SessionTracker extends Component {
 
   constructor(props) {
@@ -44,6 +32,7 @@ class SessionTracker extends Component {
   }
 
   componentDidUpdate() {
+
   }
 
 

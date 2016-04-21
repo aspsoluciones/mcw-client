@@ -7,10 +7,6 @@ import { default as NavBar } from "../components/NavBar";
 import Loader from '../components/Loader';
 import SessionTracker from '../components/SessionTracker';
 
-import {
-  TokenRefreshCount
-} from '../actions/TokenActions';
-
 //TODO Remove, is only for test purposes
 let messages = {
   'IMAGE_UPLOAD': {
@@ -27,7 +23,7 @@ class App extends React.Component{
     */
 
     const { dispatch } = this.props;
-      dispatch(TokenRefreshCount())
+
   }
 
   render() {

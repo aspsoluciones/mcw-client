@@ -1,7 +1,7 @@
 /**
  * Created by epotignano on 25/02/16.
  */
-import { UidRef, ApiRef, TokenRef, RefreshTokenRef, BaseRef } from '../constants/Commons';
+import { TokenRef, RefreshTokenRef, BaseRef, ExpiresInRef } from '../constants/Commons';
 
 
 import {
@@ -20,11 +20,6 @@ let OauthInstance = axios.create({
   'baseURL': BaseRef + '/oauth',
   'headers': { 'Content-Type': 'application/x-www-form-urlencoded' }
 });
-
-
-import {
-  TokenRefreshCount
-} from '../actions/TokenActions';
 
 function LoginAttempt (credentials) {
   return {
@@ -89,6 +84,12 @@ export function invalidateSession() {
   }
 }
 
+function saveResponseInLocalStorage(response) {
+  localStorage.setItem(TokenRef, response.access_token);
+  localStorage.setItem(RefreshTokenRef, response.refresh_token);
+  localStorage.setItem(ExpiresInRef, response.expires_in);
+}
+
 
 export function loginUser(credentials) {
   credentials.grant_type = 'password';
@@ -101,9 +102,9 @@ export function loginUser(credentials) {
   return dispatch => {
     dispatch(LoginAttempt(credentials));
     OauthInstance.post('/token', _params).then((response) => {
-      localStorage.setItem(TokenRef, response.access_token);
-      localStorage.setItem(RefreshTokenRef, response.refresh_token);
+      saveResponseInLocalStorage(response.data);
       dispatch(loginSuccess(response));
+      dispatch(startCount(response.expires_in))
     }).catch((data) => {
       if(data.status == 401) {
         dispatch(loginError('INVALID_PERMISSIONS'));
@@ -112,26 +113,33 @@ export function loginUser(credentials) {
   }
 }
 
-/*export function registerUser(userData) {
-  return dispatch => {
-    var _modifiedEmail = userData.email.replace(/\./g, '');
-    var _optins = new Firebase(FireRef + 'optins/' + _modifiedEmail);
-
-    var _userData = {
-      email: userData.email,
-      password : Math.random().toString(36).slice(-8)
-    };
-
-    _optins.set(_userData, (error)=> {
-      if(error) {
-        dispatch(RegisterFailure(error));
-        return Promise.reject(_userData)
-      }
-      else {
-        // Dispatch the success action
-        dispatch(RegisterSuccess(_userData));
-        dispatch(loginUser({username: _userData.email, password: _userData.password}));
-      }
+function startCount(time) {
+  setTimeout(() =>{
+    var _params = $.param({
+      grant_type: "refresh_token",
+      refresh_token: localStorage.getItem(RefreshTokenRef)
     });
+
+    OauthInstance.post('/token',_params)
+      .then((response) => {
+        saveResponseInLocalStorage(response.data);
+        startCount(localStorage.getItem(ExpiresInRef) * .75);
+      }).catch((xhr, status, text) => {
+      if(xhr.status == 400) {
+        //Deal with it
+        // When the token is not valid, kick the user to the login or render a login modal
+        }
+      });
+  }, time);
+
+  return {
+    'status': 'TokenRefreshStarted'
   }
-}*/
+}
+
+
+export function TokenRefreshCount(tokenTimeOut) {
+  return dispatch => {
+    dispatch(startCount(tokenTimeOut))
+  }
+}

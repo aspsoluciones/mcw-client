@@ -11,7 +11,6 @@ class Auth extends React.Component {
         <SessionTracker/>
         { this.props.children }
       </div>
-
     )
   }
 }
