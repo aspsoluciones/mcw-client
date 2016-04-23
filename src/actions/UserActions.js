@@ -42,13 +42,17 @@ function userRetrieveSuccess(userData) {
 export function getUser(userData) {
   //userData = { domain, username };
   return dispatch => {
-    axios.get('/usuarios/' + 'dominio=' + userData.domain + '/username='+ userData.username)
+    axios({url: '/usuarios/' + 'dominio=' + userData.domain + '/username='+ userData.username, method: 'GET'})
+      .then((response) => {
+        console.log(response);
+      }).catch((error) => {
+        console.log(error)
+    })
   }
 }
 
 export function updateUser(userData) {
   //We're talking about a profile owner
-
   return dispatch => {
 
   };
