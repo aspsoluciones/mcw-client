@@ -9,6 +9,7 @@ import DayPicker from 'react-day-picker';
 import "react-day-picker/lib/style.css";
 import "../styles/dayPicker.scss";
 import { connect } from "react-redux";
+import _ from 'lodash';
 
 import WeekDisplayer from './WeekDisplayer';
 
@@ -47,6 +48,19 @@ var _timesDisplayer = function() {
 }
 
 
+function calculateAvailableAppointmentsForWeek(selectedDate, appointments) {
+
+    let min = selectedDate;
+    let max = moment(selectedDate).add(6, 'd');
+
+    console.log(min);
+  console.log(max);
+
+    _.filter(appointments, function ProcessAppointment(appointment) {
+      console.log(appointment);
+    })
+}
+
 
 class AvailabilityDisplayer extends Component {
 
@@ -55,7 +69,9 @@ class AvailabilityDisplayer extends Component {
     this.state = {
       selectedDay: moment(),
       displayDay : moment()
-    }
+    };
+
+    calculateAvailableAppointmentsForWeek(this.state.selectedDay, this.props.availability)
   }
 
   generateRandomDatesWithTimes() {
@@ -77,6 +93,7 @@ class AvailabilityDisplayer extends Component {
       return _days;
   }
 
+
   render() {
     const { availability } = this.props;
 
@@ -93,7 +110,8 @@ class AvailabilityDisplayer extends Component {
                   console.log(day);
                     this.setState({
                       selectedDay : moment(day)
-                    })
+                    });
+                    calculateAvailableAppointmentsForWeek(moment(day), this.props.availability)
                 }
               }
             />

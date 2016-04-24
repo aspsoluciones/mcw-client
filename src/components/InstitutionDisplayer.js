@@ -53,7 +53,7 @@ class InstitutionDisplayer extends Component {
           </Marker>
         </Map>
       </CardMedia>
-      <AvailabilityDisplayer availability={institution.availability}/>
+      <AvailabilityDisplayer availability={institution.appointments}/>
     </Card>
     )
   }

@@ -5,11 +5,16 @@ import React, { Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
 import { DoctorProfileCard } from '../components/DoctorProfileCard';
 import InstitutionDisplayer from '../components/InstitutionDisplayer';
+import moment from 'moment';
 
 class Appointment extends Component {
     constructor(props) {
       super(props);
       const position = [51.505, -0.09];
+
+
+      let mockDate = moment();
+
       let _mockData = {
         "doctor": {
           "especialidad": 'Odontologo',
@@ -41,15 +46,15 @@ class Appointment extends Component {
             },
             "appointments": [
               {
-                "fecha_hora_inicio": "0001-01-01T00:00:00",
+                "fecha_hora_inicio": mockDate.minute(30),
                 "duracion_en_minutos": 30
               },
               {
-                "fecha_hora_inicio": "0001-01-01T00:00:00",
+                "fecha_hora_inicio": mockDate.minute(60),
                 "duracion_en_minutos": 30
               },
               {
-                "fecha_hora_inicio": "0001-01-01T00:00:00",
+                "fecha_hora_inicio": mockDate.minute(90),
                 "duracion_en_minutos": 30
               }
             ]
@@ -115,8 +120,8 @@ class Appointment extends Component {
             {
               this.state.data.locations.map((location, i) =>{
                 return <div className="ui grid one column" key={i}>
-                  <div className="ui column">
-                    <InstitutionDisplayer institution={location}/>
+                  <div className="ui column" key={i}>
+                    <InstitutionDisplayer institution={location} key={i}/>
                   </div>
                 </div>
               })
