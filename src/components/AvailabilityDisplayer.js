@@ -18,36 +18,6 @@ const currentYear = (new Date()).getFullYear();
 const fromMonth = new Date(currentYear, 0, 1, 0, 0);
 const toMonth = new Date(currentYear + 10, 11, 31, 23, 59);
 
-function YearMonthForm({ date, localeUtils, onChange }) {
-
-  const months = localeUtils.getMonths();
-  let _month = 4;
-  let _year = 2016;
-  const years = [];
-  for (let i = fromMonth.getFullYear(); i <= toMonth.getFullYear(); i++) {
-    years.push(i);
-  }
-
-  console.log(years);
-
-  const yearChange = function(event, index, value) {
-    //TODO repensar
-    _year = years[index];
-
-    onChange(new Date(_year, _month));
-  }
-
-  const monthChange = function(event, index, value) {
-    _month = value;
-    onChange(new Date(_year, _month));
-  }
-}
-
-var _timesDisplayer = function() {
-
-}
-
-
 function calculateAvailableAppointmentsForWeek(selectedDate, appointments) {
 
     let min = selectedDate;

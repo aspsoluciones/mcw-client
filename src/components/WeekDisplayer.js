@@ -3,9 +3,17 @@
  */
 
 import React, { Component, PropTypes } from 'react';
-import moment from 'moment';
 import { connect } from 'react-redux';
 import { TakeAppointment } from '../actions/Appointments';
+import _ from 'lodash';
+import moment from 'moment';
+
+
+function isSameDay(date1, date2) {
+  console.log('Calling');
+  return moment(date1).isSame(date2, 'day');
+}
+
 class WeekDisplayer extends Component {
 
    calculateWeekToDisplay(_day) {
@@ -17,6 +25,30 @@ class WeekDisplayer extends Component {
     }
     return _days;
   }
+
+
+  assignAppointmentsToWeekDay(week, appointments) {
+
+    var _weekWithTimes = [{}, {}, {}, {}, {}, {}, {}];
+
+      week.map(function ProcessWeekDay(weekDay, i){
+        _.filter(appointments, (appointment) => {
+          if(isSameDay(weekDay, appointment)) {
+
+
+           if(!_weekWithTimes[i].times) {
+             _weekWithTimes[i].times = [];
+           }
+
+            _weekWithTimes[i].date = weekDay;
+            _weekWithTimes[i].times.push(appointment);
+          }
+        })
+      });
+
+    return _weekWithTimes;
+  }
+
 
   selectAppointment(day, time){
 
@@ -60,9 +92,7 @@ class WeekDisplayer extends Component {
             <tbody>
               <tr>
                 {
-                  this.props.appointmentsForWeek.map((day, i) => {
-
-                  })
+                  console.log(this.assignAppointmentsToWeekDay(_weekdays, this.props.appointmentsForWeek))
                 }
               </tr>
             </tbody>
