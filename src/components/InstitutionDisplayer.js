@@ -16,6 +16,12 @@ import ContentAdd from 'material-ui/lib/svg-icons/content/add';
 const style = {
   marginRight: 20
 };
+
+
+function institutionAddress(location) {
+  return location.direccion +  ", " +  location.corregimiento + ", " + location.ciudad + ", " + location.provincia + ", " + location.pais
+}
+
 class InstitutionDisplayer extends Component {
   constructor(props){
     super(props);
@@ -33,7 +39,7 @@ class InstitutionDisplayer extends Component {
     return(
     <Card>
       <CardMedia
-        overlay={<CardTitle title={institution.name} subtitle={institution.address} />}
+        overlay={<CardTitle title={institution.location.nombre} subtitle={institutionAddress(institution.location)} />}
       >
         <Map center={position} zoom={13} animate={true}>
           <TileLayer
@@ -42,7 +48,7 @@ class InstitutionDisplayer extends Component {
           />
           <Marker position={position}>
             <Popup>
-              <span>{institution.name}</span>
+              <span>{institution.location.nombre}</span>
             </Popup>
           </Marker>
         </Map>

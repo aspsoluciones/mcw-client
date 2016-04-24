@@ -106,22 +106,24 @@ class Appointment extends Component {
   }
 
     render() {
-      console.log(this.props.params);
-
-      return(<div className="ui grid">
-        <div className="">
-          { DoctorProfileCard(this.state.data.doctor)}
+      return(
+        <div className="ui one column grid">
+          <div className="ui column">
+            { DoctorProfileCard(this.state.data.doctor)}
+          </div>
+          <div className="ui column">
+            {
+              this.state.data.locations.map((location, i) =>{
+                return <div className="ui grid one column" key={i}>
+                  <div className="ui column">
+                    <InstitutionDisplayer institution={location}/>
+                  </div>
+                </div>
+              })
+            }
+          </div>
         </div>
-        /*{
-          this.state.data.locations.map((location, i) =>{
-            return <div className="ui row" key={i}>
-              <div className="ui column">
-                <InstitutionDisplayer institution={location}/>
-              </div>
-            </div>
-          })
-        }*/
-      </div>)
+      )
     }
 }
 
