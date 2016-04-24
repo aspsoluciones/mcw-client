@@ -11,37 +11,41 @@ function categories(focuses) {
   </div>
 }
 
+function renderAge(age){
+  return (
+    <div>
+      { age }
+    </div>
+  )
+}
+
 
 export function DoctorProfileCard(doctorData) {
+  console.log(doctorData);
   return  <div className="ui vertical stripe segment">
             <div className="ui middle aligned grid container">
               <div className="ui row segment no-padded-segment">
                 <div className="six wide column no-padded">
                   <div class="ui column">
-                    <image className="ui image medium" src="../assets/DrChapatin.jpg"/>
+                    <image className="ui image medium" src={doctorData.foto_url}/>
                   </div>
                 </div>
                 <div className="eight wide right floated column">
                   <div className="ui column">
-                    <h3 className="ui header">Dr. {doctorData.lastName} {doctorData.firstName}</h3>
+                    <h3 className="ui header">{ doctorData.titulo } {doctorData.apellido} {doctorData.nombre}</h3>
                   </div>
                   <div className="ui column">
-                    <h5 className="ui header">{doctorData.categories[0]}, {doctorData.categories[1]}</h5>
+                    { doctorData.especialidad }, { doctorData.sub_especialidad}
                   </div>
-                  <div className="ui column">
-                    <span> Enfoques:</span>
-                    <a className="ui blue label">
-                      { doctorData.focuses[0]}
-                    </a>
-                    <a className="ui red label">
-                      { doctorData.focuses[1]}
-                    </a>
-                    <a className="ui purple label">
-                      { doctorData.focuses[2]}
-                    </a>
-                  </div>
-                  <div className="ui column">
 
+                  <div className="ui column">
+                    Edades:
+                    { doctorData.edades_de_atencion.map((age) => {
+                      return renderAge(age);
+                    })}
+                  </div>
+                  <div className="ui column">
+                    { doctorData.comentario_publico}
                   </div>
                 </div>
             </div>
