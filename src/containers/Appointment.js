@@ -73,16 +73,16 @@ class Appointment extends Component {
             },
             "appointments": [
               {
-                "fecha_hora_inicio": "0001-01-01T00:00:00",
+                "fecha_hora_inicio": mockDate.minute(30),
                 "duracion_en_minutos": 30
               },
               {
-                "fecha_hora_inicio": "0001-01-01T00:00:00",
-                "duracion_en_minutos": 45
+                "fecha_hora_inicio": mockDate.minute(60),
+                "duracion_en_minutos": 30
               },
               {
-                "fecha_hora_inicio": "0001-01-01T00:00:00",
-                "duracion_en_minutos": 45
+                "fecha_hora_inicio": mockDate.minute(90),
+                "duracion_en_minutos": 30
               }
             ]
           }

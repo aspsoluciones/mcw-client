@@ -27,7 +27,7 @@ class WeekDisplayer extends Component {
         day, time
       }
     });
-    
+
     dispatch(TakeAppointment({day, time}))
   }
 
@@ -45,18 +45,14 @@ class WeekDisplayer extends Component {
             <tr>
               {
                 _weekdays.map((day, i) => {
-                  return <th key={i}>{ day.format('dddd') }</th>
+                  return<th> {day.format("dddd")}</th>
               })
               }
             </tr>
             <tr>
               {
-                this.props.appointmentsForWeek.map((day, i) => {
-                  return <th key={i} className="centered-cell">
-                    <div>
-                      { day.date.format('DD MMM') }
-                    </div>
-                  </th>
+                _weekdays.map((day, i) => {
+                  return <th>{day.format("DD MMM")}</th>
                 })
               }
             </tr>
@@ -65,13 +61,7 @@ class WeekDisplayer extends Component {
               <tr>
                 {
                   this.props.appointmentsForWeek.map((day, i) => {
-                    return <td key={i}>
-                      { day.times.map((time, j) => {
-                        return <div class="ui column">
-                          <button className="ui button compact" onClick={ () => this.selectAppointment(day, time)} key={j}> {time}</button>
-                      </div>
-                      })}
-                    </td>
+
                   })
                 }
               </tr>

@@ -55,10 +55,11 @@ function calculateAvailableAppointmentsForWeek(selectedDate, appointments) {
 
     console.log(min);
   console.log(max);
-
-    _.filter(appointments, function ProcessAppointment(appointment) {
-      console.log(appointment);
-    })
+    return _.filter(appointments, function ProcessAppointment(appointment) {
+      if( (min.utc() <= appointment.fecha_hora_inicio.utc())  &&  (appointment.fecha_hora_inicio.utc() <= max.utc())) {
+        return appointment
+      }
+    });
 }
 
 
@@ -68,31 +69,10 @@ class AvailabilityDisplayer extends Component {
     super(props);
     this.state = {
       selectedDay: moment(),
-      displayDay : moment()
+      displayDay : moment(),
+      appointmentsForWeek : calculateAvailableAppointmentsForWeek(moment(), this.props.availability)
     };
-
-    calculateAvailableAppointmentsForWeek(this.state.selectedDay, this.props.availability)
   }
-
-  generateRandomDatesWithTimes() {
-      const times = ['9.30','10.30','11.30'];
-      let { selectedDay }  = this.state;
-
-      var _days = [];
-      _days.push({date: selectedDay, times });
-      for (var i = 0; i < 6; i++) {
-        var _d = moment(selectedDay).add(1+i, 'd');
-        if(i%2) {
-          _days.push({date: _d, times})
-        } else{
-          _days.push({date: _d, times: []})
-        }
-      }
-
-      console.log(_days);
-      return _days;
-  }
-
 
   render() {
     const { availability } = this.props;
@@ -109,16 +89,16 @@ class AvailabilityDisplayer extends Component {
               onDayClick={ (e, day) => {
                   console.log(day);
                     this.setState({
-                      selectedDay : moment(day)
+                      selectedDay : moment(day),
+                      appointmentsForWeek : calculateAvailableAppointmentsForWeek(moment(day), availability)
                     });
-                    calculateAvailableAppointmentsForWeek(moment(day), this.props.availability)
                 }
               }
             />
           </div>
           <div className="ui nine wide column grid stackable">
             <div className="ui column">
-              <WeekDisplayer appointmentsForWeek={this.generateRandomDatesWithTimes()} selectedDay={this.state.selectedDay} />
+              <WeekDisplayer appointmentsForWeek={this.state.appointmentsForWeek} selectedDay={this.state.selectedDay} />
             </div>
           </div>
         </div>
