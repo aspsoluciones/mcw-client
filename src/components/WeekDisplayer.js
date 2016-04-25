@@ -97,15 +97,22 @@ class WeekDisplayer extends Component {
                   _weekWithTimes.map((day, i) => {
                     if(day.times) {
                       return <td>
-                        {
-                          day.times.map((time) => {
-                            console.log(time);
-                            return <div>{ time.fecha_hora_inicio.format("HH:mm")}</div>
-                          })
-                        }
+                        <div className="ui one column grid">
+                          {
+                            day.times.map((time) => {
+                              console.log(time);
+                              return <div className="ui column">
+                                <button onClick={ () => this.selectAppointment(time) } className="ui button">{ time.fecha_hora_inicio.format("HH:mm")}</button>
+                              </div>
+                            })
+                          }
+                        </div>
+
                       </td>
                     } else {
-                      return <td></td>
+                      return <td>
+
+                      </td>
                     }
                   })
                 }
