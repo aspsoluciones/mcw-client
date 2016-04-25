@@ -65,6 +65,8 @@ class WeekDisplayer extends Component {
 
   render() {
     var _weekdays = this.calculateWeekToDisplay(this.props.selectedDay);
+    var _weekWithTimes = this.assignAppointmentsToWeekDay(_weekdays, this.props.appointmentsForWeek);
+    console.log(_weekWithTimes);
 
     return (
       <div className="ui one column grid">
@@ -92,7 +94,20 @@ class WeekDisplayer extends Component {
             <tbody>
               <tr>
                 {
-                  console.log(this.assignAppointmentsToWeekDay(_weekdays, this.props.appointmentsForWeek))
+                  _weekWithTimes.map((day, i) => {
+                    if(day.times) {
+                      return <td>
+                        {
+                          day.times.map((time) => {
+                            console.log(time);
+                            return <div>{ time.fecha_hora_inicio.format("HH:mm")}</div>
+                          })
+                        }
+                      </td>
+                    } else {
+                      return <td></td>
+                    }
+                  })
                 }
               </tr>
             </tbody>
