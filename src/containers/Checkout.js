@@ -14,10 +14,12 @@ class Checkout extends Component {
     super(props);
   }
 
-  submitAppointment(appointment) {
-    const { dispatch, keep } = this.props;
-    appointment.info = keep.appointment;
-    dispatch(ConfirmAppointment(appointment));
+  submitAppointment(data) {
+    var _data = data;
+    const { dispatch, appointment } = this.props;
+    const { keep } = appointment;
+    data.info = keep.appointment;
+    dispatch(ConfirmAppointment({"appointment": _data }));
   }
 
   enableButton() {
@@ -79,7 +81,7 @@ class Checkout extends Component {
                 </div>
                 <div className="ui column">
                   <FormsyText
-                    name='name'
+                    name='nombre_persona'
                     hintText="Nombre"
                     required
                     value=""
