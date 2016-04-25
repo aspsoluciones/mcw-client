@@ -12,33 +12,11 @@ import { ConfirmAppointment } from '../actions/Appointments';
 class Checkout extends Component {
   constructor(props) {
     super(props);
-    console.log(this);
-
-    this.state = {
-      doctor: {
-        username: 'chapatin',
-        lastName: 'Chespirito',
-        firstName: 'Chapatin',
-        categories: ['Odontología', 'Odontopediatría'],
-        focuses: ['Bebes', 'Niños', 'Niñas', 'Adultos', 'Adultos mayores'], //Será un enum, con opciones predeterminadas del lado de la base de datos
-        selfReview: 'Insunúa que soy viejo',
-        institutions: [{
-          id: '123',
-          name: 'Hospital de Mexico',
-          contactInfo: {
-            telephone: '+506 2280.8441',
-            email: 'mexico@hospital.com'
-          },
-          location: {}, //Coordenadas
-          address: '9077 Ave. de la Amistad, Colonia Federal Tijuana, B. C., México',
-          availability: [{date: new Date(), times: ['09:00', '09:30', '15:00']}]
-        }]
-      }
-    }
   }
 
-  sendCredentials(appointment) {
-    const { dispatch } = this.props;
+  submitAppointment(appointment) {
+    const { dispatch, keep } = this.props;
+    appointment.info = keep.appointment;
     dispatch(ConfirmAppointment(appointment));
   }
 
@@ -62,40 +40,24 @@ class Checkout extends Component {
     return (
       <div className="ui one column grid">
         <div className="ui column">
-          <div className="ui steps">
-            <div className="active step">
-              <i className="truck icon"/>
-              <div className="content">
-                <div className="title">Shipping</div>
-                <div className="description">Choose your shipping options</div>
-              </div>
-            </div>
-            <div className="step">
-              <i className="payment icon"/>
-              <div className="content">
-                <div className="title">Billing</div>
-                <div className="description">Enter billing information</div>
-              </div>
-            </div>
-            <div className="disabled step">
-              <i className="info icon"/>
-              <div className="content">
-                <div className="title">Confirm Order</div>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <div className="ui column">
-          { DoctorProfileCard(this.state.doctor)}
         </div>
 
         <div className="ui one column grid segment">
           <div className="ui column">
-            { keep.day.date.format("DD MMMM YYYY")}
+            <div>
+              Fecha: {keep.appointment.fecha_hora_inicio.format("dddd DD MMMM YYYY")}
+            </div>
+            <div>
+              Horario: {keep.appointment.fecha_hora_inicio.format("HH:mm")}
+            </div>
+            <div>
+              Duración: { keep.appointment.duracion_en_minutos} minutos
+            </div>
+
           </div>
           <div className="ui column">
-            { keep.time }
+
           </div>
         </div>
 
@@ -103,7 +65,7 @@ class Checkout extends Component {
           <Formsy.Form ref="appointmentForm" className="ui large form"
                        onValid={this.enableButton.bind(this)}
                        onInvalid={this.disableButton.bind(this)}
-                       onValidSubmit={this.sendCredentials.bind(this)}
+                       onValidSubmit={this.submitAppointment.bind(this)}
           >
             <div className="row ui">
               <div className="ui one column grid">

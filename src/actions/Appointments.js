@@ -100,7 +100,7 @@ var _mockDTO = {
 function AppointmentSelected(appointment) {
   return {
     type: APPOINTMENT_SELECTED,
-    appointment
+    payload: appointment
   }
 }
 

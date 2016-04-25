@@ -50,17 +50,15 @@ class WeekDisplayer extends Component {
   }
 
 
-  selectAppointment(day, time){
+  selectAppointment(appointment){
 
     const {dispatch} = this.props;
 
     this.setState({
-      selectedAppointment : {
-        day, time
-      }
+      selectedAppointment : appointment
     });
 
-    dispatch(TakeAppointment({day, time}))
+    dispatch(TakeAppointment({appointment}))
   }
 
   render() {
@@ -100,7 +98,6 @@ class WeekDisplayer extends Component {
                         <div className="ui one column grid">
                           {
                             day.times.map((time) => {
-                              console.log(time);
                               return <div className="ui column">
                                 <button onClick={ () => this.selectAppointment(time) } className="ui button">{ time.fecha_hora_inicio.format("HH:mm")}</button>
                               </div>
@@ -138,4 +135,3 @@ WeekDisplayer.contextTypes = {
 };
 
 export default connect()(WeekDisplayer);
-
