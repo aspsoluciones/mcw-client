@@ -132,20 +132,12 @@ export function TakeAppointment(appointment){
 
 export function ConfirmAppointment(appointment) {
   return dispatch => {
-
-    axios.post('/solicitudes', _mockDTO).then((data) => {
-      console.log(data)
-    }).catch((error) => {
-      console.log(error)
-    });
-
-
-
     dispatch(AppointmentRequest());
-    // Error
-    dispatch(AppointmentFailure());
-    //Success
-    dispatch(AppointmentSuccess());
+    axios.post('/solicitudes', _mockDTO).then((data) => {
+      dispatch(AppointmentSuccess(data));
+    }).catch((error) => {
+      dispatch(AppointmentFailure(error));
+    });
   }
 }
 
