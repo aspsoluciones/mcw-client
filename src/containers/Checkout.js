@@ -6,10 +6,12 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { DoctorProfileCard } from '../components/DoctorProfileCard';
 import Formsy from 'formsy-react';
-import { FormsyText } from 'formsy-material-ui';
+import MenuItem from 'material-ui/lib/menu/menu-item';
+import { FormsyText, FormsySelect } from 'formsy-material-ui';
 import FormsyAutocomplete from '../utils/formsy/autocomplete';
 import { ConfirmAppointment } from '../actions/Appointments';
 import { getPatientByEmail } from '../actions/Patients';
+import PatientsModal from '../components/PatientsModal';
 
 class Checkout extends Component {
   constructor(props) {
@@ -22,14 +24,14 @@ class Checkout extends Component {
 
     store.subscribe(() => {
       const { patients } = store.getState();
-      if(patients.patient) {
+      if(patients.patient && patients.patient.length) {
         if(patients.patient.length == 1) {
           var _inputs = Object.keys(appointmentForm.inputs);
           _inputs.map((inputKey) => {
-            if(patients.patient[0][inputKey]){
+            if (patients.patient[0][inputKey]) {
               appointmentForm.inputs[inputKey].setValue(patients.patient[0][inputKey]);
             }
-          })
+          });
         }
       }
     });
@@ -60,8 +62,12 @@ class Checkout extends Component {
     dispatch(getPatientByEmail(userEmail));
   }
 
+  renderModal(clientsList){
+    return <PatientsModal patientsList={clientsList}/>
+  }
+
   render() {
-    const { appointment } = this.props;
+    const { appointment, patients } = this.props;
     const { keep } = appointment;
     return (
       <div className="ui one column grid">
@@ -96,6 +102,7 @@ class Checkout extends Component {
             <div className="row ui">
               <div className="ui one column grid">
                 <div className="ui column">
+
                   <FormsyText
                     name='email_particular'
                     hintText="Email"
@@ -144,7 +151,12 @@ class Checkout extends Component {
               </div>
             </div>
           </Formsy.Form>
+            {
+              patients.patient && patients.patient.length && patients.patient.length != 1 && this.renderModal(patients.patient)
+            }
         </div>
+
+
       </div>
     )
   }
