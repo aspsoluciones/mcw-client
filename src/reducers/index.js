@@ -4,12 +4,14 @@ import user from './User';
 import imageUpload from './ImageUpload';
 import token from './Token';
 import appointment from './Appointment';
+import patients from './Patients';
 const rootReducer = combineReducers({
   auth,
   user,
   imageUpload,
   token,
-  appointment
+  appointment,
+  patients
 });
 
 export default rootReducer;

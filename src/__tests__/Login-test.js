@@ -43,9 +43,6 @@ describe('Login screen functionality', function(){
     });
 
     var Form = TestUtils.scryRenderedDOMComponentsWithTag(_loginContainer, 'form')[0];
-    console.log(Form);
     TestUtils.Simulate.submit(Form);
-
-
   })
 });

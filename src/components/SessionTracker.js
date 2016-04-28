@@ -10,7 +10,6 @@ class SessionTracker extends Component {
 
   constructor(props) {
     super(props);
-
     axios.interceptors.response.use((config) => {
       // Do something before request is sent
       console.log(config);
@@ -23,7 +22,6 @@ class SessionTracker extends Component {
 
   componentDidMount() {
     $('.ui.modal').modal();
-
     /*setTimeout(() => {
       console.log('Hello');
       this.showLoginModal();
@@ -33,7 +31,6 @@ class SessionTracker extends Component {
   componentDidUpdate() {
 
   }
-
 
   showLoginModal(){
     $('.ui.modal')

@@ -7,15 +7,36 @@ import { connect } from 'react-redux';
 import { DoctorProfileCard } from '../components/DoctorProfileCard';
 import Formsy from 'formsy-react';
 import { FormsyText } from 'formsy-material-ui';
+import FormsyAutocomplete from '../utils/formsy/autocomplete';
 import { ConfirmAppointment } from '../actions/Appointments';
+import { getPatientByEmail } from '../actions/Patients';
 
 class Checkout extends Component {
   constructor(props) {
     super(props);
   }
 
+  componentDidMount() {
+    const { store } = this.context;
+    const { appointmentForm } = this.refs;
+
+    store.subscribe(() => {
+      const { patients } = store.getState();
+      if(patients.patient) {
+        if(patients.patient.length == 1) {
+          var _inputs = Object.keys(appointmentForm.inputs);
+          _inputs.map((inputKey) => {
+            if(patients.patient[0][inputKey]){
+              appointmentForm.inputs[inputKey].setValue(patients.patient[0][inputKey]);
+            }
+          })
+        }
+      }
+    });
+  }
+
   submitAppointment(data) {
-    var _data = data;
+    let _data = data;
     const { dispatch, appointment } = this.props;
     const { keep } = appointment;
     data.info = keep.appointment;
@@ -34,11 +55,14 @@ class Checkout extends Component {
     });
   }
 
+  checkUser(userEmail) {
+    const { dispatch } = this.props;
+    dispatch(getPatientByEmail(userEmail));
+  }
 
   render() {
     const { appointment } = this.props;
     const { keep } = appointment;
-
     return (
       <div className="ui one column grid">
         <div className="ui column">
@@ -73,24 +97,24 @@ class Checkout extends Component {
               <div className="ui one column grid">
                 <div className="ui column">
                   <FormsyText
-                    name='email'
+                    name='email_particular'
                     hintText="Email"
                     required
                     value=""
+                    onChange={(e, value) => this.checkUser(value)}
                   />
                 </div>
                 <div className="ui column">
                   <FormsyText
-                    name='nombre_persona'
+                    name='nombre'
                     hintText="Nombre"
                     required
                     value=""
                   />
                 </div>
-
                 <div className="ui column">
                   <FormsyText
-                    name='lastName'
+                    name='apellido'
                     hintText="Apellido"
                     required
                     value=""
@@ -98,7 +122,7 @@ class Checkout extends Component {
                 </div>
                 <div className="ui column">
                   <FormsyText
-                    name='phone'
+                    name='numero_tel_celular'
                     hintText="Número de teléfono"
                     required
                     value=""
@@ -119,7 +143,6 @@ class Checkout extends Component {
                 </button>
               </div>
             </div>
-
           </Formsy.Form>
         </div>
       </div>
@@ -129,9 +152,10 @@ class Checkout extends Component {
 }
 
 function mapStateToProps(state) {
-  const { appointment } = state;
+  const { appointment, patients } = state;
   return {
-    appointment
+    appointment,
+    patients
   }
 }
 
