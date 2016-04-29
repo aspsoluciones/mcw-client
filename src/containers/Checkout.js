@@ -37,6 +37,10 @@ class Checkout extends Component {
     });
   }
 
+  test(){
+    console.log('Test')
+  }
+
   submitAppointment(data) {
     let _data = data;
     const { dispatch, appointment } = this.props;
@@ -152,7 +156,7 @@ class Checkout extends Component {
             </div>
           </Formsy.Form>
             {
-              patients.patient && patients.patient.length && patients.patient.length != 1 && this.renderModal(patients.patient)
+              patients.patient && patients.patient.length && patients.patient.length != 1 && <PatientsModal patientsList={patients.patient}/>
             }
         </div>
 

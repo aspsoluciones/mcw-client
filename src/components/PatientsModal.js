@@ -4,6 +4,10 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import PatientCard from '../components/PatientCard';
+import Dialog from 'material-ui/lib/dialog';
+import FlatButton from 'material-ui/lib/flat-button';
+import RaisedButton from 'material-ui/lib/raised-button';
 
 class PatientsModal extends Component {
   componentDidMount() {
@@ -33,26 +37,35 @@ class PatientsModal extends Component {
   constructor(props){
     super(props);
     this.state = {
-      selectedPatient: {}
+      selectedPatient: {},
+      open: true
     }
   }
 
+  handleOpen = () => {
+    this.setState({open: true});
+  };
+
+  patientSelected = (patient) => {
+    console.log(patient);
+    this.setState({open: false});
+  };
+
   render(){
     return(
-      <div className="ui modal">
-        <div className="content">
-          {
-            this.props.patientsList.map( (element, i) => {
-              return <button key={i} onClick={this.selectPatient.bind(this)}
-                             className="ui button primary" key={i}>{element.nombre}</button>
-            })
-          }
-        </div>
-        <div className="actions">
-          <div className="ui deny button">Cancel</div>
-          <div className="ui positive button">OK</div>
-        </div>
+    <Dialog
+      title="Seleccione un paciente para solicitar la cita"
+      modal={false}
+      open={this.state.open}
+    >
+      <div className="ui link cards">
+        {
+          this.props.patientsList.map( (element, i) => {
+            return <PatientCard key={i} patient={element} handleClick={() => { this.patientSelected(element) } }/>
+          })
+        }
       </div>
+    </Dialog>
     )
   }
 }
