@@ -6,12 +6,13 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { DoctorProfileCard } from '../components/DoctorProfileCard';
 import Formsy from 'formsy-react';
-import MenuItem from 'material-ui/lib/menu/menu-item';
+import MenuItem from 'material-ui/lib/menus/menu-item';
 import { FormsyText, FormsySelect } from 'formsy-material-ui';
 import FormsyAutocomplete from '../utils/formsy/autocomplete';
 import { ConfirmAppointment } from '../actions/Appointments';
-import { getPatientByEmail } from '../actions/PatientsActions';
+import { getPatientByEmail, selectPatient } from '../actions/PatientsActions';
 import PatientsModal from '../components/PatientsModal';
+import PatientCard from '../components/PatientCard';
 
 class Checkout extends Component {
   constructor(props) {
@@ -26,17 +27,12 @@ class Checkout extends Component {
       const { patients } = store.getState();
       if(patients.patient && patients.patient.length) {
         if(patients.patient.length == 1) {
-          var _inputs = Object.keys(appointmentForm.inputs);
-          _inputs.map((inputKey) => {
-            if (patients.patient[0][inputKey]) {
-              appointmentForm.inputs[inputKey].setValue(patients.patient[0][inputKey]);
-            }
-          });
+          selectPatient(patients.patient);
         }
       }
     });
   }
-  
+
   submitAppointment(data) {
     let _data = data;
     const { dispatch, appointment } = this.props;
@@ -67,8 +63,91 @@ class Checkout extends Component {
   }
 
   render() {
+
     const { appointment, patients } = this.props;
     const { keep } = appointment;
+
+
+
+    let _modal = (patients.patient && patients.patient.length &&  patients.patient.length != 1 ) ? <PatientsModal patientsList={patients.patient}/> : null;
+    let _form = (<div className="ui one column grid segment">
+      <Formsy.Form ref="appointmentForm" className="ui large form"
+                   onValid={this.enableButton.bind(this)}
+                   onInvalid={this.disableButton.bind(this)}
+                   onValidSubmit={this.submitAppointment.bind(this)}
+      >
+        <div className="row ui">
+          <div className="ui one column grid">
+            <div className="ui column">
+
+              <FormsyText
+                name='email_particular'
+                hintText="Email"
+                required
+                value=""
+                onChange={(e, value) => this.checkUser(value)}
+              />
+            </div>
+            <div className="ui column">
+              <FormsyText
+                name='nombre'
+                hintText="Nombre"
+                required
+                value=""
+              />
+            </div>
+
+            <div className="ui column">
+              <FormsyText
+                name='apellido'
+                hintText="Apellido"
+                required
+                value=""
+              />
+            </div>
+            <div className="ui column">
+              <FormsySelect
+                name="genre"
+                required
+                floatingLabelText="Sexo"
+                menuItems={this.selectFieldItems}
+              >
+                <MenuItem value={'M'} primaryText="Masculino" />
+                <MenuItem value={'F'} primaryText="Femenino" />
+              </FormsySelect>
+            </div>
+            <div className="ui column">
+              <FormsyText
+                name='numero_tel_celular'
+                hintText="Número de teléfono"
+                required
+                value=""
+              />
+            </div>
+            <div className="ui column">
+              <FormsyText
+                name='note'
+                hintText="Notas"
+                value=""
+              />
+            </div>
+
+          </div>
+          <div className="column">
+            <button type="submit" className="ui button fluid blue">
+              Enviar
+            </button>
+          </div>
+        </div>
+      </Formsy.Form>
+    </div>);
+
+    let _selectedPatientCard = (
+      <PatientCard patient={patients.selectedPatient}/>
+    );
+
+    var _render = (patients.selectedPatient) ? _selectedPatientCard : _form;
+
     return (
       <div className="ui one column grid">
         <div className="ui column">
@@ -89,74 +168,10 @@ class Checkout extends Component {
 
           </div>
           <div className="ui column">
-
+            { _render }
+            { _modal }
           </div>
         </div>
-
-        <div className="ui one column grid segment">
-          <Formsy.Form ref="appointmentForm" className="ui large form"
-                       onValid={this.enableButton.bind(this)}
-                       onInvalid={this.disableButton.bind(this)}
-                       onValidSubmit={this.submitAppointment.bind(this)}
-          >
-            <div className="row ui">
-              <div className="ui one column grid">
-                <div className="ui column">
-
-                  <FormsyText
-                    name='email_particular'
-                    hintText="Email"
-                    required
-                    value=""
-                    onChange={(e, value) => this.checkUser(value)}
-                  />
-                </div>
-                <div className="ui column">
-                  <FormsyText
-                    name='nombre'
-                    hintText="Nombre"
-                    required
-                    value=""
-                  />
-                </div>
-                <div className="ui column">
-                  <FormsyText
-                    name='apellido'
-                    hintText="Apellido"
-                    required
-                    value=""
-                  />
-                </div>
-                <div className="ui column">
-                  <FormsyText
-                    name='numero_tel_celular'
-                    hintText="Número de teléfono"
-                    required
-                    value=""
-                  />
-                </div>
-                <div className="ui column">
-                  <FormsyText
-                    name='note'
-                    hintText="Notas"
-                    value=""
-                  />
-                </div>
-
-              </div>
-              <div className="column">
-                <button type="submit" className="ui button fluid blue">
-                  Enviar
-                </button>
-              </div>
-            </div>
-          </Formsy.Form>
-            {
-              patients.patient && patients.patient.length && patients.patient.length != 1 && <PatientsModal patientsList={patients.patient}/>
-            }
-        </div>
-
-
       </div>
     )
   }

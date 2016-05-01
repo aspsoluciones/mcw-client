@@ -1,13 +1,20 @@
 /**
  * Created by epotignano on 27/4/16.
  */
-import { PATIENT_READ_REQUEST, PATIENT_READ_SUCCESS, PATIENT_READ_FAILURE } from '../constants/ActionTypes';
+import { PATIENT_READ_REQUEST, PATIENT_READ_SUCCESS, PATIENT_READ_FAILURE, PATIENT_SELECTED } from '../constants/ActionTypes';
 const PatientInitialState = {
 
 };
 
 export default function patient (state = PatientInitialState, action) {
   switch(action.type) {
+    case PATIENT_SELECTED:
+          return {
+            ...state,
+            selectedPatient: action.payload
+          }
+
+
     case PATIENT_READ_REQUEST:
       return {
         ...state,

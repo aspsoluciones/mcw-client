@@ -26,7 +26,7 @@ function patientReadFailure(error) {
 function patientSelected(payload){
   return {
     type: PATIENT_SELECTED,
-    selectedPatient : payload
+    payload
   }
 }
 
