@@ -7,38 +7,14 @@ import { connect } from 'react-redux';
 import PatientCard from '../components/PatientCard';
 import Dialog from 'material-ui/lib/dialog';
 import { selectPatient } from '../actions/PatientsActions';
-import FlatButton from 'material-ui/lib/flat-button';
-import RaisedButton from 'material-ui/lib/raised-button';
 
 class PatientsModal extends Component {
-  componentDidMount() {
-    this.showModal();
-  }
-
-  showModal() {
-    var _modal = $('.ui.modal')
-      .modal({
-        onDeny    : function(){
-          window.alert('Wait not yet!');
-          return false;
-        },
-        onApprove : function() {
-          window.alert('Approved!');
-        }
-      }).modal('show');
-  }
-
   constructor(props){
     super(props);
     this.state = {
-      selectedPatient: {},
-      open: true
+      selectedPatient: {}
     }
   }
-
-  handleOpen = () => {
-    this.setState({open: true});
-  };
 
   patientSelected = (patient) => {
     const { dispatch } = this.props;
@@ -46,19 +22,23 @@ class PatientsModal extends Component {
     this.setState({open: false});
   };
 
+  renderPatientsCards(patientsList) {
+    if(patientsList && patientsList.length){
+      return patientsList.map( (element, i) => {
+        return <PatientCard key={i} patient={element} handleClick={() => { this.patientSelected(element) } }/>
+      })
+    }
+  }
+
   render(){
     return(
     <Dialog
       title="Seleccione un paciente para solicitar la cita"
       modal={false}
-      open={this.state.open}
+      open={(this.props.patients.hasOwnProperty("openModal")) ? this.props.patients.openModal : true}
     >
       <div className="ui link cards">
-        {
-          this.props.patientsList.map( (element, i) => {
-            return <PatientCard key={i} patient={element} handleClick={() => { this.patientSelected(element) } }/>
-          })
-        }
+        {this.renderPatientsCards(this.props.patientsList)}
       </div>
     </Dialog>
     )

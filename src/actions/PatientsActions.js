@@ -4,7 +4,7 @@
 
 import axios from 'axios';
 import { ApiRef } from '../constants/Commons';
-import { PATIENT_READ_REQUEST, PATIENT_READ_SUCCESS, PATIENT_READ_FAILURE, PATIENT_SELECTED } from '../constants/ActionTypes';
+import { PATIENT_READ_REQUEST, PATIENT_READ_SUCCESS, PATIENT_HIDE_DATA_FORM, PATIENT_READ_FAILURE, PATIENT_DISPLAY_DATA_FORM, PATIENT_SELECTED, PATIENT_SELECT } from '../constants/ActionTypes';
 
 const PatientInstance = axios.create({
   'baseURL': ApiRef + '/pacientes'
@@ -30,12 +30,33 @@ function patientSelected(payload){
   }
 }
 
+function patientSelectModalOpen(){
+  return {
+    type: PATIENT_SELECT,
+    payload: {
+      openModal: true
+    }
+  }
+}
+
 function patientReadSuccess(payload){
   return {
     type: PATIENT_READ_SUCCESS,
     payload
   }
 
+}
+
+function displayPatientForm() {
+  return {
+    type: PATIENT_DISPLAY_DATA_FORM
+  }
+}
+
+function hidePatientForm(){
+  return {
+    type: PATIENT_HIDE_DATA_FORM
+  }
 }
 
 export function getPatientByEmail(patientEmail, companyID) {
@@ -59,5 +80,23 @@ export function getPatientByEmail(patientEmail, companyID) {
 export function selectPatient(patient){
   return dispatch => {
     dispatch(patientSelected(patient));
+  }
+}
+
+export function patientSelectModal(){
+  return dispatch => {
+    dispatch(patientSelectModalOpen());
+  }
+}
+
+export function fillPatientData(){
+  return dispatch => {
+    dispatch(displayPatientForm());
+  }
+}
+
+export function hidePatientFillData(){
+  return dispatch => {
+    dispatch(hidePatientForm());
   }
 }

@@ -10,19 +10,20 @@ import MenuItem from 'material-ui/lib/menus/menu-item';
 import { FormsyText, FormsySelect } from 'formsy-material-ui';
 import FormsyAutocomplete from '../utils/formsy/autocomplete';
 import { ConfirmAppointment } from '../actions/Appointments';
-import { getPatientByEmail, selectPatient } from '../actions/PatientsActions';
+import { getPatientByEmail, selectPatient, patientSelectModal, fillPatientData, hidePatientFillData} from '../actions/PatientsActions';
 import PatientsModal from '../components/PatientsModal';
 import PatientCard from '../components/PatientCard';
 
 class Checkout extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      openPatientModal : false
+    }
   }
 
   componentDidMount() {
     const { store } = this.context;
-    const { appointmentForm } = this.refs;
-
     store.subscribe(() => {
       const { patients } = store.getState();
       if(patients.patient && patients.patient.length) {
@@ -31,6 +32,11 @@ class Checkout extends Component {
         }
       }
     });
+  }
+
+  openModal() {
+    const { dispatch } = this.props;
+    dispatch(patientSelectModal())
   }
 
   submitAppointment(data) {
@@ -58,16 +64,21 @@ class Checkout extends Component {
     dispatch(getPatientByEmail(userEmail));
   }
 
-  renderModal(clientsList){
-    return <PatientsModal patientsList={clientsList}  />
+  reOpenPatientsModal(){
+    const { dispatch } = this.props;
+    dispatch(patientSelectModal())
+  }
+
+  reRenderForm() {
+    const { dispatch } = this.props;
+    dispatch(fillPatientData())
   }
 
   render() {
 
     const { appointment, patients } = this.props;
     const { keep } = appointment;
-
-    let _modal = (patients.patient && patients.patient.length &&  patients.patient.length != 1 ) ? (<PatientsModal patientsList={patients.patient}/>) : null;
+    let _modal = (this.state.openPatientModal) ? <PatientsModal patientsList={patients.patient}/> : null;
     let _form = (
       <Formsy.Form ref="appointmentForm" className="ui large form"
                    onValid={this.enableButton.bind(this)}
@@ -141,8 +152,18 @@ class Checkout extends Component {
 
     let _selectedPatientCard = (
       <div>
-        <div className="ui column">
-          <PatientCard patient={patients.selectedPatient}/>
+        <div className="ui two columns grid">
+          <div className="column">
+            <PatientCard patient={patients.selectedPatient}/>
+          </div>
+          <div className="column">
+            <button onClick={this.reOpenPatientsModal.bind(this)}>
+              Cambiar paciente
+            </button>
+            <button onClick={this.reRenderForm.bind(this)}>
+              Cambiar email
+            </button>
+          </div>
         </div>
 
         <div className="ui column">
@@ -173,7 +194,7 @@ class Checkout extends Component {
 
         <div className="ui one column grid segment">
           { _render }
-          { _modal }
+          <PatientsModal patientsList={patients.patient}/>
         </div>
       </div>
     )
