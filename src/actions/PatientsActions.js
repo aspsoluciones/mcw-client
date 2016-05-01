@@ -4,7 +4,7 @@
 
 import axios from 'axios';
 import { ApiRef } from '../constants/Commons';
-import { PATIENT_READ_REQUEST, PATIENT_READ_SUCCESS, PATIENT_READ_FAILURE } from '../constants/ActionTypes';
+import { PATIENT_READ_REQUEST, PATIENT_READ_SUCCESS, PATIENT_READ_FAILURE, PATIENT_SELECTED } from '../constants/ActionTypes';
 
 const PatientInstance = axios.create({
   'baseURL': ApiRef + '/pacientes'
@@ -20,6 +20,13 @@ function patientReadFailure(error) {
   return {
     type: PATIENT_READ_FAILURE,
     error
+  }
+}
+
+function patientSelected(payload){
+  return {
+    type: PATIENT_SELECTED,
+    selectedPatient : payload
   }
 }
 
@@ -47,4 +54,10 @@ export function getPatientByEmail(patientEmail, companyID) {
         })
     }
   };
+}
+
+export function selectPatient(patient){
+  return dispatch => {
+    dispatch(patientSelected(patient));
+  }
 }

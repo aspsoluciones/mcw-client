@@ -10,7 +10,7 @@ import MenuItem from 'material-ui/lib/menu/menu-item';
 import { FormsyText, FormsySelect } from 'formsy-material-ui';
 import FormsyAutocomplete from '../utils/formsy/autocomplete';
 import { ConfirmAppointment } from '../actions/Appointments';
-import { getPatientByEmail } from '../actions/Patients';
+import { getPatientByEmail } from '../actions/PatientsActions';
 import PatientsModal from '../components/PatientsModal';
 
 class Checkout extends Component {
@@ -36,11 +36,7 @@ class Checkout extends Component {
       }
     });
   }
-
-  test(){
-    console.log('Test')
-  }
-
+  
   submitAppointment(data) {
     let _data = data;
     const { dispatch, appointment } = this.props;
@@ -67,7 +63,7 @@ class Checkout extends Component {
   }
 
   renderModal(clientsList){
-    return <PatientsModal patientsList={clientsList}/>
+    return <PatientsModal patientsList={clientsList}  />
   }
 
   render() {

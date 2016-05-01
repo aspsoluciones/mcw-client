@@ -6,19 +6,13 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import PatientCard from '../components/PatientCard';
 import Dialog from 'material-ui/lib/dialog';
+import { selectPatient } from '../actions/PatientsActions';
 import FlatButton from 'material-ui/lib/flat-button';
 import RaisedButton from 'material-ui/lib/raised-button';
 
 class PatientsModal extends Component {
   componentDidMount() {
     this.showModal();
-  }
-
-  selectPatient(patient) {
-    console.log(patient);
-    this.setState({
-      selectedPatient: patient
-    })
   }
 
   showModal() {
@@ -47,7 +41,8 @@ class PatientsModal extends Component {
   };
 
   patientSelected = (patient) => {
-    console.log(patient);
+    const { dispatch } = this.props;
+    dispatch(selectPatient(patient));
     this.setState({open: false});
   };
 
