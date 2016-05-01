@@ -68,7 +68,7 @@ class Checkout extends Component {
     const { keep } = appointment;
 
     let _modal = (patients.patient && patients.patient.length &&  patients.patient.length != 1 ) ? <PatientsModal patientsList={patients.patient}/> : null;
-    let _form = (<div className="ui one column grid segment">
+    let _form = (
       <Formsy.Form ref="appointmentForm" className="ui large form"
                    onValid={this.enableButton.bind(this)}
                    onInvalid={this.disableButton.bind(this)}
@@ -137,8 +137,7 @@ class Checkout extends Component {
             </button>
           </div>
         </div>
-      </Formsy.Form>
-    </div>);
+      </Formsy.Form>);
 
     let _selectedPatientCard = (
       <PatientCard patient={patients.selectedPatient}/>
@@ -148,7 +147,6 @@ class Checkout extends Component {
 
     return (
       <div className="ui one column grid">
-
         <div className="ui one column grid segment">
           <div className="ui column">
             <div>
@@ -163,8 +161,10 @@ class Checkout extends Component {
           </div>
         </div>
 
-        { _render }
-        { _modal }
+        <div className="ui one column grid segment">
+          { _render }
+          { _modal }
+        </div>
       </div>
     )
   }
