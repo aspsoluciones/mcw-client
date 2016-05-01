@@ -68,7 +68,9 @@ class AvailabilityDisplayer extends Component {
           </div>
           <div className="ui nine wide column grid stackable">
             <div className="ui column">
-              <WeekDisplayer appointmentsForWeek={this.state.appointmentsForWeek} selectedDay={this.state.selectedDay} />
+              <WeekDisplayer appointmentsForWeek={this.state.appointmentsForWeek}
+                             selectedDay={this.state.selectedDay}
+                             location={this.props.location}/>
             </div>
           </div>
         </div>
@@ -78,7 +80,8 @@ class AvailabilityDisplayer extends Component {
 }
 
 AvailabilityDisplayer.propTypes = {
-  availability : PropTypes.any
+  availability : PropTypes.any,
+  location: PropTypes.any
 };
 
 function mapStateToProps(state) {

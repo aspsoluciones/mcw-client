@@ -40,10 +40,13 @@ class Checkout extends Component {
   }
 
   submitAppointment(data) {
-    let _data = data;
+
     const { dispatch, appointment } = this.props;
     const { keep } = appointment;
     data.info = keep.appointment;
+    data.location = keep.appointment.location;
+    let _data = data;
+    //TODO Transformations for adapt the object to the DTO for Appointments
     dispatch(ConfirmAppointment({"appointment": _data }));
   }
 
