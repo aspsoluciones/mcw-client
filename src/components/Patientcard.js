@@ -14,7 +14,7 @@ class PatientCard extends Component {
     const { patient  } = this.props;
 
     return(
-      <div onClick={ this.clickHandler.bind(this) } className="card">
+      <div onClick={ this.clickHandler.bind(this) } className="ui card">
         <div className="ui one column centered grid content">
           <i className="user massive icon"/>
         </div>

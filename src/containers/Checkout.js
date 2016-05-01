@@ -67,7 +67,7 @@ class Checkout extends Component {
     const { appointment, patients } = this.props;
     const { keep } = appointment;
 
-    let _modal = (patients.patient && patients.patient.length &&  patients.patient.length != 1 ) ? <PatientsModal patientsList={patients.patient}/> : null;
+    let _modal = (patients.patient && patients.patient.length &&  patients.patient.length != 1 ) ? (<PatientsModal patientsList={patients.patient}/>) : null;
     let _form = (
       <Formsy.Form ref="appointmentForm" className="ui large form"
                    onValid={this.enableButton.bind(this)}
@@ -133,14 +133,24 @@ class Checkout extends Component {
           </div>
           <div className="column">
             <button type="submit" className="ui button fluid blue">
-              Enviar
+              Solicitar cita
             </button>
           </div>
         </div>
       </Formsy.Form>);
 
     let _selectedPatientCard = (
-      <PatientCard patient={patients.selectedPatient}/>
+      <div>
+        <div className="ui column">
+          <PatientCard patient={patients.selectedPatient}/>
+        </div>
+
+        <div className="ui column">
+          <button onClick={() => this.submitAppointment(patients.selectedPatient)} className="ui button fluid blue">
+            Solicitar cita
+          </button>
+        </div>
+      </div>
     );
 
     var _render = (patients.selectedPatient) ? _selectedPatientCard : _form;
