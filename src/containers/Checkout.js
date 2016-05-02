@@ -12,6 +12,18 @@ import { getPatientByEmail, selectPatient, patientSelectModal, fillPatientData} 
 import PatientsModal from '../components/PatientsModal';
 import PatientCard from '../components/PatientCard';
 
+Formsy.addValidationRule('isRequiredIfNotValue', function (values, value, otherField) {
+  // The this context points to an object containing the values
+  // {childAge: "", parentAge: "5"}
+  // otherField argument is from the validations rule ("childAge")
+  console.log(values[otherField]);
+
+  if(value || values[otherField]) {
+    return true;
+  }
+
+});
+
 class Checkout extends Component {
   constructor(props) {
     super(props);
@@ -118,9 +130,16 @@ class Checkout extends Component {
             <div className="ui column">
               <FormsyText
                 name='numero_tel_celular'
-                hintText="Número de teléfono"
-                required
+                hintText="Número de teléfono celular"
+                validations="isRequiredIfNotValue:numero_tel_particular"
                 value=""
+              />
+            </div>
+            <div className="ui column">
+              <FormsyText
+                name='numero_tel_particular'
+                hintText="Número de teléfono particular"
+                validations="isRequiredIfNotValue:numero_tel_celular"
               />
             </div>
             <div className="ui column">
