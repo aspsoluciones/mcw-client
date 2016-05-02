@@ -18,7 +18,7 @@ var DTO = {
     sexo: '',
     fecha_de_nacimiento: ''
   }, // Solicitante del turno
-  "id_persona_emisora": 621034,
+  "id_persona_emisora": -1,
   "nombre_persona_emisora": '', // Nombre y apellido del paciente
   "id_responsable_servicio": 631034, // id del medico,
   "nombre_responsable_servicio": '', // Nombre del medico, con titulo incluido, ejemplo Dra. Ana Maria Garcia
@@ -27,7 +27,7 @@ var DTO = {
   "comentario_emisor": "",
   "id_estatus" : 1, // valor fijo,
   "id_estado": 22, // valor fijo
-  "id_persona_registro": 631034, //En el caso de citas desde la web, debe ser el id  del paciente
+  "id_persona_registro": -1, //En el caso de citas desde la web, debe ser el id  del paciente
   "nombre_persona_registro": "", // NOmbre y apellido del paciente.
   "etapas_solicitud":[
         {
@@ -153,5 +153,5 @@ function fillSolicitante(solicitante){
 
   _solicitante.localidades.push(_localidad);
 
-  return solicitante;
+  return _solicitante;
 }

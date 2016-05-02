@@ -19,7 +19,6 @@ const style = {
   marginRight: 20
 };
 
-
 function institutionAddress(location) {
   return location.direccion +  ", " +  location.corregimiento + ", " + location.ciudad + ", " + location.provincia + ", " + location.pais
 }
