@@ -140,6 +140,10 @@ class Checkout extends Component {
         </div>
       </Formsy.Form>);
 
+    let _changePatientButton = (patients.patient && patients.patient.length > 1) ? (<button onClick={this.reOpenPatientsModal.bind(this)}>
+        Cambiar paciente
+    </button>) : null;
+
     let _selectedPatientCard = (
       <div>
         <div className="ui two columns grid">
@@ -147,9 +151,7 @@ class Checkout extends Component {
             <PatientCard patient={patients.selectedPatient}/>
           </div>
           <div className="column">
-            <button onClick={this.reOpenPatientsModal.bind(this)}>
-              Cambiar paciente
-            </button>
+            {_changePatientButton}
             <button onClick={this.reRenderForm.bind(this)}>
               Cambiar email
             </button>
