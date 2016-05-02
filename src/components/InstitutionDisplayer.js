@@ -35,7 +35,7 @@ class InstitutionDisplayer extends Component {
   render() {
 
 
-    const { institution } = this.props;
+    const { institution, doctor } = this.props;
     const position = [51.505, -0.09];
 
     return(
@@ -56,7 +56,7 @@ class InstitutionDisplayer extends Component {
         </Map>
       </CardMedia>
       <CardText>
-        <AvailabilityDisplayer availability={institution.appointments} location={institution.location}/>
+        <AvailabilityDisplayer availability={institution.appointments} location={institution.location} doctor={doctor}/>
       </CardText>
     </Card>
     )
@@ -64,7 +64,8 @@ class InstitutionDisplayer extends Component {
 }
 
 InstitutionDisplayer.propTypes = {
-  institution : PropTypes.any
+  institution : PropTypes.any,
+  doctor: PropTypes.any
 };
 
 InstitutionDisplayer.contextTypes = {

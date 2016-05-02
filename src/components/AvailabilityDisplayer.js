@@ -13,18 +13,14 @@ import _ from 'lodash';
 
 import WeekDisplayer from './WeekDisplayer';
 
-
 const currentYear = (new Date()).getFullYear();
 const fromMonth = new Date(currentYear, 0, 1, 0, 0);
 const toMonth = new Date(currentYear + 10, 11, 31, 23, 59);
 
 function calculateAvailableAppointmentsForWeek(selectedDate, appointments) {
-
     let min = selectedDate;
     let max = moment(selectedDate).add(6, 'd');
 
-    console.log(min);
-  console.log(max);
     return _.filter(appointments, function ProcessAppointment(appointment) {
       if( (min.utc() <= appointment.fecha_hora_inicio.utc())  &&  (appointment.fecha_hora_inicio.utc() <= max.utc())) {
         return appointment
@@ -57,7 +53,6 @@ class AvailabilityDisplayer extends Component {
               fromMonth={ fromMonth }
               toMonth={ toMonth }
               onDayClick={ (e, day) => {
-                  console.log(day);
                     this.setState({
                       selectedDay : moment(day),
                       appointmentsForWeek : calculateAvailableAppointmentsForWeek(moment(day), availability)
@@ -70,7 +65,7 @@ class AvailabilityDisplayer extends Component {
             <div className="ui column">
               <WeekDisplayer appointmentsForWeek={this.state.appointmentsForWeek}
                              selectedDay={this.state.selectedDay}
-                             location={this.props.location}/>
+                             location={this.props.location} doctor={this.props.doctor}/>
             </div>
           </div>
         </div>
@@ -81,7 +76,8 @@ class AvailabilityDisplayer extends Component {
 
 AvailabilityDisplayer.propTypes = {
   availability : PropTypes.any,
-  location: PropTypes.any
+  location: PropTypes.any,
+  doctor: PropTypes.any
 };
 
 function mapStateToProps(state) {

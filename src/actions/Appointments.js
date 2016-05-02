@@ -7,6 +7,7 @@ import {
 } from '../constants/ActionTypes';
 
 import axios from 'axios';
+import moment from 'moment';
 
 var DTO = {
   "id_tipo_solicitud":45,
@@ -69,6 +70,7 @@ function AppointmentSuccess() {
 }
 
 
+
 export function TakeAppointment(appointment){
   return dispatch => {
    dispatch(AppointmentSelected(appointment));
@@ -78,10 +80,78 @@ export function TakeAppointment(appointment){
 export function ConfirmAppointment(appointment) {
   return dispatch => {
     dispatch(AppointmentRequest());
-    axios.post('/solicitudes', DTO).then((data) => {
+    axios.post('/solicitudes', transformAppointment(appointment)).then((data) => {
       dispatch(AppointmentSuccess(data));
     }).catch((error) => {
       dispatch(AppointmentFailure(error));
     });
   }
+}
+
+
+//Utils methods
+
+function transformAppointment(appointment){
+  let _dataToSend = DTO;
+  const { solicitante, turno } = appointment;
+  const { doctor, location } = turno;
+
+  _dataToSend.nombre_persona_emisora = solicitante.nombre + ' ' +  solicitante.apellido;
+  _dataToSend.nombre_persona_registro = solicitante.nombre + ' ' + solicitante.apellido;
+  _dataToSend.solicitante = fillSolicitante(solicitante);
+
+  _dataToSend.fecha_inicio = turno.fecha_hora_inicio.toDate();
+  _dataToSend.fecha_fin = turno.fecha_hora_inicio.add('m', turno.duracion_en_minutos).toDate();
+
+  _dataToSend.id_persona_emisora = solicitante.id;
+  _dataToSend.nombre_responsable_servicio = doctor.titulo + ' ' + doctor.apellido + ' ' + doctor.nombre;
+
+  _dataToSend.etapas_solicitud[0].id_localidad = location.id;
+  _dataToSend.etapas_solicitud[0].nombre_localidad = location.nombre;
+
+  _dataToSend.etapas_solicitud[0].fecha_inicio = _dataToSend.fecha_inicio;
+  _dataToSend.etapas_solicitud[0].fecha_fin = _dataToSend.fecha_fin;
+
+  return _dataToSend;
+
+}
+
+function fillSolicitante(solicitante){
+  var _solicitante = {};
+  var keys = Object.keys(DTO.solicitante)
+  keys.map((key, i) => {
+    _solicitante[key] = solicitante[key]
+  })
+
+  _solicitante.localidades = [];
+
+  var _localidad = {
+    "id_tipo" : 12,
+    contactos: []
+  }
+
+  if(solicitante.numero_tel_celular) {
+    _localidad.contactos.push({
+      "id_tipo" : 14,
+      "valor" : solicitante.numero_tel_celular
+    })
+  }
+
+  if(solicitante.numero_tel_particular) {
+    _localidad.contactos.push({
+      "id_tipo": 12,
+      "valor": solicitante.numero_tel_particular
+    })
+  }
+
+  if(solicitante.email_particular) {
+    _localidad.contactos.push({
+      "id_tipo": 15,
+      "valor": solicitante.email_particular
+    })
+  }
+
+  _solicitante.localidades.push(_localidad);
+
+  return solicitante;
 }

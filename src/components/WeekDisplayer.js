@@ -52,13 +52,14 @@ class WeekDisplayer extends Component {
 
   selectAppointment(appointment, location){
 
-    const {dispatch} = this.props;
+    const {dispatch, doctor} = this.props;
 
     this.setState({
       selectedAppointment : appointment
     });
 
     appointment.location = location;
+    appointment.doctor = doctor
 
     dispatch(TakeAppointment({appointment}))
   }
@@ -137,7 +138,8 @@ WeekDisplayer.contextTypes = {
 };
 
 WeekDisplayer.propTypes = {
-  location: PropTypes.any
+  location: PropTypes.any,
+  doctor: PropTypes.any
 };
 
 export default connect()(WeekDisplayer);

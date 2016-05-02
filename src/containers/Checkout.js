@@ -20,21 +20,21 @@ class Checkout extends Component {
     }
   }
 
-
   openModal() {
     const { dispatch } = this.props;
     dispatch(patientSelectModal())
   }
 
   submitAppointment(data) {
-
     const { dispatch, appointment } = this.props;
     const { keep } = appointment;
-    data.info = keep.appointment;
-    data.location = keep.appointment.location;
-    let _data = data;
     //TODO Transformations for adapt the object to the DTO for Appointments
-    dispatch(ConfirmAppointment({"appointment": _data }));
+    dispatch(ConfirmAppointment({
+      solicitante : data,
+      turno: keep.appointment,
+      location: keep.appointment.location,
+      doctor: keep.appointment.doctor
+    }));
   }
 
   enableButton() {
@@ -106,7 +106,7 @@ class Checkout extends Component {
             </div>
             <div className="ui column">
               <FormsySelect
-                name="genre"
+                name="sexo"
                 required
                 floatingLabelText="Sexo"
                 menuItems={this.selectFieldItems}

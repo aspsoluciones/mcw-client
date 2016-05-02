@@ -120,7 +120,7 @@ class Appointment extends Component {
               this.state.data.locations.map((location, i) =>{
                 return <div className="ui grid one column" key={i}>
                   <div className="ui column" key={i}>
-                    <InstitutionDisplayer institution={location} key={i}/>
+                    <InstitutionDisplayer institution={location} doctor={this.state.data.doctor}key={i}/>
                   </div>
                 </div>
               })
