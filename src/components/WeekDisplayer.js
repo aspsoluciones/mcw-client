@@ -3,9 +3,17 @@
  */
 
 import React, { Component, PropTypes } from 'react';
-import moment from 'moment';
 import { connect } from 'react-redux';
 import { TakeAppointment } from '../actions/Appointments';
+import _ from 'lodash';
+import moment from 'moment';
+
+
+function isSameDay(date1, date2) {
+  console.log('Calling');
+  return moment(date1).isSame(date2, 'day');
+}
+
 class WeekDisplayer extends Component {
 
    calculateWeekToDisplay(_day) {
@@ -18,21 +26,48 @@ class WeekDisplayer extends Component {
     return _days;
   }
 
-  selectAppointment(day, time){
 
-    const {dispatch} = this.props;
+  assignAppointmentsToWeekDay(week, appointments) {
+
+    var _weekWithTimes = [{}, {}, {}, {}, {}, {}, {}];
+
+      week.map(function ProcessWeekDay(weekDay, i){
+        _.filter(appointments, (appointment) => {
+          if(isSameDay(weekDay, appointment)) {
+
+
+           if(!_weekWithTimes[i].times) {
+             _weekWithTimes[i].times = [];
+           }
+
+            _weekWithTimes[i].date = weekDay;
+            _weekWithTimes[i].times.push(appointment);
+          }
+        })
+      });
+
+    return _weekWithTimes;
+  }
+
+
+  selectAppointment(appointment, location){
+
+    const {dispatch, doctor} = this.props;
 
     this.setState({
-      selectedAppointment : {
-        day, time
-      }
+      selectedAppointment : appointment
     });
-    
-    dispatch(TakeAppointment({day, time}))
+
+    appointment.location = location;
+    appointment.doctor = doctor
+
+    dispatch(TakeAppointment({appointment}))
   }
 
   render() {
     var _weekdays = this.calculateWeekToDisplay(this.props.selectedDay);
+    var _weekWithTimes = this.assignAppointmentsToWeekDay(_weekdays, this.props.appointmentsForWeek);
+    console.log(_weekWithTimes);
 
     return (
       <div className="ui one column grid">
@@ -45,18 +80,14 @@ class WeekDisplayer extends Component {
             <tr>
               {
                 _weekdays.map((day, i) => {
-                  return <th key={i}>{ day.format('dddd') }</th>
+                  return<th> {day.format("dddd")}</th>
               })
               }
             </tr>
             <tr>
               {
-                this.props.appointmentsForWeek.map((day, i) => {
-                  return <th key={i} className="centered-cell">
-                    <div>
-                      { day.date.format('DD MMM') }
-                    </div>
-                  </th>
+                _weekdays.map((day, i) => {
+                  return <th>{day.format("DD MMM")}</th>
                 })
               }
             </tr>
@@ -64,14 +95,25 @@ class WeekDisplayer extends Component {
             <tbody>
               <tr>
                 {
-                  this.props.appointmentsForWeek.map((day, i) => {
-                    return <td key={i}>
-                      { day.times.map((time, j) => {
-                        return <div class="ui column">
-                          <button className="ui button compact" onClick={ () => this.selectAppointment(day, time)} key={j}> {time}</button>
-                      </div>
-                      })}
-                    </td>
+                  _weekWithTimes.map((day, i) => {
+                    if(day.times) {
+                      return <td>
+                        <div className="ui one column grid">
+                          {
+                            day.times.map((time) => {
+                              return <div className="ui column">
+                                <button onClick={ () => this.selectAppointment(time, this.props.location) } className="ui button">{ time.fecha_hora_inicio.format("HH:mm")}</button>
+                              </div>
+                            })
+                          }
+                        </div>
+
+                      </td>
+                    } else {
+                      return <td>
+
+                      </td>
+                    }
                   })
                 }
               </tr>
@@ -95,5 +137,9 @@ WeekDisplayer.contextTypes = {
   router : PropTypes.any
 };
 
-export default connect()(WeekDisplayer);
+WeekDisplayer.propTypes = {
+  location: PropTypes.any,
+  doctor: PropTypes.any
+};
 
+export default connect()(WeekDisplayer);

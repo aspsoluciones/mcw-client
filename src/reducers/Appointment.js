@@ -15,8 +15,7 @@ function appointment(state = {
   switch (action.type) {
     case APPOINTMENT_SELECTED:
       return Object.assign({}, state, {
-        isFetching: false,
-        keep : action.appointment
+        keep : action.payload
       });
     case APPOINTMENT_REQUEST:
       return Object.assign({}, state, {

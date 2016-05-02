@@ -14,6 +14,10 @@ import {
   INVALID_SESSION
 } from "../constants/ActionTypes";
 
+import {
+ getUser
+} from './UserActions'
+
 import axios from 'axios';
 
 let OauthInstance = axios.create({
@@ -93,17 +97,17 @@ function saveResponseInLocalStorage(response) {
 
 export function loginUser(credentials) {
   credentials.grant_type = 'password';
+  const { username, domain, password } = credentials;
   var _params = $.param({
     grant_type: "password",
-    username: credentials.username,
-    password: credentials.password,
-    domain: credentials.domain
+    username, password, domain
   });
   return dispatch => {
     dispatch(LoginAttempt(credentials));
     OauthInstance.post('/token', _params).then((response) => {
       saveResponseInLocalStorage(response.data);
       dispatch(loginSuccess(response));
+      dispatch(getUser({domain, username}));
       dispatch(startCount(response.expires_in))
     }).catch((data) => {
       if(data.status == 401) {

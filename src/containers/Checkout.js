@@ -4,42 +4,37 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { DoctorProfileCard } from '../components/DoctorProfileCard';
 import Formsy from 'formsy-react';
-import { FormsyText } from 'formsy-material-ui';
+import MenuItem from 'material-ui/lib/menus/menu-item';
+import { FormsyText, FormsySelect } from 'formsy-material-ui';
 import { ConfirmAppointment } from '../actions/Appointments';
+import { getPatientByEmail, selectPatient, patientSelectModal, fillPatientData} from '../actions/PatientsActions';
+import PatientsModal from '../components/PatientsModal';
+import PatientCard from '../components/PatientCard';
 
 class Checkout extends Component {
   constructor(props) {
     super(props);
-    console.log(this);
-
     this.state = {
-      doctor: {
-        username: 'chapatin',
-        lastName: 'Chespirito',
-        firstName: 'Chapatin',
-        categories: ['Odontología', 'Odontopediatría'],
-        focuses: ['Bebes', 'Niños', 'Niñas', 'Adultos', 'Adultos mayores'], //Será un enum, con opciones predeterminadas del lado de la base de datos
-        selfReview: 'Insunúa que soy viejo',
-        institutions: [{
-          id: '123',
-          name: 'Hospital de Mexico',
-          contactInfo: {
-            telephone: '+506 2280.8441',
-            email: 'mexico@hospital.com'
-          },
-          location: {}, //Coordenadas
-          address: '9077 Ave. de la Amistad, Colonia Federal Tijuana, B. C., México',
-          availability: [{date: new Date(), times: ['09:00', '09:30', '15:00']}]
-        }]
-      }
+      openPatientModal : false
     }
   }
 
-  sendCredentials(appointment) {
+  openModal() {
     const { dispatch } = this.props;
-    dispatch(ConfirmAppointment(appointment));
+    dispatch(patientSelectModal())
+  }
+
+  submitAppointment(data) {
+    const { dispatch, appointment } = this.props;
+    const { keep } = appointment;
+    //TODO Transformations for adapt the object to the DTO for Appointments
+    dispatch(ConfirmAppointment({
+      solicitante : data,
+      turno: keep.appointment,
+      location: keep.appointment.location,
+      doctor: keep.appointment.doctor
+    }));
   }
 
   enableButton() {
@@ -54,109 +49,144 @@ class Checkout extends Component {
     });
   }
 
+  checkUser(userEmail) {
+    const { dispatch } = this.props;
+    dispatch(getPatientByEmail(userEmail));
+  }
+
+  reOpenPatientsModal(){
+    const { dispatch } = this.props;
+    dispatch(patientSelectModal())
+  }
+
+  reRenderForm() {
+    const { dispatch } = this.props;
+    dispatch(fillPatientData())
+  }
 
   render() {
-    const { appointment } = this.props;
+
+    const { appointment, patients } = this.props;
     const { keep } = appointment;
+    let _modal = (this.state.openPatientModal) ? <PatientsModal patientsList={patients.patient}/> : null;
+    let _form = (
+      <Formsy.Form ref="appointmentForm" className="ui large form"
+                   onValid={this.enableButton.bind(this)}
+                   onInvalid={this.disableButton.bind(this)}
+                   onValidSubmit={this.submitAppointment.bind(this)}
+      >
+        <div className="row ui">
+          <div className="ui one column grid">
+            <div className="ui column">
+
+              <FormsyText
+                name='email_particular'
+                hintText="Email"
+                required
+                value=""
+                onChange={(e, value) => this.checkUser(value)}
+              />
+            </div>
+            <div className="ui column">
+              <FormsyText
+                name='nombre'
+                hintText="Nombre"
+                required
+                value=""
+              />
+            </div>
+
+            <div className="ui column">
+              <FormsyText
+                name='apellido'
+                hintText="Apellido"
+                required
+                value=""
+              />
+            </div>
+            <div className="ui column">
+              <FormsySelect
+                name="sexo"
+                required
+                floatingLabelText="Sexo"
+                menuItems={this.selectFieldItems}
+              >
+                <MenuItem value={'M'} primaryText="Masculino" />
+                <MenuItem value={'F'} primaryText="Femenino" />
+              </FormsySelect>
+            </div>
+            <div className="ui column">
+              <FormsyText
+                name='numero_tel_celular'
+                hintText="Número de teléfono"
+                required
+                value=""
+              />
+            </div>
+            <div className="ui column">
+              <FormsyText
+                name='note'
+                hintText="Notas"
+                value=""
+              />
+            </div>
+
+          </div>
+          <div className="column">
+            <button type="submit" className="ui button fluid blue">
+              Solicitar cita
+            </button>
+          </div>
+        </div>
+      </Formsy.Form>);
+
+    let _changePatientButton = (patients.patient && patients.patient.length > 1) ? (<button onClick={this.reOpenPatientsModal.bind(this)}>
+        Cambiar paciente
+    </button>) : null;
+
+    let _selectedPatientCard = (
+      <div>
+        <div className="ui two columns grid">
+          <div className="column">
+            <PatientCard patient={patients.selectedPatient}/>
+          </div>
+          <div className="column">
+            {_changePatientButton}
+            <button onClick={this.reRenderForm.bind(this)}>
+              Cambiar email
+            </button>
+          </div>
+        </div>
+
+        <div className="ui column">
+          <button onClick={() => this.submitAppointment(patients.selectedPatient)} className="ui button fluid blue">
+            Solicitar cita
+          </button>
+        </div>
+      </div>
+    );
+
+    var _render = (patients.selectedPatient) ? _selectedPatientCard : _form;
 
     return (
       <div className="ui one column grid">
-        <div className="ui column">
-          <div className="ui steps">
-            <div className="active step">
-              <i className="truck icon"/>
-              <div className="content">
-                <div className="title">Shipping</div>
-                <div className="description">Choose your shipping options</div>
-              </div>
-            </div>
-            <div className="step">
-              <i className="payment icon"/>
-              <div className="content">
-                <div className="title">Billing</div>
-                <div className="description">Enter billing information</div>
-              </div>
-            </div>
-            <div className="disabled step">
-              <i className="info icon"/>
-              <div className="content">
-                <div className="title">Confirm Order</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="ui column">
-          { DoctorProfileCard(this.state.doctor)}
-        </div>
-
         <div className="ui one column grid segment">
           <div className="ui column">
-            { keep.day.date.format("DD MMMM YYYY")}
-          </div>
-          <div className="ui column">
-            { keep.time }
+            <div>
+              Fecha: {keep.appointment.fecha_hora_inicio.format("dddd DD MMMM YYYY")}
+            </div>
+            <div>
+              Horario: {keep.appointment.fecha_hora_inicio.format("HH:mm")}
+            </div>
+            <div>
+              Duración: { keep.appointment.duracion_en_minutos} minutos
+            </div>
           </div>
         </div>
 
         <div className="ui one column grid segment">
-          <Formsy.Form ref="appointmentForm" className="ui large form"
-                       onValid={this.enableButton.bind(this)}
-                       onInvalid={this.disableButton.bind(this)}
-                       onValidSubmit={this.sendCredentials.bind(this)}
-          >
-            <div className="row ui">
-              <div className="ui one column grid">
-                <div className="ui column">
-                  <FormsyText
-                    name='email'
-                    hintText="Email"
-                    required
-                    value=""
-                  />
-                </div>
-                <div className="ui column">
-                  <FormsyText
-                    name='name'
-                    hintText="Nombre"
-                    required
-                    value=""
-                  />
-                </div>
-
-                <div className="ui column">
-                  <FormsyText
-                    name='lastName'
-                    hintText="Apellido"
-                    required
-                    value=""
-                  />
-                </div>
-                <div className="ui column">
-                  <FormsyText
-                    name='phone'
-                    hintText="Número de teléfono"
-                    required
-                    value=""
-                  />
-                </div>
-                <div className="ui column">
-                  <FormsyText
-                    name='note'
-                    hintText="Notas"
-                    value=""
-                  />
-                </div>
-
-              </div>
-              <div className="column">
-                <button type="submit" className="ui button fluid blue">
-                  Enviar
-                </button>
-              </div>
-            </div>
-
-          </Formsy.Form>
+          { _render }
+          <PatientsModal patientsList={patients.patient}/>
         </div>
       </div>
     )
@@ -165,9 +195,10 @@ class Checkout extends Component {
 }
 
 function mapStateToProps(state) {
-  const { appointment } = state;
+  const { appointment, patients } = state;
   return {
-    appointment
+    appointment,
+    patients
   }
 }
 

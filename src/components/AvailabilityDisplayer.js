@@ -9,43 +9,24 @@ import DayPicker from 'react-day-picker';
 import "react-day-picker/lib/style.css";
 import "../styles/dayPicker.scss";
 import { connect } from "react-redux";
+import _ from 'lodash';
 
 import WeekDisplayer from './WeekDisplayer';
-
 
 const currentYear = (new Date()).getFullYear();
 const fromMonth = new Date(currentYear, 0, 1, 0, 0);
 const toMonth = new Date(currentYear + 10, 11, 31, 23, 59);
 
-function YearMonthForm({ date, localeUtils, onChange }) {
+function calculateAvailableAppointmentsForWeek(selectedDate, appointments) {
+    let min = selectedDate;
+    let max = moment(selectedDate).add(6, 'd');
 
-  const months = localeUtils.getMonths();
-  let _month = 4;
-  let _year = 2016;
-  const years = [];
-  for (let i = fromMonth.getFullYear(); i <= toMonth.getFullYear(); i++) {
-    years.push(i);
-  }
-
-  console.log(years);
-
-  const yearChange = function(event, index, value) {
-    //TODO repensar
-    _year = years[index];
-
-    onChange(new Date(_year, _month));
-  }
-
-  const monthChange = function(event, index, value) {
-    _month = value;
-    onChange(new Date(_year, _month));
-  }
+    return _.filter(appointments, function ProcessAppointment(appointment) {
+      if( (min.utc() <= appointment.fecha_hora_inicio.utc())  &&  (appointment.fecha_hora_inicio.utc() <= max.utc())) {
+        return appointment
+      }
+    });
 }
-
-var _timesDisplayer = function() {
-
-}
-
 
 
 class AvailabilityDisplayer extends Component {
@@ -54,27 +35,9 @@ class AvailabilityDisplayer extends Component {
     super(props);
     this.state = {
       selectedDay: moment(),
-      displayDay : moment()
-    }
-  }
-
-  generateRandomDatesWithTimes() {
-      const times = ['9.30','10.30','11.30'];
-      let { selectedDay }  = this.state;
-
-      var _days = [];
-      _days.push({date: selectedDay, times });
-      for (var i = 0; i < 6; i++) {
-        var _d = moment(selectedDay).add(1+i, 'd');
-        if(i%2) {
-          _days.push({date: _d, times})
-        } else{
-          _days.push({date: _d, times: []})
-        }
-      }
-
-      console.log(_days);
-      return _days;
+      displayDay : moment(),
+      appointmentsForWeek : calculateAvailableAppointmentsForWeek(moment(), this.props.availability)
+    };
   }
 
   render() {
@@ -90,17 +53,19 @@ class AvailabilityDisplayer extends Component {
               fromMonth={ fromMonth }
               toMonth={ toMonth }
               onDayClick={ (e, day) => {
-                  console.log(day);
                     this.setState({
-                      selectedDay : moment(day)
-                    })
+                      selectedDay : moment(day),
+                      appointmentsForWeek : calculateAvailableAppointmentsForWeek(moment(day), availability)
+                    });
                 }
               }
             />
           </div>
           <div className="ui nine wide column grid stackable">
             <div className="ui column">
-              <WeekDisplayer appointmentsForWeek={this.generateRandomDatesWithTimes()} selectedDay={this.state.selectedDay} />
+              <WeekDisplayer appointmentsForWeek={this.state.appointmentsForWeek}
+                             selectedDay={this.state.selectedDay}
+                             location={this.props.location} doctor={this.props.doctor}/>
             </div>
           </div>
         </div>
@@ -110,7 +75,9 @@ class AvailabilityDisplayer extends Component {
 }
 
 AvailabilityDisplayer.propTypes = {
-  availability : PropTypes.any
+  availability : PropTypes.any,
+  location: PropTypes.any,
+  doctor: PropTypes.any
 };
 
 function mapStateToProps(state) {
