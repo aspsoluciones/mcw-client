@@ -4,13 +4,11 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { DoctorProfileCard } from '../components/DoctorProfileCard';
 import Formsy from 'formsy-react';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import { FormsyText, FormsySelect } from 'formsy-material-ui';
-import FormsyAutocomplete from '../utils/formsy/autocomplete';
 import { ConfirmAppointment } from '../actions/Appointments';
-import { getPatientByEmail, selectPatient, patientSelectModal, fillPatientData, hidePatientFillData} from '../actions/PatientsActions';
+import { getPatientByEmail, selectPatient, patientSelectModal, fillPatientData} from '../actions/PatientsActions';
 import PatientsModal from '../components/PatientsModal';
 import PatientCard from '../components/PatientCard';
 
@@ -22,17 +20,6 @@ class Checkout extends Component {
     }
   }
 
-  componentDidMount() {
-    const { store } = this.context;
-    store.subscribe(() => {
-      const { patients } = store.getState();
-      if(patients.patient && patients.patient.length) {
-        if(patients.patient.length == 1) {
-          selectPatient(patients.patient);
-        }
-      }
-    });
-  }
 
   openModal() {
     const { dispatch } = this.props;

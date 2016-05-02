@@ -98,7 +98,6 @@ class Appointment extends Component {
     }
 
   componentDidMount(){
-    console.log(this);
     const { store, router } = this.context;
     store.subscribe(() =>{
       var _state = store.getState();
