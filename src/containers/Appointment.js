@@ -3,6 +3,7 @@
  */
 import React, { Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
+import { GetAppointments }  from '../actions/Appointments';
 import { DoctorProfileCard } from '../components/DoctorProfileCard';
 import InstitutionDisplayer from '../components/InstitutionDisplayer';
 import moment from 'moment';
@@ -99,6 +100,7 @@ class Appointment extends Component {
 
   componentDidMount(){
     const { store, router } = this.context;
+    const { dispatch } = this.props;
     store.subscribe(() =>{
       var _state = store.getState();
       if(_state.appointment.keep) {
@@ -107,6 +109,13 @@ class Appointment extends Component {
         })
       }
     })
+
+    let initialDate = {
+      minDate: moment().format("MM-DD-YYYY"),
+      maxDate: moment().add('d',1).format("MM-DD-YYYY")
+    }
+
+    dispatch(GetAppointments(this.props.params.doctorUsername, initialDate))
   }
 
     render() {

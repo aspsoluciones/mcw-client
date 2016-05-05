@@ -3,7 +3,13 @@
  */
 
 import {
- APPOINTMENT_FAILURE, APPOINTMENT_REQUEST, APPOINTMENT_SUCCESS, APPOINTMENT_SELECTED
+ APPOINTMENT_FAILURE,
+ APPOINTMENT_REQUEST,
+ APPOINTMENT_SUCCESS,
+ APPOINTMENT_SELECTED,
+ APPOINTMENTS_READ_REQUEST,
+ APPOINTMENTS_READ_SUCCESS,
+ APPOINTMENTS_READ_FAILURE
 } from '../constants/ActionTypes';
 
 import axios from 'axios';
@@ -69,7 +75,46 @@ function AppointmentSuccess() {
   }
 }
 
+function AppointmentsRequest() {
+  return {
+    type: APPOINTMENTS_READ_REQUEST
+  }
+}
 
+function AppointmentsRequestSuccess(payload) {
+  return {
+    type: APPOINTMENTS_READ_SUCCESS,
+    payload
+  }
+}
+
+function AppointmentsRequestFailure(error) {
+  return {
+    type: APPOINTMENTS_READ_FAILURE,
+    error
+  }
+}
+
+export function GetAppointments(doctorUsername, range) {
+  //If a date range is specified.
+  return dispatch =>{
+    if(range){
+      axios.get('agenda/turnosdisponibles/' + doctorUsername + '/' + range.minDate + '/' + range.maxDate)
+        .then((data)=> {
+            dispatch(AppointmentSuccess(data.data));
+        }).catch((error) => {
+          dispatch(AppointmentsRequestFailure(error))
+        })
+    } else {
+      axios.get('agenda/turnosdisponibles/' + doctorUsername)
+        .then((data)=> {
+            dispatch(AppointmentSuccess(data.data));
+        }).catch((error) => {
+          dispatch(AppointmentsRequestFailure(error))
+        })
+    }
+  }
+}
 
 export function TakeAppointment(appointment){
   return dispatch => {
