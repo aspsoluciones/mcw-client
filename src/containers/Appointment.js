@@ -134,7 +134,7 @@ class Appointment extends Component {
                 appointment.data.localidades.map((location, i) =>{
                   return <div className="ui grid one column" key={i}>
                     <div className="ui column" key={i}>
-                      <InstitutionDisplayer institution={location} doctor={appointment.responsable_servicio}key={i}/>
+                      <InstitutionDisplayer institution={location} doctor={appointment.data.responsable_servicio}key={i}/>
                     </div>
                   </div>
                 })

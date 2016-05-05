@@ -40,7 +40,7 @@ class InstitutionDisplayer extends Component {
     return(
     <Card>
       <CardText>
-        <AvailabilityDisplayer availability={institution.turnos} location={institution.location} doctor={doctor}/>
+        <AvailabilityDisplayer availability={institution.turnos} location={institution.localidad} doctor={doctor}/>
       </CardText>
     </Card>
     )

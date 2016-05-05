@@ -50,6 +50,9 @@ var DTO = {
 }
 
 function AppointmentSelected(appointment) {
+  if(appointment.appointment) {
+      appointment.appointment.fecha_hora_inicio = moment(appointment.fecha_hora_inicio);
+  }
   return {
     type: APPOINTMENT_SELECTED,
     payload: appointment
@@ -146,7 +149,7 @@ function transformAppointment(appointment){
   _dataToSend.nombre_persona_emisora = solicitante.nombre + ' ' +  solicitante.apellido;
   _dataToSend.nombre_persona_registro = solicitante.nombre + ' ' + solicitante.apellido;
   _dataToSend.solicitante = fillSolicitante(solicitante);
-
+  _dataToSend.id_persona_registro = solicitante.id || -1;
   _dataToSend.fecha_inicio = turno.fecha_hora_inicio.toDate();
   _dataToSend.fecha_fin = turno.fecha_hora_inicio.add('m', turno.duracion_en_minutos).toDate();
 
@@ -167,7 +170,9 @@ function fillSolicitante(solicitante){
   var _solicitante = {};
   var keys = Object.keys(DTO.solicitante)
   keys.map((key, i) => {
-    _solicitante[key] = solicitante[key]
+    if(solicitante[key]){
+        _solicitante[key] = solicitante[key]
+    }
   })
 
   _solicitante.localidades = [];
