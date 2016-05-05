@@ -39,23 +39,8 @@ class InstitutionDisplayer extends Component {
 
     return(
     <Card>
-      <CardMedia
-        overlay={<CardTitle title={institution.location.nombre} subtitle={institutionAddress(institution.location)} />}
-      >
-        <Map center={position} zoom={13} animate={true}>
-          <TileLayer
-            url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          />
-          <Marker position={position}>
-            <Popup>
-              <span>{institution.location.nombre}</span>
-            </Popup>
-          </Marker>
-        </Map>
-      </CardMedia>
       <CardText>
-        <AvailabilityDisplayer availability={institution.appointments} location={institution.location} doctor={doctor}/>
+        <AvailabilityDisplayer availability={institution.turnos} location={institution.location} doctor={doctor}/>
       </CardText>
     </Card>
     )

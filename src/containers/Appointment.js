@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { GetAppointments }  from '../actions/Appointments';
 import { DoctorProfileCard } from '../components/DoctorProfileCard';
 import InstitutionDisplayer from '../components/InstitutionDisplayer';
+import Loader from '../components/Loader';
 import moment from 'moment';
 
 class Appointment extends Component {
@@ -101,6 +102,13 @@ class Appointment extends Component {
   componentDidMount(){
     const { store, router } = this.context;
     const { dispatch } = this.props;
+
+    let initialDate = {
+      minDate: moment().format("MM-DD-YYYY"),
+      maxDate: moment().add('d',6).format("MM-DD-YYYY")
+    }
+    dispatch(GetAppointments(this.props.params.doctorUsername, initialDate))
+
     store.subscribe(() =>{
       var _state = store.getState();
       if(_state.appointment.keep) {
@@ -110,38 +118,53 @@ class Appointment extends Component {
       }
     })
 
-    let initialDate = {
-      minDate: moment().format("MM-DD-YYYY"),
-      maxDate: moment().add('d',6).format("MM-DD-YYYY")
-    }
 
-    dispatch(GetAppointments(this.props.params.doctorUsername, initialDate))
   }
 
-    render() {
-      return(
-        <div className="ui one column grid">
-          <div className="ui column">
-            { DoctorProfileCard(this.state.data.doctor)}
-          </div>
-          <div className="ui column">
-            {
-              this.state.data.locations.map((location, i) =>{
-                return <div className="ui grid one column" key={i}>
-                  <div className="ui column" key={i}>
-                    <InstitutionDisplayer institution={location} doctor={this.state.data.doctor}key={i}/>
+    renderAppointmentScreen(appointment){
+
+      if(appointment.data) {
+        return (
+          <div className="ui one column grid">
+            <div className="ui column">
+              { DoctorProfileCard(appointment.data.responsable_servicio)}
+            </div>
+            <div className="ui column">
+              {
+                appointment.data.localidades.map((location, i) =>{
+                  return <div className="ui grid one column" key={i}>
+                    <div className="ui column" key={i}>
+                      <InstitutionDisplayer institution={location} doctor={appointment.responsable_servicio}key={i}/>
+                    </div>
                   </div>
-                </div>
-              })
-            }
+                })
+              }
+            </div>
           </div>
-        </div>
-      )
+        )
+      }
+
+      return null;
+
+
+    }
+
+    render() {
+      const { appointment } = this.props;
+      const {loading} = appointment;
+
+      let _render = (loading) ? (<Loader/>) : this.renderAppointmentScreen(appointment);
+
+
+      return _render;
     }
 }
 
 function mapStateToProps(state) {
-  return state;
+  const { appointment } = state;
+  return {
+    appointment
+  }
 }
 
 Appointment.contextTypes = {
