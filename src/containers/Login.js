@@ -114,7 +114,7 @@ class Login extends Component {
     return(
       <div className="login ui one column grid">
           <h3 className="ui image medium">
-            <img src={LogoImg} alt="LOGO PNG" className="image"/>
+            <img  src={ LogoImg } alt="Mi clinica web Logo"/>
           </h3>
           <div className="ui column">
             { _materialForm }
