@@ -13,15 +13,9 @@ import PatientsModal from '../components/PatientsModal';
 import PatientCard from '../components/PatientCard';
 
 Formsy.addValidationRule('isRequiredIfNotValue', function (values, value, otherField) {
-  // The this context points to an object containing the values
-  // {childAge: "", parentAge: "5"}
-  // otherField argument is from the validations rule ("childAge")
-  console.log(values[otherField]);
-
   if(value || values[otherField]) {
     return true;
   }
-
 });
 
 class Checkout extends Component {
