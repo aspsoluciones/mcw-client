@@ -98,10 +98,12 @@ function AppointmentsRequestFailure(error) {
 export function GetAppointments(doctorUsername, range) {
   //If a date range is specified.
   return dispatch =>{
+    dispatch(AppointmentsRequest());
     if(range){
+      console.log('Here');
       axios.get('agenda/turnosdisponibles/' + doctorUsername + '/' + range.minDate + '/' + range.maxDate)
         .then((data)=> {
-            dispatch(AppointmentSuccess(data.data));
+            dispatch(AppointmentsRequestSuccess(data.data));
         }).catch((error) => {
           dispatch(AppointmentsRequestFailure(error))
         })

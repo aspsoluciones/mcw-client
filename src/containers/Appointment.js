@@ -112,7 +112,7 @@ class Appointment extends Component {
 
     let initialDate = {
       minDate: moment().format("MM-DD-YYYY"),
-      maxDate: moment().add('d',1).format("MM-DD-YYYY")
+      maxDate: moment().add('d',6).format("MM-DD-YYYY")
     }
 
     dispatch(GetAppointments(this.props.params.doctorUsername, initialDate))
