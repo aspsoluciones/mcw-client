@@ -10,8 +10,9 @@ import moment from 'moment';
 
 
 function isSameDay(date1, date2) {
-  console.log('Calling');
-  return moment(date1).isSame(date2, 'day');
+  var _stringDate = date1.format('YYYY-MM-DD');
+  var _result = date2.fecha_hora_inicio.indexOf(_stringDate) != -1;
+  return _result;
 }
 
 class WeekDisplayer extends Component {
@@ -102,7 +103,7 @@ class WeekDisplayer extends Component {
                           {
                             day.times.map((time) => {
                               return <div className="ui column">
-                                <button onClick={ () => this.selectAppointment(time, this.props.location) } className="ui button">{ time.fecha_hora_inicio.format("HH:mm")}</button>
+                                <button onClick={ () => this.selectAppointment(time, this.props.location) } className="ui button">{ moment(time.fecha_hora_inicio).format("HH:mm")}</button>
                               </div>
                             })
                           }

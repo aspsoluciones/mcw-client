@@ -22,7 +22,7 @@ function calculateAvailableAppointmentsForWeek(selectedDate, appointments) {
     let max = moment(selectedDate).add(6, 'd');
 
     return _.filter(appointments, function ProcessAppointment(appointment) {
-      if( (min.utc() <= appointment.fecha_hora_inicio.utc())  &&  (appointment.fecha_hora_inicio.utc() <= max.utc())) {
+      if( (min.utc() <= moment(appointment.fecha_hora_inicio).utc())  &&  (moment(appointment.fecha_hora_inicio).utc() <= max.utc())) {
         return appointment
       }
     });
