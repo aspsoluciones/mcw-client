@@ -3,7 +3,7 @@
  */
 import React, { Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-import { GetAppointments }  from '../actions/Appointments';
+import { GetAppointments, GetDoctorData }  from '../actions/Appointments';
 import { DoctorProfileCard } from '../components/DoctorProfileCard';
 import InstitutionDisplayer from '../components/InstitutionDisplayer';
 import Loader from '../components/Loader';
@@ -22,6 +22,8 @@ class Appointment extends Component {
       minDate: moment().format("MM-DD-YYYY"),
       maxDate: moment().add('d',6).format("MM-DD-YYYY")
     }
+
+    dispatch(GetDoctorData(this.props.params.doctorUsername))
     dispatch(GetAppointments(this.props.params.doctorUsername, initialDate))
 
     store.subscribe(() =>{
@@ -67,7 +69,10 @@ class Appointment extends Component {
     render() {
       const { appointment } = this.props;
       const {loading} = appointment;
+
       let _render = (loading) ? (<Loader/>) : this.renderAppointmentScreen(appointment);
+
+
       return _render;
     }
 }

@@ -18,10 +18,26 @@ import {
 } from "../constants/ActionTypes";
 
 const initialState = {
-  loadingAppointments : false, loadingDoctorData : false, doctor: {}, appointments: {}
+  loadingAppointments : false, loadingDoctorData : false, responsable_servicio: {}
 };
 
+/*** UTILS ***/
 
+function mergeDoctorAndAppointments (responsable_servicio, turnosPorLocalidades){
+  responsable_servicio.localidades.map(function(localidad, index) {
+    turnosPorLocalidades.map((function(turnos){
+      if(turnos.id_localidad == localidad.id){
+        responsable_servicio.localidades[index].turnos = turnos.turnos;
+      }
+    }));
+  });
+
+  return responsable_servicio;
+
+}
+
+
+/*** REDUCER ***/
 function appointment(state = initialState, action) {
   switch (action.type) {
 
@@ -39,10 +55,14 @@ function appointment(state = initialState, action) {
       };
 
     case APPOINTMENTS_READ_SUCCESS:
+      console.log(state);
+      const _responsable_servicio = mergeDoctorAndAppointments(state.responsable_servicio, action.payload);
+
+
       return {
         ...state,
         loading: false,
-        appointments : action.payload
+        responsable_servicio: _responsable_servicio
       };
 
     case APPOINTMENT_SELECTED:
@@ -60,7 +80,7 @@ function appointment(state = initialState, action) {
       return {
         ...state,
         loadingDoctorData : false,
-        doctor: action.payload
+        responsable_servicio: action.payload
       };
     case DOCTOR_READ_FAILURE:
     return {

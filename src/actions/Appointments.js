@@ -18,6 +18,12 @@ import {
 import axios from 'axios';
 import moment from 'moment';
 
+
+let initialDate = {
+  minDate: moment().format("MM-DD-YYYY"),
+  maxDate: moment().add('d',6).format("MM-DD-YYYY")
+}
+
 var DTO = {
   "id_tipo_solicitud":45,
   "id_empresa":631033,
@@ -121,12 +127,15 @@ function DoctorDataRequestFailure(error) {
   }
 }
 
-
 export function GetDoctorData(doctorUsername) {
   return dispatch => {
-
-    dispatch()
-
+    dispatch(DoctorDataRequest());
+    axios.get('responsablesservicio/perfilpublico/' + doctorUsername)
+    .then((data)=> {
+        dispatch(DoctorDataRequestSuccess(data.data));
+      }).catch((error) => {
+        dispatch(DoctorDataRequestFailure(error))
+      })
   }
 }
 
