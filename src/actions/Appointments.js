@@ -9,7 +9,10 @@ import {
  APPOINTMENT_SELECTED,
  APPOINTMENTS_READ_REQUEST,
  APPOINTMENTS_READ_SUCCESS,
- APPOINTMENTS_READ_FAILURE
+ APPOINTMENTS_READ_FAILURE,
+ DOCTOR_READ_REQUEST,
+ DOCTOR_READ_SUCCESS,
+ DOCTOR_READ_FAILURE
 } from '../constants/ActionTypes';
 
 import axios from 'axios';
@@ -98,12 +101,40 @@ function AppointmentsRequestFailure(error) {
   }
 }
 
+function DoctorDataRequest() {
+  return {
+    type: DOCTOR_READ_REQUEST
+  }
+}
+
+function DoctorDataRequestSuccess(payload) {
+  return {
+    type: DOCTOR_READ_SUCCESS,
+    payload
+  }
+}
+
+function DoctorDataRequestFailure(error) {
+  return {
+    type: DOCTOR_READ_FAILURE,
+    error
+  }
+}
+
+
+export function GetDoctorData(doctorUsername) {
+  return dispatch => {
+
+    dispatch()
+
+  }
+}
+
 export function GetAppointments(doctorUsername, range) {
   //If a date range is specified.
   return dispatch =>{
     dispatch(AppointmentsRequest());
     if(range){
-      console.log('Here');
       axios.get('agenda/turnosdisponibles/' + doctorUsername + '/' + range.minDate + '/' + range.maxDate)
         .then((data)=> {
             dispatch(AppointmentsRequestSuccess(data.data));

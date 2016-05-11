@@ -12,91 +12,6 @@ import moment from 'moment';
 class Appointment extends Component {
     constructor(props) {
       super(props);
-      const position = [51.505, -0.09];
-
-
-      let mockDate = moment();
-
-      let _mockData = {
-        "doctor": {
-          "especialidad": 'Odontologo',
-          "sub_especialidad": 'Odontopediatría',
-          "area_de_atencion": 'Area de Atención',
-          "edades_de_atencion": ['Niños', 'Adultos Mayores', 'Adultos'],
-          "comentario_publico": 'Los pilares de mi práctica profesional son la atención y servicio de excelencia brindado a mis pequeños pacientes',
-          "nombre": 'Ana Maria',
-          "apellido": 'García',
-          "apellido_de_casada": 'Pérez',
-          "nombre_usual": 'Anita ?',
-          "sexo": 'f',
-          "foto_url": 'http://www.lafm.com.co/sites/default/files/imagecache/600xy/imagenes/anamariagonzalez2_1411991352.jpg',
-          "titulo": 'Dra',
-          "id": '1'
-        },
-        "locations": [
-          {
-            "location": {
-              "nombre": 'Hospital Subzonal de Bolívar',
-              "direccion": 'Fabrés García 100',
-              "ciudad": 'San Carlos de Bolívar',
-              "corregimiento": 'Partido de Bolívar',
-              "provincia": 'Buenos Aires',
-              "pais": 'Argentina',
-              "coordenadas": position,
-              "telefono_contacto": '2314445544',
-              "id": 50
-            },
-            "appointments": [
-              {
-                "fecha_hora_inicio": mockDate.minute(30),
-                "duracion_en_minutos": 30
-              },
-              {
-                "fecha_hora_inicio": mockDate.minute(60),
-                "duracion_en_minutos": 30
-              },
-              {
-                "fecha_hora_inicio": mockDate.minute(90),
-                "duracion_en_minutos": 30
-              }
-            ]
-          },
-          {
-            "location": {
-              "nombre": 'Hospital de Olavarria',
-              "direccion": 'Las heras 860',
-              "ciudad": 'Olavarría',
-              "corregimiento": 'Partido de Olavarría',
-              "provincia": 'Buenos Aires',
-              "pais": 'Argentina',
-              "coordenadas": position,
-              "telefono_contacto": '22569994949',
-              "id": 40
-            },
-            "appointments": [
-              {
-                "fecha_hora_inicio": mockDate.minute(30),
-                "duracion_en_minutos": 30
-              },
-              {
-                "fecha_hora_inicio": mockDate.minute(60),
-                "duracion_en_minutos": 30
-              },
-              {
-                "fecha_hora_inicio": mockDate.minute(90),
-                "duracion_en_minutos": 30
-              }
-            ]
-          }
-        ]
-      };
-
-      this.state = {
-        response: {
-          data: _mockData
-        },
-        data: _mockData
-      };
     }
 
   componentDidMount(){
@@ -152,10 +67,7 @@ class Appointment extends Component {
     render() {
       const { appointment } = this.props;
       const {loading} = appointment;
-
       let _render = (loading) ? (<Loader/>) : this.renderAppointmentScreen(appointment);
-
-
       return _render;
     }
 }

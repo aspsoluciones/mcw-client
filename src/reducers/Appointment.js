@@ -8,7 +8,9 @@ import {
   APPOINTMENT_SUCCESS,
   APPOINTMENT_SELECTED,
   APPOINTMENT_READ_SUCCESS,
-
+  DOCTOR_READ_REQUEST,
+  DOCTOR_READ_SUCCESS,
+  DOCTOR_READ_FAILURE,
   APPOINTMENTS_READ_FAILURE,
   APPOINTMENTS_READ_REQUEST,
   APPOINTMENTS_READ_SUCCESS
@@ -16,7 +18,7 @@ import {
 } from "../constants/ActionTypes";
 
 const initialState = {
-  loading: false
+  loadingAppointments : false, loadingDoctorData : false, doctor: {}, appointments: {}
 };
 
 
@@ -26,7 +28,7 @@ function appointment(state = initialState, action) {
     case APPOINTMENTS_READ_REQUEST:
       return {
         ...state,
-        loading: true
+        loadingAppointments: true
       };
 
     case APPOINTMENTS_READ_FAILURE:
@@ -40,27 +42,32 @@ function appointment(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        data: action.payload
+        appointments : action.payload
       };
 
     case APPOINTMENT_SELECTED:
-      return Object.assign({}, state, {
-        keep : action.payload
-      });
+      return {
+        ...state,
+        keep: action.payload
+      };
 
-    case APPOINTMENT_REQUEST:
-      return Object.assign({}, state, {
-        loading: true
-      });
-    case APPOINTMENT_SUCCESS:
-      return Object.assign({}, state, {
-        loading: false
-      });
-    case APPOINTMENT_FAILURE:
-      return Object.assign({}, state, {
-        loading: false,
-        errorMessage: action.code
-      });
+    case DOCTOR_READ_REQUEST:
+      return {
+        ...state,
+        loadingDoctorData: true
+      };
+    case DOCTOR_READ_SUCCESS:
+      return {
+        ...state,
+        loadingDoctorData : false,
+        doctor: action.payload
+      };
+    case DOCTOR_READ_FAILURE:
+    return {
+      ...state,
+      loadingDoctorData : false,
+      errorMessage: action.error
+    };
     default:
       return state
   }
