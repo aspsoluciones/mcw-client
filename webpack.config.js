@@ -76,7 +76,7 @@ const getLoaders = function (env) {
       ]
     });
     loaders.push({
-      test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/,
+      test: /\.(eot|woff|woff2|ttf)$/,
       loader: 'url-loader?name=[name]-[hash].[ext]'
     });
 
@@ -96,7 +96,7 @@ const getLoaders = function (env) {
     });
 
     loaders.push({
-      test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/,
+      test: /\.(eot|woff|woff2|ttf)$/,
       loader: 'url-loader?name=[name]-[hash].[ext]'
     })
   }

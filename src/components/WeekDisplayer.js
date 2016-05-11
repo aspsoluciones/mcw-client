@@ -10,8 +10,9 @@ import moment from 'moment';
 
 
 function isSameDay(date1, date2) {
-  console.log('Calling');
-  return moment(date1).isSame(date2, 'day');
+  var _stringDate = date1.format('YYYY-MM-DD');
+  var _result = date2.fecha_hora_inicio.indexOf(_stringDate) != -1;
+  return _result;
 }
 
 class WeekDisplayer extends Component {
@@ -80,14 +81,14 @@ class WeekDisplayer extends Component {
             <tr>
               {
                 _weekdays.map((day, i) => {
-                  return<th> {day.format("dddd")}</th>
+                  return<th key={i}> {day.format("dddd")}</th>
               })
               }
             </tr>
             <tr>
               {
                 _weekdays.map((day, i) => {
-                  return <th>{day.format("DD MMM")}</th>
+                  return <th key={i}>{day.format("DD MMM")}</th>
                 })
               }
             </tr>
@@ -97,12 +98,12 @@ class WeekDisplayer extends Component {
                 {
                   _weekWithTimes.map((day, i) => {
                     if(day.times) {
-                      return <td>
+                      return <td key={i}>
                         <div className="ui one column grid">
                           {
-                            day.times.map((time) => {
-                              return <div className="ui column">
-                                <button onClick={ () => this.selectAppointment(time, this.props.location) } className="ui button">{ time.fecha_hora_inicio.format("HH:mm")}</button>
+                            day.times.map((time, i) => {
+                              return <div key={i} className="ui column">
+                                <button onClick={ () => this.selectAppointment(time, this.props.location) } className="ui button">{ moment(time.fecha_hora_inicio).format("HH:mm")}</button>
                               </div>
                             })
                           }
@@ -110,7 +111,7 @@ class WeekDisplayer extends Component {
 
                       </td>
                     } else {
-                      return <td>
+                      return <td key={i}>
 
                       </td>
                     }

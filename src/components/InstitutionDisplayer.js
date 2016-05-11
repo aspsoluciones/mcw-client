@@ -31,31 +31,20 @@ class InstitutionDisplayer extends Component {
     }
   }
 
+  renderAvailabilityDisplayer(institution, doctor){
+    if(institution.turnos && institution.turnos.length){
+      return (<AvailabilityDisplayer availability={institution.turnos} location={institution.localidad} doctor={doctor}/>)
+    }
+    return null;
+  }
+
   render() {
-
-
     const { institution, doctor } = this.props;
-    const position = [51.505, -0.09];
-
+    
     return(
     <Card>
-      <CardMedia
-        overlay={<CardTitle title={institution.location.nombre} subtitle={institutionAddress(institution.location)} />}
-      >
-        <Map center={position} zoom={13} animate={true}>
-          <TileLayer
-            url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          />
-          <Marker position={position}>
-            <Popup>
-              <span>{institution.location.nombre}</span>
-            </Popup>
-          </Marker>
-        </Map>
-      </CardMedia>
       <CardText>
-        <AvailabilityDisplayer availability={institution.appointments} location={institution.location} doctor={doctor}/>
+        { this.renderAvailabilityDisplayer(institution, doctor)}
       </CardText>
     </Card>
     )

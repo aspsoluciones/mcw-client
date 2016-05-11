@@ -8,6 +8,9 @@ import { loginUser } from "../actions/AuthActions"
 import Formsy from 'formsy-react';
 import { FormsyText, FormsyCheckbox } from 'formsy-material-ui';
 import ErrorsDisplayer from '../components/ErrorsDisplayer';
+import LogoImg from '../assets/Logo.png';
+
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -111,7 +114,7 @@ class Login extends Component {
     return(
       <div className="login ui one column grid">
           <h3 className="ui image medium">
-            <img  src="../assets/Logo.png" alt="Mi clinica web Logo"/>
+            <img  src={ LogoImg } alt="Mi clinica web Logo"/>
           </h3>
           <div className="ui column">
             { _materialForm }

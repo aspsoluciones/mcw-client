@@ -40,9 +40,7 @@ export function DoctorProfileCard(doctorData) {
 
                   <div className="ui column">
                     Edades:
-                    { doctorData.edades_de_atencion.map((age) => {
-                      return renderAge(age);
-                    })}
+                
                   </div>
                   <div className="ui column">
                     { doctorData.comentario_publico}
@@ -52,5 +50,3 @@ export function DoctorProfileCard(doctorData) {
           </div>
         </div>
 }
-
-

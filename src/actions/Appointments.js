@@ -3,11 +3,26 @@
  */
 
 import {
- APPOINTMENT_FAILURE, APPOINTMENT_REQUEST, APPOINTMENT_SUCCESS, APPOINTMENT_SELECTED
+ APPOINTMENT_FAILURE,
+ APPOINTMENT_REQUEST,
+ APPOINTMENT_SUCCESS,
+ APPOINTMENT_SELECTED,
+ APPOINTMENTS_READ_REQUEST,
+ APPOINTMENTS_READ_SUCCESS,
+ APPOINTMENTS_READ_FAILURE,
+ DOCTOR_READ_REQUEST,
+ DOCTOR_READ_SUCCESS,
+ DOCTOR_READ_FAILURE
 } from '../constants/ActionTypes';
 
 import axios from 'axios';
 import moment from 'moment';
+
+
+let initialDate = {
+  minDate: moment().format("MM-DD-YYYY"),
+  maxDate: moment().add('d',6).format("MM-DD-YYYY")
+}
 
 var DTO = {
   "id_tipo_solicitud":45,
@@ -44,6 +59,9 @@ var DTO = {
 }
 
 function AppointmentSelected(appointment) {
+  if(appointment.appointment) {
+      appointment.appointment.fecha_hora_inicio = moment(appointment.fecha_hora_inicio);
+  }
   return {
     type: APPOINTMENT_SELECTED,
     payload: appointment
@@ -69,7 +87,79 @@ function AppointmentSuccess() {
   }
 }
 
+function AppointmentsRequest() {
+  return {
+    type: APPOINTMENTS_READ_REQUEST
+  }
+}
 
+function AppointmentsRequestSuccess(payload) {
+  return {
+    type: APPOINTMENTS_READ_SUCCESS,
+    payload
+  }
+}
+
+function AppointmentsRequestFailure(error) {
+  return {
+    type: APPOINTMENTS_READ_FAILURE,
+    error
+  }
+}
+
+function DoctorDataRequest() {
+  return {
+    type: DOCTOR_READ_REQUEST
+  }
+}
+
+function DoctorDataRequestSuccess(payload) {
+  return {
+    type: DOCTOR_READ_SUCCESS,
+    payload
+  }
+}
+
+function DoctorDataRequestFailure(error) {
+  return {
+    type: DOCTOR_READ_FAILURE,
+    error
+  }
+}
+
+export function GetDoctorData(doctorUsername) {
+  return dispatch => {
+    dispatch(DoctorDataRequest());
+    axios.get('responsablesservicio/perfilpublico/' + doctorUsername)
+    .then((data)=> {
+        dispatch(DoctorDataRequestSuccess(data.data));
+      }).catch((error) => {
+        dispatch(DoctorDataRequestFailure(error))
+      })
+  }
+}
+
+export function GetAppointments(doctorUsername, range) {
+  //If a date range is specified.
+  return dispatch =>{
+    dispatch(AppointmentsRequest());
+    if(range){
+      axios.get('agenda/turnosdisponibles/' + doctorUsername + '/' + range.minDate + '/' + range.maxDate)
+        .then((data)=> {
+            dispatch(AppointmentsRequestSuccess(data.data));
+        }).catch((error) => {
+          dispatch(AppointmentsRequestFailure(error))
+        })
+    } else {
+      axios.get('agenda/turnosdisponibles/' + doctorUsername)
+        .then((data)=> {
+            dispatch(AppointmentSuccess(data.data));
+        }).catch((error) => {
+          dispatch(AppointmentsRequestFailure(error))
+        })
+    }
+  }
+}
 
 export function TakeAppointment(appointment){
   return dispatch => {
@@ -99,7 +189,7 @@ function transformAppointment(appointment){
   _dataToSend.nombre_persona_emisora = solicitante.nombre + ' ' +  solicitante.apellido;
   _dataToSend.nombre_persona_registro = solicitante.nombre + ' ' + solicitante.apellido;
   _dataToSend.solicitante = fillSolicitante(solicitante);
-
+  _dataToSend.id_persona_registro = solicitante.id || -1;
   _dataToSend.fecha_inicio = turno.fecha_hora_inicio.toDate();
   _dataToSend.fecha_fin = turno.fecha_hora_inicio.add('m', turno.duracion_en_minutos).toDate();
 
@@ -120,7 +210,9 @@ function fillSolicitante(solicitante){
   var _solicitante = {};
   var keys = Object.keys(DTO.solicitante)
   keys.map((key, i) => {
-    _solicitante[key] = solicitante[key]
+    if(solicitante[key]){
+        _solicitante[key] = solicitante[key]
+    }
   })
 
   _solicitante.localidades = [];

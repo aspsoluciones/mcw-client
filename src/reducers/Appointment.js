@@ -6,30 +6,88 @@ import {
   APPOINTMENT_FAILURE,
   APPOINTMENT_REQUEST,
   APPOINTMENT_SUCCESS,
-  APPOINTMENT_SELECTED
+  APPOINTMENT_SELECTED,
+  APPOINTMENT_READ_SUCCESS,
+  DOCTOR_READ_REQUEST,
+  DOCTOR_READ_SUCCESS,
+  DOCTOR_READ_FAILURE,
+  APPOINTMENTS_READ_FAILURE,
+  APPOINTMENTS_READ_REQUEST,
+  APPOINTMENTS_READ_SUCCESS
+
 } from "../constants/ActionTypes";
 
-function appointment(state = {
-  isFetching: false
-}, action) {
+const initialState = {
+  loadingAppointments : false, loadingDoctorData : false, responsable_servicio: {}
+};
+
+/*** UTILS ***/
+
+function mergeDoctorAndAppointments (responsable_servicio, turnosPorLocalidades){
+  responsable_servicio.localidades.map(function(localidad, index) {
+    turnosPorLocalidades.map((function(turnos){
+      if(turnos.id_localidad == localidad.id){
+        responsable_servicio.localidades[index].turnos = turnos.turnos;
+      }
+    }));
+  });
+
+  return responsable_servicio;
+
+}
+
+
+/*** REDUCER ***/
+function appointment(state = initialState, action) {
   switch (action.type) {
+
+    case APPOINTMENTS_READ_REQUEST:
+      return {
+        ...state,
+        loadingAppointments: true
+      };
+
+    case APPOINTMENTS_READ_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.error
+      };
+
+    case APPOINTMENTS_READ_SUCCESS:
+      console.log(state);
+      const _responsable_servicio = mergeDoctorAndAppointments(state.responsable_servicio, action.payload);
+
+
+      return {
+        ...state,
+        loading: false,
+        responsable_servicio: _responsable_servicio
+      };
+
     case APPOINTMENT_SELECTED:
-      return Object.assign({}, state, {
-        keep : action.payload
-      });
-    case APPOINTMENT_REQUEST:
-      return Object.assign({}, state, {
-        isFetching: true
-      });
-    case APPOINTMENT_SUCCESS:
-      return Object.assign({}, state, {
-        isFetching: false
-      });
-    case APPOINTMENT_FAILURE:
-      return Object.assign({}, state, {
-        isFetching: false,
-        errorMessage: action.code
-      });
+      return {
+        ...state,
+        keep: action.payload
+      };
+
+    case DOCTOR_READ_REQUEST:
+      return {
+        ...state,
+        loadingDoctorData: true
+      };
+    case DOCTOR_READ_SUCCESS:
+      return {
+        ...state,
+        loadingDoctorData : false,
+        responsable_servicio: action.payload
+      };
+    case DOCTOR_READ_FAILURE:
+    return {
+      ...state,
+      loadingDoctorData : false,
+      errorMessage: action.error
+    };
     default:
       return state
   }
