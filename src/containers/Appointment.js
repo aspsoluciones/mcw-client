@@ -21,50 +21,53 @@ class Appointment extends Component {
     let initialDate = {
       minDate: moment().format("MM-DD-YYYY"),
       maxDate: moment().add('d',6).format("MM-DD-YYYY")
-    }
+    };
 
-    dispatch(GetDoctorData(this.props.params.doctorUsername))
-    dispatch(GetAppointments(this.props.params.doctorUsername, initialDate))
+    dispatch(GetDoctorData(this.props.params.doctorUsername));
+    dispatch(GetAppointments(this.props.params.doctorUsername, initialDate));
 
     store.subscribe(() =>{
-      var _state = store.getState();
+      let _state = store.getState();
       if(_state.appointment.keep) {
         router.push({
           pathname: '/doctor/' + this.props.params.doctorUsername + '/appointment/checkout'
-        })
+        });
       }
     })
 
 
   }
 
-    renderAppointmentScreen(appointment){
-
-      if(appointment.data) {
-        return (
-          <div className="ui one column grid">
-            <div className="ui column">
-              { DoctorProfileCard(appointment.data.responsable_servicio)}
-            </div>
-            <div className="ui column">
-              {
-                appointment.data.localidades.map((location, i) =>{
-                  return <div className="ui grid one column" key={i}>
-                    <div className="ui column" key={i}>
-                      <InstitutionDisplayer institution={location} doctor={appointment.data.responsable_servicio}key={i}/>
-                    </div>
-                  </div>
-                })
-              }
-            </div>
+  renderAppointmentScreen(appointment){
+    if(appointment.responsable_servicio) {
+      return (
+        <div className="ui one column grid">
+          <div className="ui column">
+            { DoctorProfileCard(appointment.responsable_servicio)}
           </div>
-        )
-      }
-
-      return null;
-
-
+          <div className="ui column">
+            {
+              this.renderLocations(appointment.responsable_servicio)
+            }
+          </div>
+        </div>
+      )
     }
+    return null;
+  }
+
+  renderLocations(responsable_servicio){
+    if(responsable_servicio.localidades && responsable_servicio.localidades.length){
+      return responsable_servicio.localidades.map((localidad, i) =>{
+        return (<div className="ui grid one column" key={i}>
+          <div className="ui column" key={i}>
+            <InstitutionDisplayer institution={localidad} doctor={responsable_servicio}key={i}/>
+          </div>
+        </div>)
+      });
+    }
+  }
+
 
     render() {
       const { appointment } = this.props;
@@ -81,7 +84,7 @@ function mapStateToProps(state) {
   const { appointment } = state;
   return {
     appointment
-  }
+  };
 }
 
 Appointment.contextTypes = {
