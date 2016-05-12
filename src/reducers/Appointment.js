@@ -13,12 +13,15 @@ import {
   DOCTOR_READ_FAILURE,
   APPOINTMENTS_READ_FAILURE,
   APPOINTMENTS_READ_REQUEST,
-  APPOINTMENTS_READ_SUCCESS
+  APPOINTMENTS_READ_SUCCESS,
+  APPOINTMENT_NEW_DATE
 
 } from "../constants/ActionTypes";
 
+import moment from 'moment';
+
 const initialState = {
-  loadingAppointments : false, loadingDoctorData : false, responsable_servicio: {}
+  loadingAppointments : false, loadingDoctorData : false, responsable_servicio: {}, selectedDay : moment()
 };
 
 /*** UTILS ***/
@@ -54,6 +57,12 @@ function appointment(state = initialState, action) {
         error: action.error
       };
 
+    case APPOINTMENT_NEW_DATE:
+      return {
+        ...state,
+        selectedDay: action.payload
+      }
+
     case APPOINTMENTS_READ_SUCCESS:
       console.log(state);
       const _responsable_servicio = mergeDoctorAndAppointments(state.responsable_servicio, action.payload);
@@ -74,7 +83,8 @@ function appointment(state = initialState, action) {
     case DOCTOR_READ_REQUEST:
       return {
         ...state,
-        loadingDoctorData: true
+        loadingDoctorData: true,
+        doctorUsername: action.payload
       };
     case DOCTOR_READ_SUCCESS:
       return {

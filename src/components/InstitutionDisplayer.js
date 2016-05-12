@@ -33,14 +33,14 @@ class InstitutionDisplayer extends Component {
 
   renderAvailabilityDisplayer(institution, doctor){
     if(institution.turnos && institution.turnos.length){
-      return (<AvailabilityDisplayer availability={institution.turnos} location={institution.localidad} doctor={doctor}/>)
+      return (<AvailabilityDisplayer availability={institution.turnos} idLocalidad={institution.id} doctor={doctor}/>)
     }
     return null;
   }
 
   render() {
     const { institution, doctor } = this.props;
-    
+
     return(
     <Card>
       <CardText>

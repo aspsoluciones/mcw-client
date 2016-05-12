@@ -12,7 +12,8 @@ import {
  APPOINTMENTS_READ_FAILURE,
  DOCTOR_READ_REQUEST,
  DOCTOR_READ_SUCCESS,
- DOCTOR_READ_FAILURE
+ DOCTOR_READ_FAILURE,
+ APPOINTMENT_NEW_DATE
 } from '../constants/ActionTypes';
 
 import axios from 'axios';
@@ -107,9 +108,10 @@ function AppointmentsRequestFailure(error) {
   }
 }
 
-function DoctorDataRequest() {
+function DoctorDataRequest(payload) {
   return {
-    type: DOCTOR_READ_REQUEST
+    type: DOCTOR_READ_REQUEST,
+    payload
   }
 }
 
@@ -127,9 +129,17 @@ function DoctorDataRequestFailure(error) {
   }
 }
 
+function SelectedNewDate(newDate) {
+  return {
+    type: APPOINTMENT_NEW_DATE,
+    payload : moment(newDate)
+
+  }
+}
+
 export function GetDoctorData(doctorUsername) {
   return dispatch => {
-    dispatch(DoctorDataRequest());
+    dispatch(DoctorDataRequest(doctorUsername));
     axios.get('responsablesservicio/perfilpublico/' + doctorUsername)
     .then((data)=> {
         dispatch(DoctorDataRequestSuccess(data.data));
@@ -139,13 +149,32 @@ export function GetDoctorData(doctorUsername) {
   }
 }
 
-export function GetAppointments(doctorUsername, range) {
+
+
+
+export function SelectNewDate(newDate, doctorUsername, locationID) {
+
+  let range = {
+    minDate: moment(newDate).format("MM-DD-YYYY"),
+    maxDate: moment(newDate).add('d',6).format("MM-DD-YYYY")
+  }
+
+  return dispatch => {
+    dispatch(SelectedNewDate(newDate))
+    dispatch(GetAppointments(doctorUsername, range, locationID))
+  }
+}
+
+export function GetAppointments(doctorUsername, range, locationID) {
   //If a date range is specified.
   return dispatch =>{
     dispatch(AppointmentsRequest());
     if(range){
       axios.get('agenda/turnosdisponibles/' + doctorUsername + '/' + range.minDate + '/' + range.maxDate)
         .then((data)=> {
+            if(locationID){
+              data.forLocation = locationID
+            }
             dispatch(AppointmentsRequestSuccess(data.data));
         }).catch((error) => {
           dispatch(AppointmentsRequestFailure(error))
