@@ -71,11 +71,9 @@ class Appointment extends Component {
 
     render() {
       const { appointment } = this.props;
-      const {loading} = appointment;
+      const {loadingDoctorData} = appointment;
 
-      let _render = (loading) ? (<Loader/>) : this.renderAppointmentScreen(appointment);
-
-
+      let _render = (loadingDoctorData) ? (<Loader/>) : this.renderAppointmentScreen(appointment);
       return _render;
     }
 }

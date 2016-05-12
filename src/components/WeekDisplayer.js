@@ -29,7 +29,7 @@ class WeekDisplayer extends Component {
 
 
   assignAppointmentsToWeekDay(week, appointments) {
-
+    console.log(week);
     var _weekWithTimes = [{}, {}, {}, {}, {}, {}, {}];
 
       week.map(function ProcessWeekDay(weekDay, i){
@@ -66,7 +66,7 @@ class WeekDisplayer extends Component {
   }
 
   render() {
-    var _weekdays = this.calculateWeekToDisplay(this.props.selectedDay);
+    var _weekdays = this.calculateWeekToDisplay(this.props.appointment.selectedDay);
     var _weekWithTimes = this.assignAppointmentsToWeekDay(_weekdays, this.props.appointmentsForWeek);
     console.log(_weekWithTimes);
 
@@ -143,4 +143,13 @@ WeekDisplayer.propTypes = {
   doctor: PropTypes.any
 };
 
-export default connect()(WeekDisplayer);
+
+function mapStateToProps(state) {
+  const { appointment } = state;
+  return {
+    appointment
+  }
+
+}
+
+export default connect(mapStateToProps)(WeekDisplayer);

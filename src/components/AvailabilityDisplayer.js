@@ -10,6 +10,7 @@ import "react-day-picker/lib/style.css";
 import "../styles/dayPicker.scss";
 import { connect } from "react-redux";
 import _ from 'lodash';
+import { GetAppointments, SelectNewDate } from '../actions/Appointments';
 
 import WeekDisplayer from './WeekDisplayer';
 
@@ -17,15 +18,13 @@ const currentYear = (new Date()).getFullYear();
 const fromMonth = new Date(currentYear, 0, 1, 0, 0);
 const toMonth = new Date(currentYear + 10, 11, 31, 23, 59);
 
-function calculateAvailableAppointmentsForWeek(selectedDate, appointments) {
-    let min = selectedDate;
-    let max = moment(selectedDate).add(6, 'd');
 
-    return _.filter(appointments, function ProcessAppointment(appointment) {
-      if( (min.utc() <= moment(appointment.fecha_hora_inicio).utc())  &&  (moment(appointment.fecha_hora_inicio).utc() <= max.utc())) {
-        return appointment
-      }
-    });
+function filterAppointmentsForWeek(selectedDay, appointments, range) {
+  return _.filter(appointments, function ProcessAppointment(appointment) {
+    if( (range.min.utc() <= moment(appointment.fecha_hora_inicio).utc())  &&  (moment(appointment.fecha_hora_inicio).utc() <= range.max.utc())) {
+      return appointment
+    }
+  });
 }
 
 
@@ -34,15 +33,35 @@ class AvailabilityDisplayer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedDay: moment(),
       displayDay : moment(),
-      appointmentsForWeek : calculateAvailableAppointmentsForWeek(moment(), this.props.availability)
+      appointmentsForWeek : this.calculateAvailableAppointmentsForWeek(this.props.appointment.selectedDay, this.props.availability, true)
     };
   }
 
-  render() {
-    const { availability } = this.props;
+  renderWeekDisplayer(selectedDate, appointments){
 
+    const { idLocalidad, appointment, doctor } = this.props;
+
+    var _appointmentsForWeek = this.calculateAvailableAppointmentsForWeek(selectedDate, appointments, true)
+
+    return (<WeekDisplayer appointmentsForWeek={_appointmentsForWeek}
+                     selectedDay={this.state.selectedDay}
+                     idLocalidad={idLocalidad} doctor={doctor}/>)
+  }
+
+
+  calculateAvailableAppointmentsForWeek(selectedDate, appointments, initial) {
+     const { dispatch } = this.props;
+      let min = selectedDate;
+      let max = moment(selectedDate).add(6, 'd');
+      if(initial) {
+        return filterAppointmentsForWeek(selectedDate, appointments ,{min, max})
+      }
+  }
+
+  render() {
+    const { availability, appointment, idLocalidad, dispatch, doctor } = this.props;
+    console.log(this.props);
     return(
       <div className="ui grid">
         <div className="ui column grid stackable container">
@@ -53,19 +72,18 @@ class AvailabilityDisplayer extends Component {
               fromMonth={ fromMonth }
               toMonth={ toMonth }
               onDayClick={ (e, day) => {
-                    this.setState({
+                    dispatch(SelectNewDate(day, appointment.doctorUsername, idLocalidad));
+                    /*this.setState({
                       selectedDay : moment(day),
-                      appointmentsForWeek : calculateAvailableAppointmentsForWeek(moment(day), availability)
-                    });
+                      appointmentsForWeek : this.calculateAvailableAppointmentsForWeek(moment(day), availability)
+                    });*/
                 }
               }
             />
           </div>
           <div className="ui nine wide column grid stackable">
             <div className="ui column">
-              <WeekDisplayer appointmentsForWeek={this.state.appointmentsForWeek}
-                             selectedDay={this.state.selectedDay}
-                             location={this.props.location} doctor={this.props.doctor}/>
+              { this.renderWeekDisplayer(appointment.selectedDay, availability)}
             </div>
           </div>
         </div>
