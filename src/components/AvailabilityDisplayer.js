@@ -34,8 +34,11 @@ class AvailabilityDisplayer extends Component {
     super(props);
     this.state = {
       displayDay : moment(),
-      appointmentsForWeek : this.calculateAvailableAppointmentsForWeek(this.props.appointment.selectedDay, this.props.availability, true)
+      appointmentsForWeek : this.calculateAvailableAppointmentsForWeek(moment(), this.props.availability, true),
+      selectedDate: moment()
     };
+
+
   }
 
   renderWeekDisplayer(selectedDate, appointments){
@@ -59,8 +62,19 @@ class AvailabilityDisplayer extends Component {
       }
   }
 
+  setNewDate(day) {
+    var _day = moment(day);
+    const { appointment, idLocalidad, dispatch } = this.props;
+
+    this.setState({
+      selectedDate : _day
+    })
+
+    dispatch(SelectNewDate(_day, appointment.doctorUsername, idLocalidad));
+  }
+
   render() {
-    const { availability, appointment, idLocalidad, dispatch, doctor } = this.props;
+    const { availability, appointment, idLocalidad, doctor } = this.props;
     console.log(this.props);
     return(
       <div className="ui grid">
@@ -72,11 +86,7 @@ class AvailabilityDisplayer extends Component {
               fromMonth={ fromMonth }
               toMonth={ toMonth }
               onDayClick={ (e, day) => {
-                    dispatch(SelectNewDate(day, appointment.doctorUsername, idLocalidad));
-                    /*this.setState({
-                      selectedDay : moment(day),
-                      appointmentsForWeek : this.calculateAvailableAppointmentsForWeek(moment(day), availability)
-                    });*/
+                  this.setNewDate(day);
                 }
               }
             />

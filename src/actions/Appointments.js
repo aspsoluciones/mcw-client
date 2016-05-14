@@ -222,11 +222,15 @@ function transformAppointment(appointment){
   _dataToSend.fecha_inicio = turno.fecha_hora_inicio.toDate();
   _dataToSend.fecha_fin = turno.fecha_hora_inicio.add('m', turno.duracion_en_minutos).toDate();
 
+  _dataToSend.solicitante.id = solicitante.id;
   _dataToSend.id_persona_emisora = solicitante.id;
+  _dataToSend.solicitante.id_empresa = 631033;
+  _dataToSend.id_empresa = 629896;
+  _dataToSend.solicitante.id_responsable_servicio = 632091
   _dataToSend.nombre_responsable_servicio = doctor.titulo + ' ' + doctor.apellido + ' ' + doctor.nombre;
 
   _dataToSend.etapas_solicitud[0].id_localidad = location.id;
-  _dataToSend.etapas_solicitud[0].nombre_localidad = location.nombre;
+  _dataToSend.etapas_solicitud[0].nombre_localidad = location.nombre || 'Mock';
 
   _dataToSend.etapas_solicitud[0].fecha_inicio = _dataToSend.fecha_inicio;
   _dataToSend.etapas_solicitud[0].fecha_fin = _dataToSend.fecha_fin;
@@ -272,6 +276,13 @@ function fillSolicitante(solicitante){
     })
   }
 
+  _localidad.contactos.push({
+    "id_tipo": 11,
+    "valor": "Dirección recidencial"
+  })
+
+
+_solicitante.fecha_de_nacimiento = '1990-04-18T00:00:00'
   _solicitante.localidades.push(_localidad);
 
   return _solicitante;
