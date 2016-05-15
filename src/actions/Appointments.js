@@ -131,8 +131,7 @@ function DoctorDataRequestFailure(error) {
 
 function SelectedNewDate(newDate) {
   return {
-    type: APPOINTMENT_NEW_DATE,
-    payload : moment(newDate)
+    type: APPOINTMENT_NEW_DATE
 
   }
 }
@@ -173,7 +172,7 @@ export function GetAppointments(doctorUsername, range, locationID) {
       axios.get('agenda/turnosdisponibles/' + doctorUsername + '/' + range.minDate + '/' + range.maxDate)
         .then((data)=> {
             if(locationID){
-              data.forLocation = locationID
+              data.data.forLocation = locationID
             }
             dispatch(AppointmentsRequestSuccess(data.data));
         }).catch((error) => {
@@ -278,7 +277,6 @@ function fillSolicitante(solicitante){
 
 _solicitante.fecha_nacimiento = "1985-04-16T00:00:00";
   _solicitante.localidades.push(_localidad);
-  //_solicitante.localidades = [{"id_tipo":12,"contactos":[{"id_tipo":14,"valor":"CCCCCC"},{"id_tipo":12,"valor":"E3332ddd"},{"id_tipo":15,"valor":"epotignano@gmail.com"}]}]
 
   return _solicitante;
 }

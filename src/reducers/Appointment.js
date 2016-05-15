@@ -27,13 +27,25 @@ const initialState = {
 /*** UTILS ***/
 
 function mergeDoctorAndAppointments (responsable_servicio, turnosPorLocalidades){
-  responsable_servicio.localidades.map(function(localidad, index) {
-    turnosPorLocalidades.map((function(turnos){
-      if(turnos.id_localidad == localidad.id){
-        responsable_servicio.localidades[index].turnos = turnos.turnos;
-      }
-    }));
-  });
+
+  if(!turnosPorLocalidades.forLocation){
+    responsable_servicio.localidades.map(function(localidad, index) {
+      turnosPorLocalidades.map((function(turnos){
+        if(turnos.id_localidad == localidad.id){
+          responsable_servicio.localidades[index].turnos = turnos.turnos;
+        }
+      }));
+    });
+  } else {
+    responsable_servicio.localidades.some(function(localidad, index) {
+      turnosPorLocalidades.map((function(turnos){
+        if(turnos.id_localidad == localidad.id && localidad.id == turnosPorLocalidades.forLocation){
+          responsable_servicio.localidades[index].turnos = turnos.turnos;
+        }
+      }));
+    });
+  }
+
 
   return responsable_servicio;
 
@@ -59,8 +71,7 @@ function appointment(state = initialState, action) {
 
     case APPOINTMENT_NEW_DATE:
       return {
-        ...state,
-        selectedDay: action.payload
+        ...state
       }
 
     case APPOINTMENTS_READ_SUCCESS:

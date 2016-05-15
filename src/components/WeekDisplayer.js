@@ -83,7 +83,7 @@ class WeekDisplayer extends Component {
   }
 
   render() {
-    var _weekdays = this.calculateWeekToDisplay(this.props.appointment.selectedDay);
+    var _weekdays = this.calculateWeekToDisplay(this.props.selectedDay);
     var _weekWithTimes = this.assignAppointmentsToWeekDay(_weekdays, this.props.appointmentsForWeek);
     console.log(_weekWithTimes);
 

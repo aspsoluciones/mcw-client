@@ -48,7 +48,7 @@ class AvailabilityDisplayer extends Component {
     var _appointmentsForWeek = this.calculateAvailableAppointmentsForWeek(selectedDate, appointments, true)
 
     return (<WeekDisplayer appointmentsForWeek={_appointmentsForWeek}
-                     selectedDay={this.state.selectedDay}
+                     selectedDay={selectedDate}
                      idLocalidad={idLocalidad} doctor={doctor}/>)
   }
 
@@ -93,7 +93,7 @@ class AvailabilityDisplayer extends Component {
           </div>
           <div className="ui nine wide column grid stackable">
             <div className="ui column">
-              { this.renderWeekDisplayer(appointment.selectedDay, availability)}
+              { this.renderWeekDisplayer(this.state.selectedDate, availability)}
             </div>
           </div>
         </div>
