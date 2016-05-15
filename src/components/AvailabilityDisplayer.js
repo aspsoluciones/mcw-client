@@ -47,9 +47,16 @@ class AvailabilityDisplayer extends Component {
 
     var _appointmentsForWeek = this.calculateAvailableAppointmentsForWeek(selectedDate, appointments, true)
 
-    return (<WeekDisplayer appointmentsForWeek={_appointmentsForWeek}
-                     selectedDay={selectedDate}
-                     idLocalidad={idLocalidad} doctor={doctor}/>)
+    if(_appointmentsForWeek.length) {
+      return (<WeekDisplayer appointmentsForWeek={_appointmentsForWeek}
+                       selectedDay={selectedDate}
+                       idLocalidad={idLocalidad} doctor={doctor}/>)
+    } else{
+      return(<div>
+          There are not appointments available
+        </div>)
+      
+    }
   }
 
 

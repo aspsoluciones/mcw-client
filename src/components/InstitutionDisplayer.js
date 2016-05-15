@@ -35,7 +35,9 @@ class InstitutionDisplayer extends Component {
     if(institution.turnos && institution.turnos.length){
       return (<AvailabilityDisplayer availability={institution.turnos} idLocalidad={institution.id} doctor={doctor}/>)
     }
-    return null;
+    return (<div>
+      <p>No hay turnos disponibles</p>
+    </div>)
   }
 
   render() {
