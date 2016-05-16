@@ -6,7 +6,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Formsy from 'formsy-react';
 import MenuItem from 'material-ui/lib/menus/menu-item';
-import { FormsyText, FormsySelect } from 'formsy-material-ui';
+import { FormsyText, FormsySelect, FormsyDate } from 'formsy-material-ui';
 import { ConfirmAppointment } from '../actions/Appointments';
 import { getPatientByEmail, selectPatient, patientSelectModal, fillPatientData} from '../actions/PatientsActions';
 import PatientsModal from '../components/PatientsModal';
@@ -110,6 +110,10 @@ class Checkout extends Component {
                 value=""
               />
             </div>
+              <FormsyDate
+               name="fecha_nacimiento"
+               floatingLabelText="Fecha"
+             />
             <div className="ui column">
               <FormsySelect
                 name="sexo"
