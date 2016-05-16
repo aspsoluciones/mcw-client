@@ -10,7 +10,7 @@ import "react-day-picker/lib/style.css";
 import "../styles/dayPicker.scss";
 import { connect } from "react-redux";
 import _ from 'lodash';
-import { GetAppointments, SelectNewDate } from '../actions/Appointments';
+import { GetAppointments, SelectNewDate, GetClosestAppointments } from '../actions/Appointments';
 
 import WeekDisplayer from './WeekDisplayer';
 
@@ -18,6 +18,18 @@ const currentYear = (new Date()).getFullYear();
 const fromMonth = new Date(currentYear, 0, 1, 0, 0);
 const toMonth = new Date(currentYear + 10, 11, 31, 23, 59);
 
+function getFirstAppointmentAvailableForLocation(locations, idLocalidad) {
+  let _appointment;
+  locations.some((localidad)=>{
+    if(idLocalidad == localidad.id_localidad){
+      _appointment = localidad.turnos[0];
+      return true;
+    }
+  })
+
+  return _appointment;
+
+}
 
 function filterAppointmentsForWeek(selectedDay, appointments, range) {
   return _.filter(appointments, function ProcessAppointment(appointment) {
@@ -43,22 +55,43 @@ class AvailabilityDisplayer extends Component {
 
   renderWeekDisplayer(selectedDate, appointments){
 
-    const { idLocalidad, appointment, doctor } = this.props;
+    const { idLocalidad, availability, appointment, doctor, doctorUsername, dispatch } = this.props;
 
-    var _appointmentsForWeek = this.calculateAvailableAppointmentsForWeek(selectedDate, appointments, true)
+    var _datesToUse;
 
-    if(_appointmentsForWeek.length) {
-      return (<WeekDisplayer appointmentsForWeek={_appointmentsForWeek}
-                       selectedDay={selectedDate}
-                       idLocalidad={idLocalidad} doctor={doctor}/>)
-    } else{
-      return(<div>
-          There are not appointments available
-        </div>)
-      
+    appointment.responsable_servicio.localidades.some((localidad) =>{
+      if(idLocalidad == localidad.id){
+        _datesToUse = localidad.turnos
+      }
+    })
+
+
+    var _appointmentsForWeek = this.calculateAvailableAppointmentsForWeek(selectedDate, _datesToUse, true);
+    if(!this.state.showClosestAppointment){
+      if(_appointmentsForWeek.length) {
+        return (<WeekDisplayer appointmentsForWeek={_appointmentsForWeek}
+                         selectedDay={selectedDate}
+                         idLocalidad={idLocalidad} doctor={doctor}/>)
+      } else if(!appointment.loadingAppointments &&
+        !appointment.loadingDoctorData &&
+        !_appointmentsForWeek.length && appointment.readSuccess
+      ) {
+        GetClosestAppointments(doctorUsername, idLocalidad).then((data) => {
+          let _closest =  getFirstAppointmentAvailableForLocation(data.data, idLocalidad);
+          this.setState({
+            showClosestAppointment: true,
+            closestAppointment : _closest,
+            availability : _closest
+          });
+        });
+      }
+    }else{
+      return (<div>
+        Proximo turno disponible {this.state.closestAppointment.fecha_hora_inicio}
+      </div>)
     }
-  }
 
+  }
 
   calculateAvailableAppointmentsForWeek(selectedDate, appointments, initial) {
      const { dispatch } = this.props;
@@ -74,7 +107,8 @@ class AvailabilityDisplayer extends Component {
     const { appointment, idLocalidad, dispatch } = this.props;
 
     this.setState({
-      selectedDate : _day
+      selectedDate : _day,
+      showClosestAppointment: false
     })
 
     dispatch(SelectNewDate(_day, appointment.doctorUsername, idLocalidad));
@@ -82,7 +116,6 @@ class AvailabilityDisplayer extends Component {
 
   render() {
     const { availability, appointment, idLocalidad, doctor } = this.props;
-    console.log(this.props);
     return(
       <div className="ui grid">
         <div className="ui column grid stackable container">

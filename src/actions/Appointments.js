@@ -164,6 +164,11 @@ export function SelectNewDate(newDate, doctorUsername, locationID) {
   }
 }
 
+export function GetClosestAppointments(doctorUsername, locationID) {
+    // Auxiliar function for notify Closest appointment available
+    return axios.get('agenda/turnosdisponibles/' + doctorUsername + '/05-15-2016/11-15-2016' );
+}
+
 export function GetAppointments(doctorUsername, range, locationID) {
   //If a date range is specified.
   return dispatch =>{
@@ -175,13 +180,6 @@ export function GetAppointments(doctorUsername, range, locationID) {
               data.data.forLocation = locationID
             }
             dispatch(AppointmentsRequestSuccess(data.data));
-        }).catch((error) => {
-          dispatch(AppointmentsRequestFailure(error))
-        })
-    } else {
-      axios.get('agenda/turnosdisponibles/' + doctorUsername)
-        .then((data)=> {
-            dispatch(AppointmentSuccess(data.data));
         }).catch((error) => {
           dispatch(AppointmentsRequestFailure(error))
         })

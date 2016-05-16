@@ -21,7 +21,7 @@ import {
 import moment from 'moment';
 
 const initialState = {
-  loadingAppointments : false, loadingDoctorData : false, responsable_servicio: {}, selectedDay : moment()
+  loadingAppointments : false, readSuccess:false, loadingDoctorData : false, responsable_servicio: {}, selectedDay : moment()
 };
 
 /*** UTILS ***/
@@ -65,7 +65,7 @@ function appointment(state = initialState, action) {
     case APPOINTMENTS_READ_FAILURE:
       return {
         ...state,
-        loading: false,
+        loadingAppointments: false,
         error: action.error
       };
 
@@ -75,16 +75,12 @@ function appointment(state = initialState, action) {
       }
 
     case APPOINTMENTS_READ_SUCCESS:
-      console.log(state);
       const _responsable_servicio = mergeDoctorAndAppointments(state.responsable_servicio, action.payload);
-
-
       return {
         ...state,
-        loading: false,
-        responsable_servicio: _responsable_servicio
+        loadingAppointments: false,
+        responsable_servicio: _responsable_servicio, readSuccess: true
       };
-
     case APPOINTMENT_SELECTED:
       return {
         ...state,
