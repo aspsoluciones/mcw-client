@@ -21,19 +21,31 @@ import {
 import moment from 'moment';
 
 const initialState = {
-  loadingAppointments : false, loadingDoctorData : false, responsable_servicio: {}, selectedDay : moment()
+  loadingAppointments : false, readSuccess:false, loadingDoctorData : false, responsable_servicio: {}, selectedDay : moment()
 };
 
 /*** UTILS ***/
 
 function mergeDoctorAndAppointments (responsable_servicio, turnosPorLocalidades){
-  responsable_servicio.localidades.map(function(localidad, index) {
-    turnosPorLocalidades.map((function(turnos){
-      if(turnos.id_localidad == localidad.id){
-        responsable_servicio.localidades[index].turnos = turnos.turnos;
-      }
-    }));
-  });
+
+  if(!turnosPorLocalidades.forLocation){
+    responsable_servicio.localidades.map(function(localidad, index) {
+      turnosPorLocalidades.map((function(turnos){
+        if(turnos.id_localidad == localidad.id){
+          responsable_servicio.localidades[index].turnos = turnos.turnos;
+        }
+      }));
+    });
+  } else {
+    responsable_servicio.localidades.some(function(localidad, index) {
+      turnosPorLocalidades.map((function(turnos){
+        if(turnos.id_localidad == localidad.id && localidad.id == turnosPorLocalidades.forLocation){
+          responsable_servicio.localidades[index].turnos = turnos.turnos;
+        }
+      }));
+    });
+  }
+
 
   return responsable_servicio;
 
@@ -53,27 +65,22 @@ function appointment(state = initialState, action) {
     case APPOINTMENTS_READ_FAILURE:
       return {
         ...state,
-        loading: false,
+        loadingAppointments: false,
         error: action.error
       };
 
     case APPOINTMENT_NEW_DATE:
       return {
-        ...state,
-        selectedDay: action.payload
+        ...state
       }
 
     case APPOINTMENTS_READ_SUCCESS:
-      console.log(state);
       const _responsable_servicio = mergeDoctorAndAppointments(state.responsable_servicio, action.payload);
-
-
       return {
         ...state,
-        loading: false,
-        responsable_servicio: _responsable_servicio
+        loadingAppointments: false,
+        responsable_servicio: _responsable_servicio, readSuccess: true
       };
-
     case APPOINTMENT_SELECTED:
       return {
         ...state,

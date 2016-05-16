@@ -15,6 +15,19 @@ function isSameDay(date1, date2) {
   return _result;
 }
 
+
+function retrieveSelectedLocation(idLocalidad, localidades) {
+  let _localidad;
+  localidades.some((localidad, index) => {
+    if(localidad.id === idLocalidad) {
+      _localidad = localidades[index];
+      return true;
+    }
+  })
+
+  return _localidad;
+}
+
 class WeekDisplayer extends Component {
 
    calculateWeekToDisplay(_day) {
@@ -53,20 +66,24 @@ class WeekDisplayer extends Component {
 
   selectAppointment(appointment, location){
 
-    const {dispatch, doctor} = this.props;
+    const {dispatch, doctor, idLocalidad} = this.props;
 
     this.setState({
       selectedAppointment : appointment
     });
 
-    appointment.location = location;
+
+
+
+
+    appointment.location = retrieveSelectedLocation(idLocalidad, doctor.localidades );
     appointment.doctor = doctor
 
     dispatch(TakeAppointment({appointment}))
   }
 
   render() {
-    var _weekdays = this.calculateWeekToDisplay(this.props.appointment.selectedDay);
+    var _weekdays = this.calculateWeekToDisplay(this.props.selectedDay);
     var _weekWithTimes = this.assignAppointmentsToWeekDay(_weekdays, this.props.appointmentsForWeek);
     console.log(_weekWithTimes);
 

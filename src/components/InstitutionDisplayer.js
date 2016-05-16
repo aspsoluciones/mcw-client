@@ -32,10 +32,13 @@ class InstitutionDisplayer extends Component {
   }
 
   renderAvailabilityDisplayer(institution, doctor){
-    if(institution.turnos && institution.turnos.length){
-      return (<AvailabilityDisplayer availability={institution.turnos} idLocalidad={institution.id} doctor={doctor}/>)
-    }
-    return null;
+      return (<AvailabilityDisplayer
+          availability={institution.turnos}
+          idLocalidad={institution.id}
+          doctor={doctor}
+          doctorUsername={this.props.doctorUsername}
+        />
+    )
   }
 
   render() {
@@ -47,7 +50,7 @@ class InstitutionDisplayer extends Component {
         { this.renderAvailabilityDisplayer(institution, doctor)}
       </CardText>
     </Card>
-    )
+  );
   }
 }
 

@@ -34,16 +34,16 @@ var DTO = {
     sexo: '',
     fecha_de_nacimiento: ''
   }, // Solicitante del turno
-  "id_persona_emisora": -1,
+  "id_persona_emisora": null,
   "nombre_persona_emisora": '', // Nombre y apellido del paciente
-  "id_responsable_servicio": 631034, // id del medico,
+  "id_responsable_servicio": 629896, // id del medico,
   "nombre_responsable_servicio": '', // Nombre del medico, con titulo incluido, ejemplo Dra. Ana Maria Garcia
   "fecha_inicio": "", //Fecha y hora de inicio de la cita.
   "fecha_fin": "", // Fecha y hora de fin de la cita
   "comentario_emisor": "",
   "id_estatus" : 1, // valor fijo,
   "id_estado": 22, // valor fijo
-  "id_persona_registro": -1, //En el caso de citas desde la web, debe ser el id  del paciente
+  // "id_persona_registro": -1, //En el caso de citas desde la web, debe ser el id  del paciente
   "nombre_persona_registro": "", // NOmbre y apellido del paciente.
   "etapas_solicitud":[
         {
@@ -61,7 +61,7 @@ var DTO = {
 
 function AppointmentSelected(appointment) {
   if(appointment.appointment) {
-      appointment.appointment.fecha_hora_inicio = moment(appointment.fecha_hora_inicio);
+      appointment.appointment.fecha_hora_inicio = moment(appointment.appointment.fecha_hora_inicio);
   }
   return {
     type: APPOINTMENT_SELECTED,
@@ -131,8 +131,7 @@ function DoctorDataRequestFailure(error) {
 
 function SelectedNewDate(newDate) {
   return {
-    type: APPOINTMENT_NEW_DATE,
-    payload : moment(newDate)
+    type: APPOINTMENT_NEW_DATE
 
   }
 }
@@ -165,6 +164,11 @@ export function SelectNewDate(newDate, doctorUsername, locationID) {
   }
 }
 
+export function GetClosestAppointments(doctorUsername, locationID) {
+    // Auxiliar function for notify Closest appointment available
+    return axios.get('agenda/turnosdisponibles/' + doctorUsername + '/05-15-2016/11-15-2016' );
+}
+
 export function GetAppointments(doctorUsername, range, locationID) {
   //If a date range is specified.
   return dispatch =>{
@@ -173,16 +177,9 @@ export function GetAppointments(doctorUsername, range, locationID) {
       axios.get('agenda/turnosdisponibles/' + doctorUsername + '/' + range.minDate + '/' + range.maxDate)
         .then((data)=> {
             if(locationID){
-              data.forLocation = locationID
+              data.data.forLocation = locationID
             }
             dispatch(AppointmentsRequestSuccess(data.data));
-        }).catch((error) => {
-          dispatch(AppointmentsRequestFailure(error))
-        })
-    } else {
-      axios.get('agenda/turnosdisponibles/' + doctorUsername)
-        .then((data)=> {
-            dispatch(AppointmentSuccess(data.data));
         }).catch((error) => {
           dispatch(AppointmentsRequestFailure(error))
         })
@@ -218,15 +215,19 @@ function transformAppointment(appointment){
   _dataToSend.nombre_persona_emisora = solicitante.nombre + ' ' +  solicitante.apellido;
   _dataToSend.nombre_persona_registro = solicitante.nombre + ' ' + solicitante.apellido;
   _dataToSend.solicitante = fillSolicitante(solicitante);
-  _dataToSend.id_persona_registro = solicitante.id || -1;
+  _dataToSend.id_persona_registro = solicitante.id;
   _dataToSend.fecha_inicio = turno.fecha_hora_inicio.toDate();
   _dataToSend.fecha_fin = turno.fecha_hora_inicio.add('m', turno.duracion_en_minutos).toDate();
 
+  _dataToSend.solicitante.id = solicitante.id
   _dataToSend.id_persona_emisora = solicitante.id;
+  _dataToSend.solicitante.id_empresa = 631033;
+  _dataToSend.id_empresa = 631033;
+  _dataToSend.solicitante.id_responsable_servicio = doctor.id
   _dataToSend.nombre_responsable_servicio = doctor.titulo + ' ' + doctor.apellido + ' ' + doctor.nombre;
 
   _dataToSend.etapas_solicitud[0].id_localidad = location.id;
-  _dataToSend.etapas_solicitud[0].nombre_localidad = location.nombre;
+  _dataToSend.etapas_solicitud[0].nombre_localidad = location.nombre || 'Mock';
 
   _dataToSend.etapas_solicitud[0].fecha_inicio = _dataToSend.fecha_inicio;
   _dataToSend.etapas_solicitud[0].fecha_fin = _dataToSend.fecha_fin;
@@ -272,6 +273,7 @@ function fillSolicitante(solicitante){
     })
   }
 
+_solicitante.fecha_nacimiento = "1985-04-16T00:00:00";
   _solicitante.localidades.push(_localidad);
 
   return _solicitante;

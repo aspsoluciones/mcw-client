@@ -61,7 +61,11 @@ class Appointment extends Component {
       return responsable_servicio.localidades.map((localidad, i) =>{
         return (<div className="ui grid one column" key={i}>
           <div className="ui column" key={i}>
-            <InstitutionDisplayer institution={localidad} doctor={responsable_servicio}key={i}/>
+            <InstitutionDisplayer
+              institution={localidad}
+              doctor={responsable_servicio}
+              doctorUsername={this.props.params.doctorUsername}
+              key={i}/>
           </div>
         </div>)
       });
