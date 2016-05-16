@@ -61,7 +61,7 @@ var DTO = {
 
 function AppointmentSelected(appointment) {
   if(appointment.appointment) {
-      appointment.appointment.fecha_hora_inicio = moment(appointment.fecha_hora_inicio);
+      appointment.appointment.fecha_hora_inicio = moment(appointment.appointment.fecha_hora_inicio);
   }
   return {
     type: APPOINTMENT_SELECTED,
