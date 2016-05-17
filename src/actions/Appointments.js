@@ -273,7 +273,8 @@ function fillSolicitante(solicitante){
     })
   }
 
-_solicitante.fecha_nacimiento = "1985-04-16T00:00:00";
+// Remover cuando añadan la propiedad fecha_nacimiento al usuario que traemos por email
+_solicitante.fecha_nacimiento = solicitante.fecha_nacimiento.toISOString()||"1985-04-16T00:00:00";
   _solicitante.localidades.push(_localidad);
 
   return _solicitante;

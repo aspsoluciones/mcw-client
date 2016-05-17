@@ -86,7 +86,9 @@ class AvailabilityDisplayer extends Component {
         });
       }
     }else{
-      return (<div>
+      return (<div onClick={ () => {
+          this.setNewDate(this.state.closestAppointment.fecha_hora_inicio)
+      }}>
         Proximo turno disponible {this.state.closestAppointment.fecha_hora_inicio}
       </div>)
     }
@@ -108,6 +110,7 @@ class AvailabilityDisplayer extends Component {
 
     this.setState({
       selectedDate : _day,
+      month: _day.toDate(),
       showClosestAppointment: false
     })
 
@@ -122,7 +125,7 @@ class AvailabilityDisplayer extends Component {
           <div className="ui five wide column">
             <DayPicker
               className="Availability"
-              initialMonth={ this.state.initialMonth }
+              initialMonth={ this.state.month }
               fromMonth={ fromMonth }
               toMonth={ toMonth }
               onDayClick={ (e, day) => {
