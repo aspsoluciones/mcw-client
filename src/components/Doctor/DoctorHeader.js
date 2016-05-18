@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DoctorPatientsType from './DoctorPatientsType';
+import DoctorName from './DoctorName';
 const style = {
     
 }
@@ -23,7 +24,12 @@ const DoctorHeader = ({doctor}) => {
                 <image className="ui image circular medium" src="http://previews.123rf.com/images/samuraitop/samuraitop1402/samuraitop140200024/25956537-Doctor-illustration-Stock-Vector.jpg"/>
             </div>
             <div className="ui ten wide column">
-                <DoctorPatientsType doctor={doctor}/>
+                <div className="ui column">
+                    <DoctorName doctor={doctor}/>
+                </div>
+                <div className="ui column">
+                    <DoctorPatientsType doctor={doctor}/>
+                </div>
             </div>
         </div>
     </div>);

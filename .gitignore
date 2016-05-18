@@ -32,5 +32,6 @@ dist
 #Webstorm metadata
 .idea
 
+jsconfig.json
 # Mac files
 .DS_Store
