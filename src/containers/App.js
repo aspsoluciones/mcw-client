@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { default as NavBar } from "../components/NavBar";
 import Loader from '../components/Loader';
 import SessionTracker from '../components/SessionTracker';
+import AppTheme from '../settings/AppTheme';
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
 
 //TODO Remove, is only for test purposes
 let messages = {
@@ -22,8 +24,12 @@ class App extends React.Component{
       The user authorization, tokens, and so
     */
 
-    const { dispatch } = this.props;
-
+  }
+  
+  getChildContext() {
+    return {
+      muiTheme: ThemeManager.getMuiTheme(AppTheme)
+    };
   }
 
   render() {

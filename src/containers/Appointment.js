@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { GetAppointments, GetDoctorData }  from '../actions/Appointments';
 import { DoctorProfileCard } from '../components/DoctorProfileCard';
 import InstitutionDisplayer from '../components/InstitutionDisplayer';
+import DoctorHeader from '../components/Doctor/DoctorHeader';
 import Loader from '../components/Loader';
 import moment from 'moment';
 
@@ -42,9 +43,8 @@ class Appointment extends Component {
     if(appointment.responsable_servicio) {
       return (
         <div className="ui one column grid">
-          <div className="ui column">
-            { DoctorProfileCard(appointment.responsable_servicio)}
-          </div>
+           <DoctorHeader doctor={ appointment.responsable_servicio }>
+           </DoctorHeader>
           <div className="ui column">
             {
               this.renderLocations(appointment.responsable_servicio)

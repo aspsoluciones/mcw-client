@@ -9,25 +9,6 @@ import UserAvatar  from './userAvatar';
 
 import { UidRef } from '../constants/Commons';
 var uid = localStorage.getItem(UidRef);
-function generateRightMenu(isAuthenticated, router) {
-
-  if(isAuthenticated) {
-    return(
-    <a className="ui dropdown item"><UserAvatar className="item"/>
-      <i className="dropdown icon"></i>
-      <div className="menu">
-        <div className="item">My Page</div>
-        <div className="ui divider"></div>
-        <div className="item">Log out</div>
-      </div>
-    </a>
-    )
-  }
-
-  return(
-    <Link className="item" to="/access/login">Login</Link>
-  )
-}
 
 class NavBar extends React.Component {
   componentDidMount() {
@@ -42,13 +23,7 @@ class NavBar extends React.Component {
 
     return (
       <nav className="ui inverted fixed menu navbar page grid">
-        <div className="row">
-          <div className="ui inverted fixed menu navbar page grid">
-            <div className="right menu">
-              TEST
-            </div>
-          </div>
-        </div>
+
       </nav>
     )
   }

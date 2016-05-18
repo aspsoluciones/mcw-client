@@ -24,6 +24,19 @@
   }
 }
 
+.doctorCover{
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    overflow: hidden;
+  
+  &.grid{
+    margin: 0!important;
+  }
+}
+
 /*login*/
 .login {
   z-index: 2;
