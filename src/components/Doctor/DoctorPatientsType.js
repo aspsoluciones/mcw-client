@@ -11,6 +11,7 @@ const DoctorPatientsType = ({ doctor }) => {
     
     return (
         <div>
+            <span>Enfoques: </span>
             { atencion_adultosLabel }
             { atencion_adultos_mayoresLabel }          
             { atencion_bebesLabel }
