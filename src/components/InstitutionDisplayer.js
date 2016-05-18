@@ -45,12 +45,10 @@ class InstitutionDisplayer extends Component {
     const { institution, doctor } = this.props;
 
     return(
-    <Card>
-      <CardText>
-        { this.renderAvailabilityDisplayer(institution, doctor)}
-      </CardText>
-    </Card>
-  );
+        <div>
+          { this.renderAvailabilityDisplayer(institution, doctor)}
+        </div>
+    );
   }
 }
 
