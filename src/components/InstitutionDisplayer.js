@@ -32,12 +32,40 @@ class InstitutionDisplayer extends Component {
   }
 
   renderAvailabilityDisplayer(institution, doctor){
-      return (<AvailabilityDisplayer
-          availability={institution.turnos}
-          idLocalidad={institution.id}
-          doctor={doctor}
-          doctorUsername={this.props.doctorUsername}
-        />
+      
+      const position = [51.505, -0.09];
+    
+      return (
+        <div className="ui one column grid segment">
+        <div className="ui one column grid mapContainer">
+          <div className="mapTitle">
+            <div className="title">
+              Clínica mérida
+            </div>
+            <div className="subTitle">
+              Av.urdaneta, pasos abajo de CORMETUR, Mérida - Venezuela.
+            </div>
+          </div>        
+          <Map className="ui column map" center={position} zoom={13} zoomControl={false} scrollWheelZoom={false}>
+            <TileLayer
+              url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            />
+            <Marker position={position}>
+              <Popup>
+                <span>A pretty CSS3 popup.<br/>Easily customizable.</span>
+              </Popup>
+            </Marker>
+          </Map>  
+        </div>
+          <AvailabilityDisplayer
+            className="ui column"
+            availability={institution.turnos}
+            idLocalidad={institution.id}
+            doctor={doctor}
+            doctorUsername={this.props.doctorUsername}
+          />
+        </div>
     )
   }
 

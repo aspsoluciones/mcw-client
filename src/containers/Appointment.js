@@ -7,6 +7,7 @@ import { GetAppointments, GetDoctorData }  from '../actions/Appointments';
 import { DoctorProfileCard } from '../components/DoctorProfileCard';
 import InstitutionDisplayer from '../components/InstitutionDisplayer';
 import DoctorHeader from '../components/Doctor/DoctorHeader';
+import DoctorGeneralInformation from '../components/Doctor/DoctorGeneralInformation';
 import Loader from '../components/Loader';
 import moment from 'moment';
 
@@ -45,11 +46,17 @@ class Appointment extends Component {
         <div className="ui one column grid">
            <DoctorHeader doctor={ appointment.responsable_servicio }>
            </DoctorHeader>
+           
+          <h2>
+            <i className="calendar icon"></i>Hacer una cita
+          </h2>
+          
           <div className="ui column">
             {
               this.renderLocations(appointment.responsable_servicio)
             }
           </div>
+          <DoctorGeneralInformation doctor={appointment.responsable_servicio } />
         </div>
       )
     }

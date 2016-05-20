@@ -2,14 +2,9 @@ import React from 'react';
 
 import DoctorPatientsType from './DoctorPatientsType';
 import DoctorName from './DoctorName';
-const style = {
-    
-}
+import DoctorCarousel from './DoctorCarousel';
 
 //TODO Should we add the option of define an own cover photo for a doctor;
-
-
-
 
 const DoctorHeader = ({doctor}) => {
     
@@ -18,17 +13,18 @@ const DoctorHeader = ({doctor}) => {
         backgroundSize: "cover"
     };
     
-    return (<div className="ui container doctorCover center aligned middle aligned content">
-        <div className="ui two columns grid doctorContent" style={coverStyle}>
-            <div className="ui six wide column">
-                <image className="ui image circular medium" src="http://previews.123rf.com/images/samuraitop/samuraitop1402/samuraitop140200024/25956537-Doctor-illustration-Stock-Vector.jpg"/>
-            </div>
-            <div className="ui ten wide column">
+    return (<div className="ui container doctorCover  content">
+        <DoctorCarousel></DoctorCarousel>
+        <div className="ui two columns grid">
+            <div className="ui ten wide column one column center aligned middle aligned grid">
                 <div className="ui column">
                     <DoctorName doctor={doctor}/>
                 </div>
                 <div className="ui column">
                     <DoctorPatientsType doctor={doctor}/>
+                </div>
+                <div className="ui column">
+                    {doctor.mensaje_publico}
                 </div>
             </div>
         </div>
