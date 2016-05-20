@@ -29,17 +29,17 @@ const initialState = {
 function mergeDoctorAndAppointments (responsable_servicio, turnosPorLocalidades){
 
   if(!turnosPorLocalidades.forLocation){
-    responsable_servicio.localidades.map(function(localidad, index) {
+    responsable_servicio.localidades.map(function(institution, index) {
       turnosPorLocalidades.map((function(turnos){
-        if(turnos.id_localidad == localidad.id){
+        if(turnos.id_localidad == institution.localidad.id){
           responsable_servicio.localidades[index].turnos = turnos.turnos;
         }
       }));
     });
   } else {
-    responsable_servicio.localidades.some(function(localidad, index) {
+    responsable_servicio.localidades.some(function(institution, index) {
       turnosPorLocalidades.map((function(turnos){
-        if(turnos.id_localidad == localidad.id && localidad.id == turnosPorLocalidades.forLocation){
+        if(turnos.id_localidad == institution.localidad.id && institution.localidad.id == turnosPorLocalidades.forLocation){
           responsable_servicio.localidades[index].turnos = turnos.turnos;
         }
       }));

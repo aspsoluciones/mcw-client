@@ -60,7 +60,7 @@ class AvailabilityDisplayer extends Component {
     var _datesToUse;
 
     appointment.responsable_servicio.localidades.some((localidad) =>{
-      if(idLocalidad == localidad.id){
+      if(idLocalidad == localidad.localidad.id){
         _datesToUse = localidad.turnos
       }
     })

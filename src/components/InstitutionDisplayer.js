@@ -61,7 +61,7 @@ class InstitutionDisplayer extends Component {
           <AvailabilityDisplayer
             className="ui column"
             availability={institution.turnos}
-            idLocalidad={institution.id}
+            idLocalidad={institution.localidad.id}
             doctor={doctor}
             doctorUsername={this.props.doctorUsername}
           />

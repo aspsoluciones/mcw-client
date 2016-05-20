@@ -172,3 +172,26 @@ a:hover.authLink {
         color: $mcwLightBlue;
       }
 }
+
+.doctorBadge {
+  margin-top: -120px;
+  border-width: 3px;
+        width: 140px;
+    height: 40px;
+    background-color: #fff;
+    white-space: nowrap;
+    position: relative;
+}
+
+.doctorCarousel {
+  
+  width:100%;
+  
+}
+
+.doctorAvatar{
+  height: 149px;
+  width: 149px;
+  border-radius: 50%;
+  
+}

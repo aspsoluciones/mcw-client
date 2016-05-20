@@ -3,6 +3,7 @@ import React from 'react';
 import DoctorPatientsType from './DoctorPatientsType';
 import DoctorName from './DoctorName';
 import DoctorCarousel from './DoctorCarousel';
+import DoctorBadge from './DoctorBadge';
 
 //TODO Should we add the option of define an own cover photo for a doctor;
 
@@ -14,8 +15,10 @@ const DoctorHeader = ({doctor}) => {
     };
     
     return (<div className="ui container doctorCover  content">
-        <DoctorCarousel></DoctorCarousel>
+        <DoctorCarousel className="doctorCarousel"></DoctorCarousel>
+        <DoctorBadge className="doctorBadge" doctor={doctor}></DoctorBadge>
         <div className="ui two columns grid">
+            
             <div className="ui ten wide column one column center aligned middle aligned grid">
                 <div className="ui column">
                     <DoctorName doctor={doctor}/>
