@@ -4,18 +4,23 @@ var React = require('react');
 
 var Carousel = require('nuka-carousel');
 
+var style = {
+        backgroundImage: "url(//fi.realself.com/hero/3b4b9f8ee43989919a60d83fb43a3999/a/e/c/userimage-968246.jpg)"
+    };
+
 const DoctorCarousel = React.createClass({
   mixins: [Carousel.ControllerMixin],
   render() {
+    
     return (
-      <Carousel className="doctorCarousel">
-        <img className="ui image" src="http://wildhunt.org/wp-content/uploads/2016/04/maxresdefault.jpg"/>
-        <img src="http://placehold.it/1000x400/ffffff/c0392b/&text=slide2"/>
-        <img src="http://placehold.it/1000x400/ffffff/c0392b/&text=slide3"/>
-        <img src="http://placehold.it/1000x400/ffffff/c0392b/&text=slide4"/>
-        <img src="http://placehold.it/1000x400/ffffff/c0392b/&text=slide5"/>
-        <img src="http://placehold.it/1000x400/ffffff/c0392b/&text=slide6"/>
-      </Carousel>
+      <div id="carousel">
+        <div className="carousel-outer">
+          <Carousel className="doctorCarousel">
+            <div style={{backgroundImage: "url(//fi.realself.com/hero/3b4b9f8ee43989919a60d83fb43a3999/a/e/c/userimage-968246.jpg)"}} className="carouselImage"></div>
+            <div style={{backgroundImage: "url(//fi.realself.com/hero/3b4b9f8ee43989919a60d83fb43a3999/a/e/c/userimage-968246.jpg)"}} className="carouselImage"></div>
+          </Carousel>
+        </div>
+     </div>
     )
   }
 });

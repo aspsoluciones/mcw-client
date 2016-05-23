@@ -14,23 +14,25 @@ const DoctorHeader = ({doctor}) => {
         backgroundSize: "cover"
     };
     
-    return (<div className="ui container doctorCover  content">
+    return (
+        <div>
         <DoctorCarousel className="doctorCarousel"></DoctorCarousel>
+        <div className="doctorCover">
         <DoctorBadge className="doctorBadge" doctor={doctor}></DoctorBadge>
-        <div className="ui two columns grid">
-            
-            <div className="ui ten wide column one column center aligned middle aligned grid">
+        <div className="ui grid profile-header-content">
+            <div className="ui one column grid">
                 <div className="ui column">
                     <DoctorName doctor={doctor}/>
                 </div>
                 <div className="ui column">
                     <DoctorPatientsType doctor={doctor}/>
                 </div>
-                <div className="ui column">
-                    {doctor.mensaje_publico}
+                <div className="ui column color-mcwDark">
+                    <strong>{doctor.mensaje_publico}</strong>
                 </div>
             </div>
         </div>
+    </div>
     </div>);
 }
 

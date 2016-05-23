@@ -1,16 +1,18 @@
 @import 'colors';
 .Availability {
+  outline: none;
+  
   .DayPicker-Caption {
-    font-weight: 300;
-    font-size: 2rem;
-    height: auto;
+    color: $mcwBlue;
+    font-size: 1.5rem;
+    height: 20px;
+    text-transform: uppercase;
     text-align: center;
-    color: #a6b0b0;
   }
   .DayPicker-Weekday {
     text-align: center;
     vertical-align: middle;
-    color: $mcwLightBlue;
+    color: $mcwBlue;
   }
   .DayPicker-Day {
     width: 72px;
@@ -18,5 +20,18 @@
     vertical-align: top;
     text-align: center;
     border: none !important;
+    outline: none;
+  }
+  .DayPicker-Day--today{
+    color: $mcwBlue;
+    font-weight: bold;
+  }
+  .DayPicker-Month{
+    margin: 0;
+  }
+  .DayPicker-NavButton{
+      top: 2px;
+      width: 1.2rem;
+      height: 1.2rem;
   }
 }

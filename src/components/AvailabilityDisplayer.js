@@ -120,8 +120,8 @@ class AvailabilityDisplayer extends Component {
   render() {
     const { availability, appointment, idLocalidad, doctor } = this.props;
     return(
-      <div className="ui grid">
-        <div className="ui column grid stackable container">
+      <div className="ui column">
+        <div className="ui two column stackable grid">
           <div className="ui five wide column">
             <DayPicker
               className="Availability"
@@ -134,7 +134,7 @@ class AvailabilityDisplayer extends Component {
               }
             />
           </div>
-          <div className="ui nine wide column grid stackable">
+          <div className="ui eleven wide column">
             <div className="ui column">
               { this.renderWeekDisplayer(this.state.selectedDate, availability)}
             </div>

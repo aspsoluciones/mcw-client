@@ -47,9 +47,9 @@ class Appointment extends Component {
            <DoctorHeader doctor={ appointment.responsable_servicio }>
            </DoctorHeader>
            
-          <h2>
+          <h3 className="color-mcwDark" style={{marginBottom: 0}}>
             <i className="calendar icon"></i>Hacer una cita
-          </h2>
+          </h3>
           
           <div className="ui column">
             {

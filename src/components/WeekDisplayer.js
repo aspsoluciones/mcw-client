@@ -89,16 +89,13 @@ class WeekDisplayer extends Component {
 
     return (
       <div className="ui one column grid">
-        <div className="ui column">
-          <h3>Month</h3>
-        </div>
         <div className="ui one padded column">
-          <table className="ui table simple-table unstackable">
+          <table className="ui simple-table unstackable table-week-displayer">
             <thead>
             <tr>
               {
                 _weekdays.map((day, i) => {
-                  return<th key={i}> {day.format("dddd")}</th>
+                  return<th key={i}> {day.format("ddd")}</th>
               })
               }
             </tr>
@@ -120,7 +117,7 @@ class WeekDisplayer extends Component {
                           {
                             day.times.map((time, i) => {
                               return <div key={i} className="ui column">
-                                <button onClick={ () => this.selectAppointment(time, this.props.location) } className="ui button">{ moment(time.fecha_hora_inicio).format("HH:mm")}</button>
+                                <button onClick={ () => this.selectAppointment(time, this.props.location) } className="ui circular small button bg-mcwBlue">{ moment(time.fecha_hora_inicio).format("HH:mm")}</button>
                               </div>
                             })
                           }
