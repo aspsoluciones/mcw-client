@@ -54,6 +54,14 @@ button.bg-mcwBlue{
   }
 }
 
+.m-v-lg{
+  margin: 10px 0!important;
+}
+
+.uppercase{
+  text-transform: uppercase!important;
+}
+
 .auth{
   height: 100vh;
   // background-image: url('../assets/auth_bg.jpg');
@@ -350,8 +358,15 @@ table.table-week-displayer{
       color: $mcwBlue;
     }
     
+    tbody{
+      td{
+        vertical-align: top;
+      }
+    }
+    
     button{
       background: none!important;
       color: #15485d!important;
+      margin: 5px 0px!important;
     }
 }

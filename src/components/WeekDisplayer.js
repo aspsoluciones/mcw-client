@@ -8,6 +8,7 @@ import { TakeAppointment } from '../actions/Appointments';
 import _ from 'lodash';
 import moment from 'moment';
 
+let numOfAppointments = 6;
 
 function isSameDay(date1, date2) {
   var _stringDate = date1.format('YYYY-MM-DD');
@@ -29,17 +30,24 @@ function retrieveSelectedLocation(idLocalidad, localidades) {
 }
 
 class WeekDisplayer extends Component {
+  
+  constructor(props) {
+    super(props)
+    this.state = {
+      expanded: false,
+      showExpandButton: false
+    }
+  }
 
    calculateWeekToDisplay(_day) {
     let _days = [];
     _days.push(_day);
     for (let i = 0; i < 6; i++) {
-      var _d = moment(_day).add(1+i, 'd');
+      var _d = moment(_day).add(i+1, 'd');
       _days.push(_d)
     }
     return _days;
   }
-
 
   assignAppointmentsToWeekDay(week, appointments) {
     console.log(week);
@@ -63,7 +71,6 @@ class WeekDisplayer extends Component {
     return _weekWithTimes;
   }
 
-
   selectAppointment(appointment, location){
 
     const {dispatch, doctor, idLocalidad} = this.props;
@@ -72,20 +79,28 @@ class WeekDisplayer extends Component {
       selectedAppointment : appointment
     });
 
-
-
-
-
     appointment.location = retrieveSelectedLocation(idLocalidad, doctor.localidades );
     appointment.doctor = doctor
 
     dispatch(TakeAppointment({appointment}))
   }
+  
+  toggleExpand() {
+     this.setState({ 
+       expanded: !this.state.expanded
+      })
+  }
+  
+  showExpandButton(){
+    this.setState({ 
+      showExpandButton: true
+    })
+  }
 
   render() {
     var _weekdays = this.calculateWeekToDisplay(this.props.selectedDay);
     var _weekWithTimes = this.assignAppointmentsToWeekDay(_weekdays, this.props.appointmentsForWeek);
-    console.log(_weekWithTimes);
+    //console.log(_weekWithTimes);
 
     return (
       <div className="ui one column grid">
@@ -112,12 +127,19 @@ class WeekDisplayer extends Component {
                 {
                   _weekWithTimes.map((day, i) => {
                     if(day.times) {
+                      if(Object.keys(day.times).length > numOfAppointments) this.state.showExpandButton = true;
                       return <td key={i}>
-                        <div className="ui one column grid">
+                        <div className="ui one column">
                           {
                             day.times.map((time, i) => {
                               return <div key={i} className="ui column">
-                                <button onClick={ () => this.selectAppointment(time, this.props.location) } className="ui circular small button bg-mcwBlue">{ moment(time.fecha_hora_inicio).format("HH:mm")}</button>
+                                 {
+                                !this.state.expanded ?
+                                  i < numOfAppointments
+                                  ? <button onClick={ () => this.selectAppointment(time, this.props.location) } className="ui circular small button bg-mcwBlue">{ moment(time.fecha_hora_inicio).format("HH:mm")}</button>
+                                  : null
+                                : <button onClick={ () => this.selectAppointment(time, this.props.location) } className="ui circular small button bg-mcwBlue">{ moment(time.fecha_hora_inicio).format("HH:mm")}</button>
+                              }
                               </div>
                             })
                           }
@@ -134,6 +156,11 @@ class WeekDisplayer extends Component {
               </tr>
             </tbody>
           </table>
+          {
+            this.state.showExpandButton
+              ? <button onClick={ () => this.toggleExpand() } className="ui fluid tiny button bg-mcwBlue uppercase m-v-lg">{!this.state.expanded ? 'ver más' : 'ver menos' }</button>
+              : null
+          }
         </div>
       </div>
     )
