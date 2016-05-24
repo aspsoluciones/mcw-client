@@ -71,15 +71,15 @@ class WeekDisplayer extends Component {
     return _weekWithTimes;
   }
 
-  selectAppointment(appointment, location){
+  selectAppointment(appointment){
 
-    const {dispatch, doctor, idLocalidad} = this.props;
+    const {dispatch, doctor, idLocalidad, institution} = this.props;
 
     this.setState({
       selectedAppointment : appointment
     });
 
-    appointment.location = retrieveSelectedLocation(idLocalidad, doctor.localidades );
+    appointment.institution = institution 
     appointment.doctor = doctor
 
     dispatch(TakeAppointment({appointment}))
@@ -180,7 +180,8 @@ WeekDisplayer.contextTypes = {
 };
 
 WeekDisplayer.propTypes = {
-  location: PropTypes.any,
+  institution: PropTypes.any,
+  idLocalidad: PropTypes.any,
   doctor: PropTypes.any
 };
 

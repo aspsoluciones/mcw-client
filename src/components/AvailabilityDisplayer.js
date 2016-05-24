@@ -55,7 +55,7 @@ class AvailabilityDisplayer extends Component {
 
   renderWeekDisplayer(selectedDate, appointments){
 
-    const { idLocalidad, availability, appointment, doctor, doctorUsername, dispatch } = this.props;
+    const { idLocalidad, institution, availability, appointment, doctor, doctorUsername, dispatch } = this.props;
 
     var _datesToUse;
 
@@ -71,7 +71,7 @@ class AvailabilityDisplayer extends Component {
       if(_appointmentsForWeek.length) {
         return (<WeekDisplayer appointmentsForWeek={_appointmentsForWeek}
                          selectedDay={selectedDate}
-                         idLocalidad={idLocalidad} doctor={doctor}/>)
+                         institution={institution} idLocalidad={idLocalidad}  doctor={doctor}/>)
       } else if(!appointment.loadingAppointments &&
         !appointment.loadingDoctorData &&
         !_appointmentsForWeek.length && appointment.readSuccess
@@ -147,7 +147,9 @@ class AvailabilityDisplayer extends Component {
 
 AvailabilityDisplayer.propTypes = {
   availability : PropTypes.any,
-  location: PropTypes.any,
+  institution: PropTypes.object,
+  idLocalidad: PropTypes.any,
+  doctorUsername: PropTypes.string,
   doctor: PropTypes.any
 };
 

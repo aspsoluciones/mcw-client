@@ -49,7 +49,6 @@ class InstitutionDisplayer extends Component {
         <div className="ui one column grid mapContainer">
           <div className="mapTitle">
             <div className="title">
-              Mérida
             </div>
             <div className="subTitle">
               Av.urdaneta, pasos abajo de CORMETUR, Mérida - Venezuela.
@@ -71,6 +70,7 @@ class InstitutionDisplayer extends Component {
             className="ui column"
             availability={institution.turnos}
             idLocalidad={institution.localidad.id}
+            institution={institution}
             doctor={doctor}
             doctorUsername={this.props.doctorUsername}
           />

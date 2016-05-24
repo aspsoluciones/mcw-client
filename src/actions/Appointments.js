@@ -209,8 +209,8 @@ export function ConfirmAppointment(appointment) {
 
 function transformAppointment(appointment){
   let _dataToSend = DTO;
-  const { solicitante, turno } = appointment;
-  const { doctor, location } = turno;
+  const { solicitante, turno, location, institution } = appointment;
+  const { doctor  } = turno;
 
   _dataToSend.nombre_persona_emisora = solicitante.nombre + ' ' +  solicitante.apellido;
   _dataToSend.nombre_persona_registro = solicitante.nombre + ' ' + solicitante.apellido;

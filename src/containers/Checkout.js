@@ -38,7 +38,8 @@ class Checkout extends Component {
     dispatch(ConfirmAppointment({
       solicitante : data,
       turno: keep.appointment,
-      location: keep.appointment.location,
+      location: keep.appointment.institution.localidad,
+      institution: keep.appointment.institution,
       doctor: keep.appointment.doctor
     }));
   }
