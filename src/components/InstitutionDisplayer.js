@@ -28,12 +28,16 @@ function parseCoordinates(coordinatesString){
   return _coordinates;
 }
 
-function parseContactTitle(localidad){
+function parseContacts(institution){
+  var _str = {title: null, subTitle: null};
+  if(institution.localidad.contactos && institution.localidad.contactos.length) {
+    _str.title = (institution.localidad.contactos[0]) ? institution.localidad.contactos[0].valor: 'No hay información disponible';
+    _str.subTitle = (institution.localidad.contactos[1]) ? institution.localidad.contactos[1].valor : 'No hay información disponible';
+    _str.nombreLocalidad = (institution.localidad.nombre) ? institution.localidad.nombre : 'No hay información disponible'
+  }
   
-}
-
-function institutionAddress(location) {
-  return location.direccion +  ", " +  location.corregimiento + ", " + location.ciudad + ", " + location.provincia + ", " + location.pais
+  return _str;
+  
 }
 
 class InstitutionDisplayer extends Component {
@@ -47,16 +51,19 @@ class InstitutionDisplayer extends Component {
   renderAvailabilityDisplayer(institution, doctor){
       console.log(institution);
       const position = parseCoordinates(institution.localidad.coordenadas)
-    
+      const contact = parseContacts(institution)
       return (
         <div className="ui one column grid segment">
         <div className="ui one column grid mapContainer">
           <div className="mapTitle">
             <div className="title">
-              
+              { contact.nombreLocalidad }
             </div>
             <div className="subTitle">
-              Av.urdaneta, pasos abajo de CORMETUR, Mérida - Venezuela.
+             { contact.title }
+            </div>
+            <div className="subTitle">
+             { contact.subTitle }
             </div>
           </div>        
           <Map className="ui column map" center={position} zoom={13} zoomControl={false} scrollWheelZoom={false}>
@@ -66,7 +73,7 @@ class InstitutionDisplayer extends Component {
             />
             <Marker position={position}>
               <Popup>
-                <span>A pretty CSS3 popup.<br/>Easily customizable.</span>
+                <span>{contact.title}<br/> - {contact.subTitle}</span>
               </Popup>
             </Marker>
           </Map>  
