@@ -221,8 +221,8 @@ function transformAppointment(appointment){
 
   _dataToSend.solicitante.id = solicitante.id
   _dataToSend.id_persona_emisora = solicitante.id;
-  _dataToSend.solicitante.id_empresa = 631033;
-  _dataToSend.id_empresa = 631033;
+  _dataToSend.solicitante.id_empresa = institution.id_empresa;
+  _dataToSend.id_empresa = institution.id_empresa;
   _dataToSend.solicitante.id_responsable_servicio = doctor.id
   _dataToSend.nombre_responsable_servicio = doctor.titulo + ' ' + doctor.apellido + ' ' + doctor.nombre;
 

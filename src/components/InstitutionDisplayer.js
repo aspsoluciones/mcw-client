@@ -28,6 +28,10 @@ function parseCoordinates(coordinatesString){
   return _coordinates;
 }
 
+function parseContactTitle(localidad){
+  
+}
+
 function institutionAddress(location) {
   return location.direccion +  ", " +  location.corregimiento + ", " + location.ciudad + ", " + location.provincia + ", " + location.pais
 }
@@ -49,6 +53,7 @@ class InstitutionDisplayer extends Component {
         <div className="ui one column grid mapContainer">
           <div className="mapTitle">
             <div className="title">
+              
             </div>
             <div className="subTitle">
               Av.urdaneta, pasos abajo de CORMETUR, Mérida - Venezuela.

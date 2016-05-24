@@ -22,7 +22,8 @@ class Checkout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      openPatientModal : false
+      openPatientModal : false,
+      canSubmit: false
     }
   }
 
@@ -57,8 +58,9 @@ class Checkout extends Component {
   }
 
   checkUser(userEmail) {
-    const { dispatch } = this.props;
-    dispatch(getPatientByEmail(userEmail));
+    const { dispatch, appointment } = this.props;
+    const { keep } = appointment;
+    dispatch(getPatientByEmail(userEmail, keep.appointment.institution.id_empresa));
   }
 
   reOpenPatientsModal(){
@@ -177,7 +179,7 @@ class Checkout extends Component {
         </div>
 
         <div className="ui column">
-          <button onClick={() => this.submitAppointment(patients.selectedPatient)} className="ui button fluid blue">
+          <button onClick={() => this.submitAppointment(patients.selectedPatient)} disabled={!this.state.canSubmit} className="ui button fluid blue">
             Solicitar cita
           </button>
         </div>
