@@ -19,6 +19,15 @@ const style = {
   marginRight: 20
 };
 
+function parseCoordinates(coordinatesString){
+  var _str = coordinatesString.split(";")
+  var _coordinates = [] 
+  _coordinates[0] = parseFloat(_str[0]);
+  _coordinates[1] = parseFloat(_str[1]);
+  
+  return _coordinates;
+}
+
 function institutionAddress(location) {
   return location.direccion +  ", " +  location.corregimiento + ", " + location.ciudad + ", " + location.provincia + ", " + location.pais
 }
@@ -32,15 +41,15 @@ class InstitutionDisplayer extends Component {
   }
 
   renderAvailabilityDisplayer(institution, doctor){
-      
-      const position = [51.505, -0.09];
+      console.log(institution);
+      const position = parseCoordinates(institution.localidad.coordenadas)
     
       return (
         <div className="ui one column grid segment">
         <div className="ui one column grid mapContainer">
           <div className="mapTitle">
             <div className="title">
-              Clínica mérida
+              Mérida
             </div>
             <div className="subTitle">
               Av.urdaneta, pasos abajo de CORMETUR, Mérida - Venezuela.
