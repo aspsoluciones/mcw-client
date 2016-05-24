@@ -115,7 +115,7 @@ class Checkout extends Component {
             </div>
               <FormsyDate
                name="fecha_nacimiento"
-               floatingLabelText="Fecha"
+               floatingLabelText="Fecha de nacimiento"
              />
             <div className="ui column">
               <FormsySelect
