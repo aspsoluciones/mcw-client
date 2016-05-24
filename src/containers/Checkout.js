@@ -179,7 +179,7 @@ class Checkout extends Component {
         </div>
 
         <div className="ui column">
-          <button onClick={() => this.submitAppointment(patients.selectedPatient)} disabled={!this.state.canSubmit} className="ui button fluid blue">
+          <button onClick={() => this.submitAppointment(patients.selectedPatient)} disabled={ !patients.selectedPatient && !this.state.canSubmit } className="ui button fluid blue">
             Solicitar cita
           </button>
         </div>
