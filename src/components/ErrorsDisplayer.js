@@ -3,14 +3,27 @@
  */
 
 import React, { Component, PropTypes} from 'react';
+
+
+function messageToRender(code){
+  let message;
+  
+  if(code == 500){
+    message = 'Ha ocurrido un error, intente más tarde'
+  }
+  
+  return message;
+} 
+
 class ErrorsDisplayer extends Component {
   render() {
+    const { code } = this.props;
     return(
       <div className="ui column centered grid">
         <div className="ui row">
           <div className="middle aligned content">
             <h5 className="ui header red">
-              { this.props.message }
+              {  messageToRender(code) }
             </h5>
           </div>
         </div>
@@ -21,7 +34,7 @@ class ErrorsDisplayer extends Component {
 }
 
 ErrorsDisplayer.propTypes = {
-  message: PropTypes.string
+  code: PropTypes.number
 };
 
 export default ErrorsDisplayer;

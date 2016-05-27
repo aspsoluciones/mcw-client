@@ -5,7 +5,7 @@
 
 import React, { Component, PropTypes} from 'react';
 import moment from 'moment';
-import DayPicker from 'react-day-picker';
+import DayPicker,{DateUtils} from 'react-day-picker';
 import "react-day-picker/lib/style.css";
 import "../styles/dayPicker.scss";
 import { connect } from "react-redux";
@@ -39,6 +39,10 @@ function filterAppointmentsForWeek(selectedDay, appointments, range) {
   });
 }
 
+function smallerThanToday(day) {
+    console.log('Hola')
+    return new Date() >= day;
+}
 
 class AvailabilityDisplayer extends Component {
 
@@ -49,9 +53,10 @@ class AvailabilityDisplayer extends Component {
       appointmentsForWeek : this.calculateAvailableAppointmentsForWeek(moment(), this.props.availability, true),
       selectedDate: moment()
     };
-
-
   }
+  
+  
+
 
   renderWeekDisplayer(selectedDate, appointments){
 
@@ -116,9 +121,12 @@ class AvailabilityDisplayer extends Component {
 
     dispatch(SelectNewDate(_day, appointment.doctorUsername, idLocalidad));
   }
+  
+
 
   render() {
     const { availability, appointment, idLocalidad, doctor } = this.props;
+    console.log(DateUtils.isPastDay);
     return(
       <div className="ui column">
         <div className="ui two column stackable grid">
@@ -126,10 +134,12 @@ class AvailabilityDisplayer extends Component {
             <DayPicker
               className="Availability"
               initialMonth={ this.state.month }
-              fromMonth={ fromMonth }
-              toMonth={ toMonth }
-              onDayClick={ (e, day) => {
-                  this.setNewDate(day);
+              disabledDays={DateUtils.isPastDay}
+              enableOutsideDays
+              onDayClick={ (e, day, { disabled, selected }) => {
+                  if(!disabled){
+                    this.setNewDate(day);  
+                  }
                 }
               }
             />

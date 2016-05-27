@@ -22,6 +22,13 @@
     border: none !important;
     outline: none;
   }
+  
+  .DayPicker-Day--disabled {
+    background-color: grey;
+    color: white;
+    cursor: pointer;
+  }
+  
   .DayPicker-Day--today{
     color: $mcwBlue;
     font-weight: bold;

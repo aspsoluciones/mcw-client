@@ -10,6 +10,7 @@ import DoctorHeader from '../components/Doctor/DoctorHeader';
 import DoctorGeneralInformation from '../components/Doctor/DoctorGeneralInformation';
 import Loader from '../components/Loader';
 import moment from 'moment';
+import ErrorDisplayer from '../components/ErrorsDisplayer';
 
 class Appointment extends Component {
     constructor(props) {
@@ -82,9 +83,17 @@ class Appointment extends Component {
 
     render() {
       const { appointment } = this.props;
-      const {loadingDoctorData} = appointment;
-
-      let _render = (loadingDoctorData) ? (<Loader/>) : this.renderAppointmentScreen(appointment);
+      const {loadingDoctorData, error} = appointment;
+      let _render;
+      if(loadingDoctorData && !error){
+        _render = (<Loader></Loader>)
+      } else if(error){
+        console.log('Entrado');
+        _render = (<ErrorDisplayer code={error.status}></ErrorDisplayer>)
+      } else {
+        _render = this.renderAppointmentScreen(appointment);
+      }
+    
       return _render;
     }
 }

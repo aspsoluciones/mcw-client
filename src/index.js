@@ -47,3 +47,8 @@ render(
     </Router>
   </Provider>, document.getElementById('app')
 );
+
+window.addEventListener('error', function(e){
+  // e instanceof ErrorEvent
+  console.error('caught the error by me ' + e.message);
+});
