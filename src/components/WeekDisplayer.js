@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { TakeAppointment } from '../actions/Appointments';
 import _ from 'lodash';
 import moment from 'moment';
+import ReactToolTip from 'react-tooltip';
 
 let numOfAppointments = 6;
 
@@ -132,13 +133,15 @@ class WeekDisplayer extends Component {
                         <div className="ui one column">
                           {
                             day.times.map((time, i) => {
+                              const appoinmentTime = moment(time.fecha_hora_inicio).format("HH:mm");
+                              const tooltipMessage = "Solicitar cita a las " + appoinmentTime;
                               return <div key={i} className="ui column">
                                  {
                                 !this.state.expanded ?
                                   i < numOfAppointments
-                                  ? <button onClick={ () => this.selectAppointment(time, this.props.location) } className="ui circular small button bg-mcwBlue">{ moment(time.fecha_hora_inicio).format("HH:mm")}</button>
+                                  ? <button  data-tip={tooltipMessage}  onClick={ () => this.selectAppointment(time, this.props.location) } className="ui circular small button bg-mcwBlue">{ appoinmentTime }</button>
                                   : null
-                                : <button onClick={ () => this.selectAppointment(time, this.props.location) } className="ui circular small button bg-mcwBlue">{ moment(time.fecha_hora_inicio).format("HH:mm")}</button>
+                                : <button  data-tip={tooltipMessage} onClick={ () => this.selectAppointment(time, this.props.location) } className="ui circular small button bg-mcwBlue">{ appoinmentTime }</button>
                               }
                               </div>
                             })
@@ -162,6 +165,8 @@ class WeekDisplayer extends Component {
               : null
           }
         </div>
+        
+        <ReactToolTip type="info"/>
       </div>
     )
   }
