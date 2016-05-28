@@ -15,25 +15,25 @@ const DoctorHeader = ({doctor}) => {
     };
     
     return (
-        <div>
-        <DoctorCarousel className="doctorCarousel"></DoctorCarousel>
-        <div className="doctorCover">
-        <DoctorBadge className="doctorBadge" doctor={doctor}></DoctorBadge>
-        <div className="ui grid profile-header-content">
-            <div className="ui one column grid">
-                <div className="ui column">
-                    <DoctorName doctor={doctor}/>
-                </div>
-                <div className="ui column">
-                    <DoctorPatientsType doctor={doctor}/>
-                </div>
-                <div className="ui column color-mcwDark">
-                    <strong>{doctor.mensaje_publico}</strong>
+        <div className="ui column">
+            <DoctorCarousel className="doctorCarousel"></DoctorCarousel>
+            <div className="ui container">
+                <DoctorBadge className="doctorBadge" doctor={doctor}></DoctorBadge>
+                <div className="ui grid profile-header-content">
+                    <div className="ui one column grid">
+                        <div className="ui column">
+                            <DoctorName doctor={doctor}/>
+                        </div>
+                        <div className="ui column">
+                            <DoctorPatientsType doctor={doctor}/>
+                        </div>
+                        <div className="ui column color-mcwDark">
+                            <strong>{doctor.mensaje_publico}</strong>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    </div>);
+        </div>);
 }
 
 export default DoctorHeader;

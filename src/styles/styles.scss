@@ -6,14 +6,17 @@
 
 body {
   background-color: #ffffff !important;
+  font-family: 'Open Sans', sans-serif!important;
 }
 
-nav.fixed{
+nav.inverted.fixed{
     z-index: 1002!important;
+    background-color: $mcwBlue!important;
 }
 
 .content-container {
- padding-top : 5.5rem
+ padding-top : 5.5rem;
+ margin-top: 100px !important;
 }
 
 .bg-mcwDark{
@@ -82,18 +85,18 @@ button.bg-mcwBlue{
   color: $mcwDark
 }
 
-.doctorCover{
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -ms-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    overflow: visible;
+// .doctorCover{
+//     -webkit-background-size: cover;
+//     -moz-background-size: cover;
+//     -ms-background-size: cover;
+//     -o-background-size: cover;
+//     background-size: cover;
+//     overflow: visible;
   
-  &.grid{
-    margin: 0!important;
-  }
-}
+//   &.grid{
+//     margin: 0!important;
+//   }
+// }
 
 /*login*/
 .login {
@@ -148,6 +151,7 @@ a:hover.authLink {
 
   thead {
     th {
+      background: white!important;
       text-align: center !important;
       padding: 1rem !important;
       vertical-align: top !important;
@@ -155,10 +159,6 @@ a:hover.authLink {
       -webkit-transition: all 0.3s ease !important;
       -o-transition: all 0.3s ease !important;
       transition: all 0.3s ease !important;
-      th{
-        border: none !important;
-
-      }
     }
 
     tbody {
@@ -366,7 +366,16 @@ table.table-week-displayer{
     
     button{
       background: none!important;
-      color: #15485d!important;
+      color: $mcwDark!important;
       margin: 5px 0px!important;
     }
+}
+
+Footer{
+    height: 40px;
+    margin: 40px 0 0;
+    padding: 10px;
+    text-align: center;
+    color: #fff;
+    background-color: $mcwBlue!important;
 }
