@@ -66,7 +66,7 @@ class InstitutionDisplayer extends Component {
              { contact.subTitle }
             </div>
           </div>        
-          <Map className="ui column map" center={position} zoom={13} zoomControl={false} scrollWheelZoom={false}>
+          <Map className="ui column map" center={position} zoom={13} zoomControl={true} scrollWheelZoom={false}>
             <TileLayer
               url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
