@@ -105,7 +105,7 @@ class WeekDisplayer extends Component {
     return (
       <div className="ui one column grid">
         <div className="ui one padded column">
-          <table className="ui simple-table unstackable table-week-displayer">
+          <table className="table ui simple-table unstackable table-week-displayer fixed">
             <thead>
             <tr>
               {
