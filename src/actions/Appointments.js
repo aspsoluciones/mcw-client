@@ -36,7 +36,7 @@ var DTO = {
   }, // Solicitante del turno
   "id_persona_emisora": null,
   "nombre_persona_emisora": '', // Nombre y apellido del paciente
-  "id_responsable_servicio": 629896, // id del medico,
+  "id_responsable_servicio": null, // id del medico,
   "nombre_responsable_servicio": '', // Nombre del medico, con titulo incluido, ejemplo Dra. Ana Maria Garcia
   "fecha_inicio": "", //Fecha y hora de inicio de la cita.
   "fecha_fin": "", // Fecha y hora de fin de la cita
