@@ -4,6 +4,7 @@ import DoctorPatientsType from './DoctorPatientsType';
 import DoctorName from './DoctorName';
 import DoctorCarousel from './DoctorCarousel';
 import DoctorBadge from './DoctorBadge';
+import DoctorLanguages from './DoctorLanguages';
 
 //TODO Should we add the option of define an own cover photo for a doctor;
 
@@ -26,6 +27,11 @@ const DoctorHeader = ({doctor}) => {
                         </div>
                         <div className="ui column">
                             <DoctorPatientsType doctor={doctor}/>
+                        </div>
+                        <div className="ui column">
+                            {doctor.idiomas && doctor.idiomas.length && 
+                            <DoctorLanguages languages={doctor.idiomas}></DoctorLanguages>}
+                        
                         </div>
                         <div className="ui column color-mcwDark">
                             <strong>{doctor.mensaje_publico}</strong>
