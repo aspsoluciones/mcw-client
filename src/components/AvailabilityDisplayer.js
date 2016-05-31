@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import _ from 'lodash';
 import { GetAppointments, SelectNewDate, GetClosestAppointments } from '../actions/Appointments';
 
+
 import WeekDisplayer from './WeekDisplayer';
 
 const currentYear = (new Date()).getFullYear();
@@ -91,11 +92,23 @@ class AvailabilityDisplayer extends Component {
         });
       }
     }else{
-      return (<div onClick={ () => {
+      
+      if(this.state.closestAppointment.fecha_hora_inicio){
+        return (<div className="ui icon info message" onClick={ () => {
           this.setNewDate(this.state.closestAppointment.fecha_hora_inicio)
       }}>
-        Proximo turno disponible {this.state.closestAppointment.fecha_hora_inicio}
+      <i className="idea icon"></i>
+       <div className="content">
+         Proximo turno disponible {moment(this.state.closestAppointment.fecha_hora_inicio).format("dddd DD/MMM/YYYY")}
+       </div>
       </div>)
+      } else {
+        return (<div>
+          <h2>Aún no se han registrado turnos en esta localidad</h2>
+        </div>)
+      }
+      
+      
     }
 
   }
