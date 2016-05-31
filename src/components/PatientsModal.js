@@ -6,6 +6,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import PatientCard from '../components/PatientCard';
 import Dialog from 'material-ui/lib/dialog';
+//import FlatButton from 'material-ui/flat-button';
+
 import { selectPatient } from '../actions/PatientsActions';
 
 class PatientsModal extends Component {
@@ -29,12 +31,24 @@ class PatientsModal extends Component {
       })
     }
   }
+  
+   handleClose = () => {
+    this.setState({open: false});
+  };
 
   render(){
+    
+     /*const actions = [
+      <FlatButton
+        label="Cancelar"
+        onTouchTap={this.handleClose}
+      />
+    ];*/
+    
     return(
     <Dialog
       title="Seleccione un paciente para solicitar la cita"
-      modal={false}
+      modal={true}
       open={(this.props.patients.hasOwnProperty("openModal")) ? this.props.patients.openModal : true}
     >
       <div className="ui link cards">

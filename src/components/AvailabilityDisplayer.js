@@ -135,7 +135,6 @@ class AvailabilityDisplayer extends Component {
               className="Availability"
               initialMonth={ this.state.month }
               disabledDays={DateUtils.isPastDay}
-              enableOutsideDays
               onDayClick={ (e, day, { disabled, selected }) => {
                   if(!disabled){
                     this.setNewDate(day);  
