@@ -3,7 +3,6 @@ import { render } from 'react-dom';
 import { connect } from 'react-redux';
 import { Router } from 'react-router'
 import { registerUser } from "../actions/AuthActions"
-import Firebase from 'firebase';
 
 class Register extends Component {
    render() {
