@@ -11,6 +11,7 @@ import "../styles/dayPicker.scss";
 import { connect } from "react-redux";
 import _ from 'lodash';
 import { GetAppointments, SelectNewDate, GetClosestAppointments } from '../actions/Appointments';
+import MomentLocaleUtils from 'react-day-picker/moment';
 
 
 import WeekDisplayer from './WeekDisplayer';
@@ -18,7 +19,10 @@ import WeekDisplayer from './WeekDisplayer';
 const currentYear = (new Date()).getFullYear();
 const fromMonth = new Date(currentYear, 0, 1, 0, 0);
 const toMonth = new Date(currentYear + 10, 11, 31, 23, 59);
+import 'moment/locale/es';
 
+//Pasar esto a un state si se requiere poder cambiar de idioma.
+const locale = 'es';
 function getFirstAppointmentAvailableForLocation(locations, idLocalidad) {
   let _appointment;
   locations.some((localidad)=>{
@@ -122,11 +126,7 @@ class AvailabilityDisplayer extends Component {
       }
   }
 
-  setNewDate(day, {disabled, selected} ) {
-    if(disabled){
-      return;
-    }
-
+  setNewDate(day) {
     var _day = moment(day);
     const { appointment, idLocalidad, dispatch } = this.props;
 
@@ -134,7 +134,7 @@ class AvailabilityDisplayer extends Component {
       selectedDate : _day,
       month: _day.toDate(),
       showClosestAppointment: false
-    })
+    });
 
     dispatch(SelectNewDate(_day, appointment.doctorUsername, idLocalidad));
   }
@@ -149,6 +149,8 @@ class AvailabilityDisplayer extends Component {
         <div className="ui two column stackable grid">
           <div className="ui five wide column">
             <DayPicker
+              locale={locale}
+              localeUtils={MomentLocaleUtils}
               className="Availability"
               initialMonth={ this.state.month }
               disabledDays={DateUtils.isPastDay}

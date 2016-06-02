@@ -8,6 +8,7 @@ import { TakeAppointment } from '../actions/Appointments';
 import _ from 'lodash';
 import moment from 'moment';
 import ReactToolTip from 'react-tooltip';
+moment.locale('es');
 
 let numOfAppointments = 6;
 
@@ -31,7 +32,7 @@ function retrieveSelectedLocation(idLocalidad, localidades) {
 }
 
 class WeekDisplayer extends Component {
-  
+
   constructor(props) {
     super(props)
     this.state = {
@@ -80,20 +81,20 @@ class WeekDisplayer extends Component {
       selectedAppointment : appointment
     });
 
-    appointment.institution = institution 
+    appointment.institution = institution
     appointment.doctor = doctor
 
     dispatch(TakeAppointment({appointment}))
   }
-  
+
   toggleExpand() {
-     this.setState({ 
+     this.setState({
        expanded: !this.state.expanded
       })
   }
-  
+
   showExpandButton(){
-    this.setState({ 
+    this.setState({
       showExpandButton: true
     })
   }
@@ -111,7 +112,7 @@ class WeekDisplayer extends Component {
             <tr>
               {
                 _weekdays.map((day, i) => {
-                  return<th key={i}> {day.format("ddd")}</th>
+                  return<th key={i}> {day.format("dddd")}</th>
               })
               }
             </tr>
@@ -165,7 +166,7 @@ class WeekDisplayer extends Component {
               : null
           }
         </div>
-        
+
         <ReactToolTip type="info"/>
       </div>
     )
