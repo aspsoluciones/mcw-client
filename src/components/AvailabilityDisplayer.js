@@ -62,9 +62,9 @@ class AvailabilityDisplayer extends Component {
   renderWeekDisplayer(selectedDate, appointments){
 
     const { idLocalidad, institution, availability, appointment, doctor, doctorUsername, dispatch } = this.props;
-    const { loadingAppointmentsForLocation } = appointment;
+    const { loadingAppointmentsForLocation, loadingAppointments } = appointment;
 
-    if(loadingAppointmentsForLocation == idLocalidad){
+    if(loadingAppointmentsForLocation == idLocalidad || loadingAppointments){
       return (<Loader inverted={true} loaderText="Leyendo turnos"/>);
     }
     var _datesToUse;
@@ -93,6 +93,8 @@ class AvailabilityDisplayer extends Component {
             availability : _closest
           });
         });
+
+        return (<Loader inverted={true} loaderText="Leyendo turnos próximos disponibles"></Loader>)
       }
     }else{
       if(this.state.closestAppointment.fecha_hora_inicio){
