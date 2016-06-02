@@ -10,6 +10,7 @@ import "react-day-picker/lib/style.css";
 import "../styles/dayPicker.scss";
 import { connect } from "react-redux";
 import _ from 'lodash';
+import Loader from '../components/Loader';
 import { GetAppointments, SelectNewDate, GetClosestAppointments } from '../actions/Appointments';
 import MomentLocaleUtils from 'react-day-picker/moment';
 
@@ -45,7 +46,6 @@ function filterAppointmentsForWeek(selectedDay, appointments, range) {
 }
 
 function smallerThanToday(day) {
-    console.log('Hola')
     return new Date() >= day;
 }
 
@@ -60,13 +60,14 @@ class AvailabilityDisplayer extends Component {
     };
   }
 
-
-
-
   renderWeekDisplayer(selectedDate, appointments){
 
     const { idLocalidad, institution, availability, appointment, doctor, doctorUsername, dispatch } = this.props;
+    const { loadingAppointmentsForLocation } = appointment;
 
+    if(loadingAppointmentsForLocation == idLocalidad){
+      return (<Loader/>);
+    }
     var _datesToUse;
 
     appointment.responsable_servicio.localidades.some((localidad) =>{
@@ -143,7 +144,6 @@ class AvailabilityDisplayer extends Component {
 
   render() {
     const { availability, appointment, idLocalidad, doctor } = this.props;
-    console.log(DateUtils.isPastDay);
     return(
       <div className="ui column">
         <div className="ui two column stackable grid">
