@@ -48,16 +48,14 @@ class Appointment extends Component {
            <DoctorHeader doctor={ appointment.responsable_servicio }>
            </DoctorHeader>
            <div className="ui container">
-            <h3 className="color-mcwDark" style={{marginBottom: 0}}>
-              <i className="calendar icon"></i>Hacer una cita
-            </h3>
-            
-            <div className="ui column">
-              {
-                this.renderLocations(appointment.responsable_servicio)
-              }
-            </div>
-              <DoctorGeneralInformation doctor={appointment.responsable_servicio } />
+              <h3 className="color-mcwDark" style={{marginBottom: 0}}>
+                <i className="calendar icon"></i>Hacer una cita
+              </h3>
+              <div className="ui column">
+                {
+                  this.renderLocations(appointment.responsable_servicio)
+                }
+              </div>
             </div>
         </div>
       )
@@ -94,7 +92,7 @@ class Appointment extends Component {
       } else {
         _render = this.renderAppointmentScreen(appointment);
       }
-    
+
       return _render;
     }
 }
