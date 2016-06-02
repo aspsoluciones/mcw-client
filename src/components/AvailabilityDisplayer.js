@@ -55,8 +55,8 @@ class AvailabilityDisplayer extends Component {
       selectedDate: moment()
     };
   }
-  
-  
+
+
 
 
   renderWeekDisplayer(selectedDate, appointments){
@@ -92,7 +92,7 @@ class AvailabilityDisplayer extends Component {
         });
       }
     }else{
-      
+
       if(this.state.closestAppointment.fecha_hora_inicio){
         return (<div className="ui icon info message" onClick={ () => {
           this.setNewDate(this.state.closestAppointment.fecha_hora_inicio)
@@ -107,8 +107,8 @@ class AvailabilityDisplayer extends Component {
           <h2>Aún no se han registrado turnos en esta localidad</h2>
         </div>)
       }
-      
-      
+
+
     }
 
   }
@@ -122,7 +122,11 @@ class AvailabilityDisplayer extends Component {
       }
   }
 
-  setNewDate(day) {
+  setNewDate(day, {disabled, selected} ) {
+    if(disabled){
+      return;
+    }
+
     var _day = moment(day);
     const { appointment, idLocalidad, dispatch } = this.props;
 
@@ -134,7 +138,7 @@ class AvailabilityDisplayer extends Component {
 
     dispatch(SelectNewDate(_day, appointment.doctorUsername, idLocalidad));
   }
-  
+
 
 
   render() {
@@ -150,7 +154,7 @@ class AvailabilityDisplayer extends Component {
               disabledDays={DateUtils.isPastDay}
               onDayClick={ (e, day, { disabled, selected }) => {
                   if(!disabled){
-                    this.setNewDate(day);  
+                    this.setNewDate(day);
                   }
                 }
               }
