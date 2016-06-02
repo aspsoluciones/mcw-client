@@ -57,6 +57,14 @@ function appointment(state = initialState, action) {
   switch (action.type) {
 
     case APPOINTMENTS_READ_REQUEST:
+
+      if(action.payload && action.payload.locationID){
+        return {
+          ...state,
+          loadingAppointmentsForLocation : action.payload.locationID
+        }
+      }
+
       return {
         ...state,
         loadingAppointments: true
@@ -79,6 +87,7 @@ function appointment(state = initialState, action) {
       return {
         ...state,
         loadingAppointments: false,
+        loadingAppointmentsForLocation: false,
         responsable_servicio: _responsable_servicio, readSuccess: true
       };
     case APPOINTMENT_SELECTED:

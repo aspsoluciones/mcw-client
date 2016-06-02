@@ -9,7 +9,6 @@ import _ from 'lodash';
 import moment from 'moment';
 import ReactToolTip from 'react-tooltip';
 moment.locale('es');
-
 let numOfAppointments = 6;
 
 function isSameDay(date1, date2) {
@@ -81,8 +80,8 @@ class WeekDisplayer extends Component {
       selectedAppointment : appointment
     });
 
-    appointment.institution = institution
-    appointment.doctor = doctor
+    appointment.institution = institution;
+    appointment.doctor = doctor;
 
     dispatch(TakeAppointment({appointment}))
   }
@@ -99,76 +98,81 @@ class WeekDisplayer extends Component {
     })
   }
 
-  render() {
+  renderWeekDisplayer(){
     var _weekdays = this.calculateWeekToDisplay(this.props.selectedDay);
     var _weekWithTimes = this.assignAppointmentsToWeekDay(_weekdays, this.props.appointmentsForWeek);
     //console.log(_weekWithTimes);
 
-    return (
-      <div className="ui one column grid">
-        <div className="ui one padded column">
-          <table className="table ui simple-table unstackable table-week-displayer fixed">
-            <thead>
-            <tr>
-              {
-                _weekdays.map((day, i) => {
-                  return<th key={i}> {day.format("dddd")}</th>
+    return(<div className="ui one column grid">
+      <div className="ui one padded column">
+        <table className="table ui simple-table unstackable table-week-displayer fixed">
+          <thead>
+          <tr>
+            {
+              _weekdays.map((day, i) => {
+                return<th key={i}> {day.format("dddd")}</th>
               })
-              }
-            </tr>
-            <tr>
-              {
-                _weekdays.map((day, i) => {
-                  return <th key={i}>{day.format("DD MMM")}</th>
-                })
-              }
-            </tr>
-            </thead>
-            <tbody>
-              <tr>
-                {
-                  _weekWithTimes.map((day, i) => {
-                    if(day.times) {
-                      if(Object.keys(day.times).length > numOfAppointments) this.state.showExpandButton = true;
-                      return <td key={i}>
-                        <div className="ui one column">
-                          {
-                            day.times.map((time, i) => {
-                              const appoinmentTime = moment(time.fecha_hora_inicio).format("HH:mm");
-                              const tooltipMessage = "Solicitar cita a las " + appoinmentTime;
-                              return <div key={i} className="ui column">
-                                 {
-                                !this.state.expanded ?
-                                  i < numOfAppointments
+            }
+          </tr>
+          <tr>
+            {
+              _weekdays.map((day, i) => {
+                return <th key={i}>{day.format("DD MMM")}</th>
+              })
+            }
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            {
+              _weekWithTimes.map((day, i) => {
+                if(day.times) {
+                  if(Object.keys(day.times).length > numOfAppointments) this.state.showExpandButton = true;
+                  return <td key={i}>
+                    <div className="ui one column">
+                      {
+                        day.times.map((time, i) => {
+                          const appoinmentTime = moment(time.fecha_hora_inicio).format("HH:mm");
+                          const tooltipMessage = "Solicitar cita a las " + appoinmentTime;
+                          return <div key={i} className="ui column">
+                            {
+                              !this.state.expanded ?
+                                i < numOfAppointments
                                   ? <button  data-tip={tooltipMessage}  onClick={ () => this.selectAppointment(time, this.props.location) } className="ui circular small button bg-mcwBlue">{ appoinmentTime }</button>
                                   : null
                                 : <button  data-tip={tooltipMessage} onClick={ () => this.selectAppointment(time, this.props.location) } className="ui circular small button bg-mcwBlue">{ appoinmentTime }</button>
-                              }
-                              </div>
-                            })
-                          }
-                        </div>
+                            }
+                          </div>
+                        })
+                      }
+                    </div>
 
-                      </td>
-                    } else {
-                      return <td key={i}>
+                  </td>
+                } else {
+                  return <td key={i}>
 
-                      </td>
-                    }
-                  })
+                  </td>
                 }
-              </tr>
-            </tbody>
-          </table>
-          {
-            this.state.showExpandButton
-              ? <button onClick={ () => this.toggleExpand() } className="ui fluid tiny button bg-mcwBlue uppercase m-v-lg">{!this.state.expanded ? 'ver más' : 'ver menos' }</button>
-              : null
-          }
-        </div>
-
-        <ReactToolTip type="info"/>
+              })
+            }
+          </tr>
+          </tbody>
+        </table>
+        {
+          this.state.showExpandButton
+            ? <button onClick={ () => this.toggleExpand() } className="ui fluid tiny button bg-mcwBlue uppercase m-v-lg">{!this.state.expanded ? 'ver más' : 'ver menos' }</button>
+            : null
+        }
       </div>
+
+      <ReactToolTip type="info"/>
+    </div>)
+  }
+
+  render() {
+
+    return (
+      this.renderWeekDisplayer()
     )
   }
 

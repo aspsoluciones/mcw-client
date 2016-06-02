@@ -14,7 +14,6 @@ import Loader from '../components/Loader';
 import { GetAppointments, SelectNewDate, GetClosestAppointments } from '../actions/Appointments';
 import MomentLocaleUtils from 'react-day-picker/moment';
 
-
 import WeekDisplayer from './WeekDisplayer';
 
 const currentYear = (new Date()).getFullYear();
@@ -66,7 +65,7 @@ class AvailabilityDisplayer extends Component {
     const { loadingAppointmentsForLocation } = appointment;
 
     if(loadingAppointmentsForLocation == idLocalidad){
-      return (<Loader/>);
+      return (<Loader inverted={true} loaderText="Leyendo turnos"/>);
     }
     var _datesToUse;
 
@@ -74,8 +73,7 @@ class AvailabilityDisplayer extends Component {
       if(idLocalidad == localidad.localidad.id){
         _datesToUse = localidad.turnos
       }
-    })
-
+    });
 
     var _appointmentsForWeek = this.calculateAvailableAppointmentsForWeek(selectedDate, _datesToUse, true);
     if(!this.state.showClosestAppointment){
@@ -97,7 +95,6 @@ class AvailabilityDisplayer extends Component {
         });
       }
     }else{
-
       if(this.state.closestAppointment.fecha_hora_inicio){
         return (<div className="ui icon info message" onClick={ () => {
           this.setNewDate(this.state.closestAppointment.fecha_hora_inicio)
@@ -112,8 +109,6 @@ class AvailabilityDisplayer extends Component {
           <h2>Aún no se han registrado turnos en esta localidad</h2>
         </div>)
       }
-
-
     }
 
   }

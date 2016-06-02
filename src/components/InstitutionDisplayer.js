@@ -20,11 +20,11 @@ const style = {
 };
 
 function parseCoordinates(coordinatesString){
-  var _str = coordinatesString.split(";")
-  var _coordinates = [] 
+  var _str = coordinatesString.split(";");
+  var _coordinates = []
   _coordinates[0] = parseFloat(_str[0]);
   _coordinates[1] = parseFloat(_str[1]);
-  
+
   return _coordinates;
 }
 
@@ -35,9 +35,9 @@ function parseContacts(institution){
     _str.subTitle = (institution.localidad.contactos[1]) ? institution.localidad.contactos[1].valor : 'No hay información disponible';
     _str.nombreLocalidad = (institution.localidad.nombre) ? institution.localidad.nombre : 'No hay información disponible'
   }
-  
+
   return _str;
-  
+
 }
 
 class InstitutionDisplayer extends Component {
@@ -49,7 +49,6 @@ class InstitutionDisplayer extends Component {
   }
 
   renderAvailabilityDisplayer(institution, doctor){
-      console.log(institution);
       const position = parseCoordinates(institution.localidad.coordenadas)
       const contact = parseContacts(institution)
       return (
@@ -65,7 +64,7 @@ class InstitutionDisplayer extends Component {
             <div className="subTitle">
              { contact.subTitle }
             </div>
-          </div>        
+          </div>
           <Map className="ui column map" center={position} zoom={13} zoomControl={true} scrollWheelZoom={false}>
             <TileLayer
               url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
@@ -76,7 +75,7 @@ class InstitutionDisplayer extends Component {
                 <span>{contact.title}<br/> - {contact.subTitle}</span>
               </Popup>
             </Marker>
-          </Map>  
+          </Map>
         </div>
           <AvailabilityDisplayer
             className="ui column"

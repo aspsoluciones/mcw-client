@@ -88,9 +88,10 @@ function AppointmentSuccess() {
   }
 }
 
-function AppointmentsRequest() {
+function AppointmentsRequest(locationID) {
   return {
-    type: APPOINTMENTS_READ_REQUEST
+    type: APPOINTMENTS_READ_REQUEST,
+    payload : {locationID}
   }
 }
 
@@ -159,7 +160,7 @@ export function SelectNewDate(newDate, doctorUsername, locationID) {
   }
 
   return dispatch => {
-    dispatch(SelectedNewDate(newDate))
+    dispatch(SelectedNewDate(newDate));
     dispatch(GetAppointments(doctorUsername, range, locationID))
   }
 }
@@ -172,7 +173,7 @@ export function GetClosestAppointments(doctorUsername, locationID) {
 export function GetAppointments(doctorUsername, range, locationID) {
   //If a date range is specified.
   return dispatch =>{
-    dispatch(AppointmentsRequest());
+    dispatch(AppointmentsRequest(locationID));
     if(range){
       axios.get('agenda/turnosdisponibles/' + doctorUsername + '/' + range.minDate + '/' + range.maxDate)
         .then((data)=> {

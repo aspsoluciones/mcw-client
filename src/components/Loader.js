@@ -7,11 +7,13 @@ class Loader extends Component {
   render() {
     let { size } = this.props;
     if(!size) { size = 'medium'}
+    const { loaderText, inverted } = this.props;
 
+    const loaderClass = (!inverted) ? 'ui active dimmer' : 'ui inverted active dimmer';
     return (
       <div>
-        <div className="ui active dimmer">
-          <div className={"ui " + size + " text loader"}>Loading</div>
+        <div className={loaderClass}>
+          <div className={"ui " + size + " text loader"}>{(this.props.loaderText || 'Cargando')}</div>
         </div>
         <p></p>
         <p></p>
@@ -23,7 +25,9 @@ class Loader extends Component {
 }
 
 Loader.propTypes = {
-  size: PropTypes.string
+  size: PropTypes.string,
+  inverted: PropTypes.bool,
+  loaderText: PropTypes.string
 };
 
 export default Loader;
