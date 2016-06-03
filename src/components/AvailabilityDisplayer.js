@@ -144,7 +144,7 @@ class AvailabilityDisplayer extends Component {
     return(
       <div className="ui column">
         <div className="ui two column stackable grid">
-          <div className="ui five wide column">
+          <div className="ui four wide column">
             <DayPicker
               locale={locale}
               localeUtils={MomentLocaleUtils}
