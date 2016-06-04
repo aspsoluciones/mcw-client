@@ -6,9 +6,9 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import PatientCard from '../components/PatientCard';
 import Dialog from 'material-ui/lib/dialog';
-//import FlatButton from 'material-ui/flat-button';
+import FlatButton from 'material-ui/lib/flat-button';
 
-import { selectPatient } from '../actions/PatientsActions';
+import { selectPatient, cancelPatientSelection, createNewPatientWithSameEmail } from '../actions/PatientsActions';
 
 class PatientsModal extends Component {
   constructor(props){
@@ -21,7 +21,6 @@ class PatientsModal extends Component {
   patientSelected = (patient) => {
     const { dispatch } = this.props;
     dispatch(selectPatient(patient));
-    this.setState({open: false});
   };
 
   renderPatientsCards(patientsList) {
@@ -32,25 +31,37 @@ class PatientsModal extends Component {
     }
   }
 
+
+
    handleClose = () => {
-    this.setState({open: false});
+     const { dispatch } = this.props;
+     dispatch(createNewPatientWithSameEmail());
+  };
+
+  handleCancel = () => {
+    const { dispatch } = this.props;
+    dispatch(cancelPatientSelection());
   };
 
   render(){
-
-     /*const actions = [
+     const actions = [
       <FlatButton
         label="Cancelar"
-        onTouchTap={this.handleClose}
-      />
-    ];*/
+        onTouchTap={this.handleCancel}
+      />,
+     <FlatButton
+       label="Crear nuevo paciente con el mismo email"
+       onTouchTap={this.handleClose}
+     />
+    ];
 
     return(
     <Dialog
       title="Seleccione un paciente para solicitar la cita"
-      modal={true}
+      modal={false}
       open={(this.props.patients.hasOwnProperty("openModal")) ? this.props.patients.openModal : true}
       autoScrollBodyContent={true}
+      actions={actions}
     >
       <div className="ui link cards">
         {this.renderPatientsCards(this.props.patientsList)}

@@ -4,7 +4,7 @@
 
 import axios from 'axios';
 import { ApiRef } from '../constants/Commons';
-import { PATIENT_READ_REQUEST, PATIENT_READ_SUCCESS, PATIENT_HIDE_DATA_FORM, PATIENT_READ_FAILURE, PATIENT_DISPLAY_DATA_FORM, PATIENT_SELECTED, PATIENT_SELECT } from '../constants/ActionTypes';
+import { PATIENT_READ_REQUEST, PATIENT_ADD_NEW_PATIENT, PATIENT_SELECT_CANCELLED, PATIENT_READ_SUCCESS, PATIENT_HIDE_DATA_FORM, PATIENT_READ_FAILURE, PATIENT_DISPLAY_DATA_FORM, PATIENT_SELECTED, PATIENT_SELECT } from '../constants/ActionTypes';
 
 const PatientInstance = axios.create({
   'baseURL': ApiRef + '/pacientes'
@@ -27,6 +27,22 @@ function patientSelected(payload){
   return {
     type: PATIENT_SELECTED,
     payload
+  }
+}
+
+export function addPatientToAccount() {
+  return {
+    type: PATIENT_ADD_NEW_PATIENT,
+    payload: {
+      openModal: false,
+      resetForm:false
+    }
+  }
+}
+
+function cancelSelection(){
+  return {
+    type: PATIENT_SELECT_CANCELLED
   }
 }
 
@@ -94,6 +110,16 @@ export function fillPatientData(){
   }
 }
 
+export function createNewPatientWithSameEmail(){
+  return dispatch => {
+    dispatch(addPatientToAccount());
+  }
+}
+export function cancelPatientSelection(){
+  return dispatch => {
+    dispatch(cancelSelection());
+  }
+}
 export function hidePatientFillData(){
   return dispatch => {
     dispatch(hidePatientForm());

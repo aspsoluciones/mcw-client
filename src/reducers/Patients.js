@@ -3,7 +3,7 @@
  */
 import { PATIENT_READ_REQUEST, PATIENT_SELECT,
   PATIENT_READ_SUCCESS, PATIENT_DISPLAY_DATA_FORM,
-  PATIENT_HIDE_DATA_FORM,
+  PATIENT_HIDE_DATA_FORM, PATIENT_ADD_NEW_PATIENT, PATIENT_SELECT_CANCELLED,
   PATIENT_READ_FAILURE, PATIENT_SELECTED } from '../constants/ActionTypes';
 const PatientInitialState = {
   openModal: false
@@ -17,6 +17,23 @@ export default function patient (state = PatientInitialState, action) {
         selectedPatient: action.payload,
         openModal: false
       };
+
+    case PATIENT_SELECT_CANCELLED:{
+      return {
+        ...state,
+        openModal:false,
+        resetForm: true
+
+      }
+    }
+
+    case PATIENT_ADD_NEW_PATIENT:{
+      return {
+        ...state,
+        openModal:false,
+        resetForm: false
+      }
+    }
 
     case PATIENT_DISPLAY_DATA_FORM:
           return {

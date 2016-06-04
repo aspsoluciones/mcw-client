@@ -18,6 +18,10 @@ Formsy.addValidationRule('isRequiredIfNotValue', function (values, value, otherF
   }
 });
 
+function selectValue(state){
+  return state.patients.resetForm;
+}
+
 class Checkout extends Component {
   constructor(props) {
     super(props);
@@ -26,6 +30,20 @@ class Checkout extends Component {
       canSubmit: false
     }
   }
+
+  componentDidMount(){
+    const { store } = this.context;
+    const { appointmentForm } = this.refs;
+    let currentValue;
+    store.subscribe(()=>{
+      let previousValue = currentValue;
+      currentValue = selectValue(store.getState());
+      if(!previousValue && currentValue && appointmentForm){
+        appointmentForm.reset();
+      }
+    })
+  }
+
 
   openModal() {
     const { dispatch } = this.props;
@@ -73,12 +91,9 @@ class Checkout extends Component {
     dispatch(fillPatientData())
   }
 
-  render() {
-
-    const { appointment, patients } = this.props;
-    const { keep } = appointment;
-    let _modal = (this.state.openPatientModal) ? <PatientsModal patientsList={patients.patient}/> : null;
-    let _form = (
+  renderForm(){
+      var _render = null;
+      let _form = (
       <Formsy.Form ref="appointmentForm" className="ui large form"
                    onValid={this.enableButton.bind(this)}
                    onInvalid={this.disableButton.bind(this)}
@@ -113,10 +128,10 @@ class Checkout extends Component {
                 value=""
               />
             </div>
-              <FormsyDate
-               name="fecha_nacimiento"
-               floatingLabelText="Fecha de nacimiento"
-             />
+            <FormsyDate
+              name="fecha_nacimiento"
+              floatingLabelText="Fecha de nacimiento"
+            />
             <div className="ui column">
               <FormsySelect
                 name="sexo"
@@ -160,6 +175,15 @@ class Checkout extends Component {
         </div>
       </Formsy.Form>);
 
+    return _form;
+  }
+
+  render() {
+
+    const { appointment, patients } = this.props;
+    const { keep } = appointment;
+    let _modal = (this.state.openPatientModal) ? <PatientsModal patientsList={patients.patient}/> : null;
+
     let _changePatientButton = (patients.patient && patients.patient.length > 1) ? (<button onClick={this.reOpenPatientsModal.bind(this)}>
         Cambiar paciente
     </button>) : null;
@@ -186,7 +210,7 @@ class Checkout extends Component {
       </div>
     );
 
-    var _render = (patients.selectedPatient) ? _selectedPatientCard : _form;
+    var _render = (patients.selectedPatient) ? _selectedPatientCard : this.renderForm();
 
     return (
       <div className="ui one column grid">
