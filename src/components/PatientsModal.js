@@ -31,25 +31,26 @@ class PatientsModal extends Component {
       })
     }
   }
-  
+
    handleClose = () => {
     this.setState({open: false});
   };
 
   render(){
-    
+
      /*const actions = [
       <FlatButton
         label="Cancelar"
         onTouchTap={this.handleClose}
       />
     ];*/
-    
+
     return(
     <Dialog
       title="Seleccione un paciente para solicitar la cita"
       modal={true}
       open={(this.props.patients.hasOwnProperty("openModal")) ? this.props.patients.openModal : true}
+      autoScrollBodyContent={true}
     >
       <div className="ui link cards">
         {this.renderPatientsCards(this.props.patientsList)}
