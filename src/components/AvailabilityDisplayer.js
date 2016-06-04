@@ -166,8 +166,8 @@ class AvailabilityDisplayer extends Component {
           </div>
         </div>
       </div>
-    )
-  }
+    )}
+
 }
 
 AvailabilityDisplayer.propTypes = {

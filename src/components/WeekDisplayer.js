@@ -9,7 +9,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import ReactToolTip from 'react-tooltip';
 moment.locale('es');
-let numOfAppointments = 6;
+let numOfAppointments = 4;
 
 function isSameDay(date1, date2) {
   var _stringDate = date1.format('YYYY-MM-DD');
