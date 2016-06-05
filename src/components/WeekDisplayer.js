@@ -9,6 +9,8 @@ import _ from 'lodash';
 import moment from 'moment';
 import ReactToolTip from 'react-tooltip';
 moment.locale('es');
+import Carousel from 'nuka-carousel';
+
 let numOfAppointments = 4;
 
 function isSameDay(date1, date2) {
@@ -30,13 +32,47 @@ function retrieveSelectedLocation(idLocalidad, localidades) {
   return _localidad;
 }
 
+
+
+const WeekDisplayerRow = ({weekDay, weekWithTime, index, expand, onClick}) => {
+
+  const day = weekWithTime[index];
+
+  return(<div className="ui column">
+
+    <h3 className="ui column">{weekDay[index].format("ddd")}</h3>
+    <h3 className="ui column">{weekDay[index].format("DD MMM")}</h3>
+    <div className="ui one column grid">
+      {
+        day.times && day.times.map((time, i) => {
+          const appoinmentTime = moment(time.fecha_hora_inicio).format("HH:mm");
+          const tooltipMessage = "Solicitar cita a las " + appoinmentTime;
+          return <div key={i} className="ui column">
+            {
+              !expand ?
+                i < numOfAppointments
+                  ? <button  data-tip={tooltipMessage}  onClick={ () => onClick(time, location) } className="ui circular small button bg-mcwBlue">{ appoinmentTime }</button>
+                  : null
+                : <button  data-tip={tooltipMessage} onClick={ () => onClick(time, location) } className="ui circular small button bg-mcwBlue">{ appoinmentTime }</button>
+            }
+          </div>
+        })
+      }
+    </div>
+  </div>)
+
+
+};
+
 class WeekDisplayer extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       expanded: false,
-      showExpandButton: false
+      showExpandButton: false,
+      showFromWeekDay : 0,
+      showUntilWeekDay: 3
     }
   }
 
@@ -98,13 +134,58 @@ class WeekDisplayer extends Component {
     })
   }
 
+
+  goToNext() {
+    console.log('Do something');
+    if(this.state.showUntilWeekDay == 3){
+      this.setState({
+        showFromWeekDay: 4,
+        showUntilWeekDay: 6
+      })
+    }
+
+  }
+
+  renderRow(weekdays, weekWithTimes, index){
+      if(index  >= this.state.showFromWeekDay && index <= this.state.showUntilWeekDay){
+        console.log(index);
+        return <WeekDisplayerRow key={index}
+                                 weekDay={weekdays}
+                                 weekWithTime={weekWithTimes}
+                                 index={index}
+                                 onClick={this.selectAppointment.bind(this)}
+                                 expand={this.state.expanded}
+                                 location={this.props.location}
+        />
+      }
+  }
+
   renderWeekDisplayer(){
     var _weekdays = this.calculateWeekToDisplay(this.props.selectedDay);
     var _weekWithTimes = this.assignAppointmentsToWeekDay(_weekdays, this.props.appointmentsForWeek);
     //console.log(_weekWithTimes);
 
     return(<div className="ui one column grid">
-      <div className="ui one padded column">
+      <div className="ui mobile only row">
+        <div className="ui two wide column" >
+          <button className="ui circular small button bg-mcwBlue" onClick={ () => this.goToNext() }>
+            <i className="ui chevron left"/>
+          </button>
+        </div>
+        <div className="ui twelve wide four column grid">
+          {
+            _weekdays.map((day, index)=>{
+              return this.renderRow(_weekdays, _weekWithTimes, index)
+            })
+          }
+        </div>
+        <div className="ui two wide centered column">
+            <i className="icon chevron right"/>
+        </div>
+      </div>
+
+
+      <div className="ui tablet computer only one padded column" >
         <table className="table ui simple-table unstackable table-week-displayer fixed">
           <thead>
           <tr>

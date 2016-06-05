@@ -145,19 +145,22 @@ class AvailabilityDisplayer extends Component {
       <div className="ui column">
         <div className="ui two column stackable grid">
           <div className="ui four wide column">
-            <DayPicker
-              locale={locale}
-              localeUtils={MomentLocaleUtils}
-              className="Availability"
-              initialMonth={ this.state.month }
-              disabledDays={DateUtils.isPastDay}
-              onDayClick={ (e, day, { disabled, selected }) => {
+            <div className="ui one column computer only ">
+              <DayPicker
+                locale={locale}
+                localeUtils={MomentLocaleUtils}
+                className="Availability"
+                initialMonth={ this.state.month }
+                disabledDays={DateUtils.isPastDay}
+                onDayClick={ (e, day, { disabled, selected }) => {
                   if(!disabled){
                     this.setNewDate(day);
                   }
                 }
               }
-            />
+              />
+            </div>
+
           </div>
           <div className="ui eleven wide column">
             <div className="ui column">
