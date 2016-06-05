@@ -164,7 +164,7 @@ class WeekDisplayer extends Component {
     var _weekdays = this.calculateWeekToDisplay(this.props.selectedDay);
     var _weekWithTimes = this.assignAppointmentsToWeekDay(_weekdays, this.props.appointmentsForWeek);
     //console.log(_weekWithTimes);
-
+    const classToApply = (this.state.showUntilWeekDay == 3) ? "ui twelve wide four column grid": "ui twelve wide three column grid"
     return(<div className="ui one column grid">
       <div className="ui mobile only row">
         <div className="ui two wide column" >
@@ -172,7 +172,7 @@ class WeekDisplayer extends Component {
             <i className="ui chevron left"/>
           </button>
         </div>
-        <div className="ui twelve wide four column grid">
+        <div className={classToApply}>
           {
             _weekdays.map((day, index)=>{
               return this.renderRow(_weekdays, _weekWithTimes, index)
