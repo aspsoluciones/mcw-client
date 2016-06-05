@@ -13,7 +13,9 @@ import {
  DOCTOR_READ_REQUEST,
  DOCTOR_READ_SUCCESS,
  DOCTOR_READ_FAILURE,
- APPOINTMENT_NEW_DATE
+ APPOINTMENT_NEW_DATE,
+ VERIFY_APPOINTMENT_SUCCESS,
+ VERIFY_APPOINTMENT_FAILURE
 } from '../constants/ActionTypes';
 
 import axios from 'axios';
@@ -137,6 +139,19 @@ function SelectedNewDate(newDate) {
   }
 }
 
+function VerifyAppointmentSuccess() {
+  return {
+    type: VERIFY_APPOINTMENT_SUCCESS
+  }
+}
+
+function VerifyAppointmentFailure(error) {
+  return {
+    type: VERIFY_APPOINTMENT_FAILURE,
+    error
+  }
+}
+
 export function GetDoctorData(doctorUsername) {
   return dispatch => {
     dispatch(DoctorDataRequest(doctorUsername));
@@ -201,6 +216,16 @@ export function ConfirmAppointment(appointment) {
       dispatch(AppointmentSuccess(data));
     }).catch((error) => {
       dispatch(AppointmentFailure(error));
+    });
+  }
+}
+
+export function VerifyAppointment(confirmationId) {
+  return dispatch => {
+    axios.post('/solicitudes/verificar/' + confirmationId).then((data) => {
+      dispatch(VerifyAppointmentSuccess(data));
+    }).catch((error) => {
+      dispatch(VerifyAppointmentFailure(error));
     });
   }
 }
