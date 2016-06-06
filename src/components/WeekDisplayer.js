@@ -8,9 +8,8 @@ import { TakeAppointment } from '../actions/Appointments';
 import _ from 'lodash';
 import moment from 'moment';
 import ReactToolTip from 'react-tooltip';
+import { SelectNewDate } from '../actions/Appointments';
 moment.locale('es');
-import Carousel from 'nuka-carousel';
-
 let numOfAppointments = 4;
 
 function isSameDay(date1, date2) {
@@ -27,7 +26,7 @@ function retrieveSelectedLocation(idLocalidad, localidades) {
       _localidad = localidades[index];
       return true;
     }
-  })
+  });
 
   return _localidad;
 }
@@ -42,18 +41,18 @@ const WeekDisplayerRow = ({weekDay, weekWithTime, index, expand, onClick}) => {
 
     <h3 className="ui column">{weekDay[index].format("ddd")}</h3>
     <h3 className="ui column">{weekDay[index].format("DD MMM")}</h3>
-    <div className="ui one column grid">
+    <div className="ui one column centered grid">
       {
         day.times && day.times.map((time, i) => {
           const appoinmentTime = moment(time.fecha_hora_inicio).format("HH:mm");
           const tooltipMessage = "Solicitar cita a las " + appoinmentTime;
-          return <div key={i} className="ui column">
+          return <div key={i}>
             {
               !expand ?
                 i < numOfAppointments
-                  ? <button  data-tip={tooltipMessage}  onClick={ () => onClick(time, location) } className="ui circular small button bg-mcwBlue">{ appoinmentTime }</button>
+                  ? <button  data-tip={tooltipMessage}  onClick={ () => onClick(time, location) } className="ui circular tiny button bg-mcwBlue mobileAppointmentButton">{ appoinmentTime }</button>
                   : null
-                : <button  data-tip={tooltipMessage} onClick={ () => onClick(time, location) } className="ui circular small button bg-mcwBlue">{ appoinmentTime }</button>
+                : <button  data-tip={tooltipMessage} onClick={ () => onClick(time, location) } className="ui circular tiny bg-mcwBlue">{ appoinmentTime }</button>
             }
           </div>
         })
@@ -65,6 +64,13 @@ const WeekDisplayerRow = ({weekDay, weekWithTime, index, expand, onClick}) => {
 };
 
 class WeekDisplayer extends Component {
+
+  setNewWeek(){
+    var _day;
+
+
+    //dispatch(SelectNewDate(_day, appointment.doctorUsername, idLocalidad));
+  }
 
   constructor(props) {
     super(props);
@@ -135,13 +141,31 @@ class WeekDisplayer extends Component {
   }
 
 
+  goToPrevious(){
+    console.log('Previous');
+
+    if(this.state.showFromWeekDay == 4) {
+      this.setState({
+        showFromWeekDay: 0,
+        showUntilWeekDay: 3
+      })
+    } else {
+      const { selectedDay } = this.props;
+      console.log(moment(selectedDay).subtract('d', 7));
+    }
+  }
+
   goToNext() {
-    console.log('Do something');
+    console.log('Next');
     if(this.state.showUntilWeekDay == 3){
       this.setState({
         showFromWeekDay: 4,
         showUntilWeekDay: 6
       })
+    } else {
+      const { selectedDay } = this.props;
+      console.log(moment(selectedDay).add('d', 7));
+      //SelectNewDate()
     }
 
   }
@@ -160,16 +184,27 @@ class WeekDisplayer extends Component {
       }
   }
 
+  canGoBack(selectedDay){
+    var _selectedDay = moment(selectedDay);
+    var _today = moment();
+    var _diff = _today.diff(_selectedDay, 'days');
+    console.log(_diff);
+    return _diff >= 0;
+  }
+
   renderWeekDisplayer(){
+
+    this.canGoBack(this.props.selectedDay);
     var _weekdays = this.calculateWeekToDisplay(this.props.selectedDay);
     var _weekWithTimes = this.assignAppointmentsToWeekDay(_weekdays, this.props.appointmentsForWeek);
     //console.log(_weekWithTimes);
-    const classToApply = (this.state.showUntilWeekDay == 3) ? "ui twelve wide four column grid": "ui twelve wide three column grid"
+    const classToApply = (this.state.showUntilWeekDay == 3) ? "ui twelve wide four column grid": "ui twelve wide three column grid";
+    const leftButtonClass = (this.canGoBack(this.props.selectedDay) && this.state.showUntilWeekDay == 3) ? 'ui disabled  icon basic tiny button blue' : 'ui icon basic tiny button blue';
     return(<div className="ui one column grid">
       <div className="ui mobile only row">
-        <div className="ui two wide column" >
-          <button className="ui circular small button bg-mcwBlue" onClick={ () => this.goToNext() }>
-            <i className="ui chevron left"/>
+        <div className="ui two wide column">
+          <button className={leftButtonClass} onClick={this.goToPrevious.bind(this)}>
+            <i className="icon chevron left"/>
           </button>
         </div>
         <div className={classToApply}>
@@ -179,8 +214,10 @@ class WeekDisplayer extends Component {
             })
           }
         </div>
-        <div className="ui two wide centered column">
+        <div className="ui two wide column" >
+          <button className="ui  icon basic tiny button blue" onClick={this.goToNext.bind(this)}>
             <i className="icon chevron right"/>
+          </button>
         </div>
       </div>
 
