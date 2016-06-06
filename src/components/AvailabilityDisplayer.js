@@ -80,7 +80,12 @@ class AvailabilityDisplayer extends Component {
       if(_appointmentsForWeek.length) {
         return (<WeekDisplayer appointmentsForWeek={_appointmentsForWeek}
                          selectedDay={selectedDate}
-                         institution={institution} idLocalidad={idLocalidad}  doctor={doctor}/>)
+                         institution={institution}
+                         idLocalidad={idLocalidad}
+                         onDateChange={this.setNewDate.bind(this)}
+                         doctor={doctor}/>
+
+        )
       } else if(!appointment.loadingAppointments &&
         !appointment.loadingDoctorData &&
         !_appointmentsForWeek.length && appointment.readSuccess

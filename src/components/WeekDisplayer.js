@@ -143,7 +143,7 @@ class WeekDisplayer extends Component {
 
   goToPrevious(){
     console.log('Previous');
-
+    const { onDateChange } = this.props;
     if(this.state.showFromWeekDay == 4) {
       this.setState({
         showFromWeekDay: 0,
@@ -151,12 +151,13 @@ class WeekDisplayer extends Component {
       })
     } else {
       const { selectedDay } = this.props;
-      console.log(moment(selectedDay).subtract('d', 7));
+      onDateChange(moment(selectedDay).subtract('d', 7));
     }
   }
 
   goToNext() {
     console.log('Next');
+    const { onDateChange } = this.props;
     if(this.state.showUntilWeekDay == 3){
       this.setState({
         showFromWeekDay: 4,
@@ -165,6 +166,7 @@ class WeekDisplayer extends Component {
     } else {
       const { selectedDay } = this.props;
       console.log(moment(selectedDay).add('d', 7));
+      onDateChange(moment(selectedDay).add('d', 7))
     }
 
   }
@@ -313,7 +315,8 @@ WeekDisplayer.contextTypes = {
 WeekDisplayer.propTypes = {
   institution: PropTypes.any,
   idLocalidad: PropTypes.any,
-  doctor: PropTypes.any
+  doctor: PropTypes.any,
+  onDateChange : PropTypes.func
 };
 
 
