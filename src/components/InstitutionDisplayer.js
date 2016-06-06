@@ -24,7 +24,6 @@ function parseCoordinates(coordinatesString){
   var _coordinates = []
   _coordinates[0] = parseFloat(_str[0]);
   _coordinates[1] = parseFloat(_str[1]);
-
   return _coordinates;
 }
 

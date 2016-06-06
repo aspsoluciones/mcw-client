@@ -65,7 +65,7 @@ class AvailabilityDisplayer extends Component {
     const { loadingAppointmentsForLocation, loadingAppointments } = appointment;
 
     if(loadingAppointmentsForLocation == idLocalidad || loadingAppointments){
-      return (<Loader inverted={true} loaderText="Leyendo turnos"/>);
+      return (<Loader inverted={true} loaderText="Leyendo..."/>);
     }
     var _datesToUse;
 
@@ -99,7 +99,7 @@ class AvailabilityDisplayer extends Component {
           });
         });
 
-        return (<Loader inverted={true} loaderText="Leyendo turnos próximos disponibles"></Loader>)
+        return (<Loader inverted={true} loaderText="Leyendo..."></Loader>)
       }
     }else{
       if(this.state.closestAppointment && this.state.closestAppointment.fecha_hora_inicio){
