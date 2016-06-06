@@ -52,7 +52,7 @@ const WeekDisplayerRow = ({weekDay, weekWithTime, index, expand, onClick}) => {
                 i < numOfAppointments
                   ? <button  data-tip={tooltipMessage}  onClick={ () => onClick(time, location) } className="ui circular tiny button bg-mcwBlue mobileAppointmentButton">{ appoinmentTime }</button>
                   : null
-                : <button  data-tip={tooltipMessage} onClick={ () => onClick(time, location) } className="ui circular tiny bg-mcwBlue">{ appoinmentTime }</button>
+                : <button  data-tip={tooltipMessage} onClick={ () => onClick(time, location) } className="ui circular tiny button bg-mcwBlue mobileAppointmentButton">{ appoinmentTime }</button>
             }
           </div>
         })
@@ -165,7 +165,6 @@ class WeekDisplayer extends Component {
     } else {
       const { selectedDay } = this.props;
       console.log(moment(selectedDay).add('d', 7));
-      //SelectNewDate()
     }
 
   }
@@ -193,11 +192,10 @@ class WeekDisplayer extends Component {
   }
 
   renderWeekDisplayer(){
-
     this.canGoBack(this.props.selectedDay);
     var _weekdays = this.calculateWeekToDisplay(this.props.selectedDay);
     var _weekWithTimes = this.assignAppointmentsToWeekDay(_weekdays, this.props.appointmentsForWeek);
-    //console.log(_weekWithTimes);
+
     const classToApply = (this.state.showUntilWeekDay == 3) ? "ui twelve wide four column grid": "ui twelve wide three column grid";
     const leftButtonClass = (this.canGoBack(this.props.selectedDay) && this.state.showUntilWeekDay == 3) ? 'ui disabled  icon basic tiny button blue' : 'ui icon basic tiny button blue';
     return(<div className="ui one column grid">
@@ -212,6 +210,11 @@ class WeekDisplayer extends Component {
             _weekdays.map((day, index)=>{
               return this.renderRow(_weekdays, _weekWithTimes, index)
             })
+          }
+          {
+            this.state.showExpandButton
+              ? <button onClick={ () => this.toggleExpand() } className="ui fluid tiny button bg-mcwBlue uppercase m-v-lg">{!this.state.expanded ? 'ver más' : 'ver menos' }</button>
+              : null
           }
         </div>
         <div className="ui two wide column" >
