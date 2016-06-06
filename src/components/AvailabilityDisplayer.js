@@ -97,7 +97,7 @@ class AvailabilityDisplayer extends Component {
         return (<Loader inverted={true} loaderText="Leyendo turnos próximos disponibles"></Loader>)
       }
     }else{
-      if(this.state.closestAppointment.fecha_hora_inicio){
+      if(this.state.closestAppointment && this.state.closestAppointment.fecha_hora_inicio){
         return (<div className="ui icon info message" onClick={ () => {
           this.setNewDate(this.state.closestAppointment.fecha_hora_inicio)
       }}>
