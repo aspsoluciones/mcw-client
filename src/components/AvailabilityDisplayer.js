@@ -112,7 +112,7 @@ class AvailabilityDisplayer extends Component {
        </div>
       </div>)
       } else {
-        return (<div>
+        return (<div className="ui column">
           <h2>Aún no se han registrado turnos en esta localidad</h2>
         </div>)
       }
@@ -147,9 +147,9 @@ class AvailabilityDisplayer extends Component {
   render() {
     const { availability, appointment, idLocalidad, doctor } = this.props;
     return(
-      <div className="ui column">
+      <div className="ui column availabilityDisplayer">
         <div className="ui two column stackable grid">
-          <div className="ui four wide column">
+          <div className="ui computer only four wide column">
             <div className="ui one column computer only ">
               <DayPicker
                 locale={locale}
@@ -168,7 +168,7 @@ class AvailabilityDisplayer extends Component {
 
           </div>
           <div className="ui eleven wide column">
-            <div className="ui column">
+            <div className="ui one column grid">
               { this.renderWeekDisplayer(this.state.selectedDate, availability)}
             </div>
           </div>

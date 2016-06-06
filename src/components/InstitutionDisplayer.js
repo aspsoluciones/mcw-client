@@ -78,7 +78,7 @@ class InstitutionDisplayer extends Component {
           </Map>
         </div>
           <AvailabilityDisplayer
-            className="ui column"
+            className="ui column availabilityDisplayer"
             availability={institution.turnos}
             idLocalidad={institution.localidad.id}
             institution={institution}
