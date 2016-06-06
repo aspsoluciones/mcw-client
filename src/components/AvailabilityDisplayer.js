@@ -103,18 +103,31 @@ class AvailabilityDisplayer extends Component {
       }
     }else{
       if(this.state.closestAppointment && this.state.closestAppointment.fecha_hora_inicio){
-        return (<div className="ui icon info message" onClick={ () => {
-          this.setNewDate(this.state.closestAppointment.fecha_hora_inicio)
-      }}>
-      <i className="idea icon"></i>
-       <div className="content">
-         Proximo turno disponible {moment(this.state.closestAppointment.fecha_hora_inicio).format("dddd DD/MMM/YYYY")}
-       </div>
-      </div>)
+        return (
+          <div className="ui column">
+            <div className="ui icon info message" onClick={ () => {
+          this.setNewDate(this.state.closestAppointment.fecha_hora_inicio)}}>
+              <i className="idea icon"></i>
+              <div className="content">
+                Proximo turno disponible {moment(this.state.closestAppointment.fecha_hora_inicio).format("dddd DD/MMM/YYYY")}
+              </div>
+            </div>
+          </div>)
+
       } else {
-        return (<div className="ui column">
-          <h2>Aún no se han registrado turnos en esta localidad</h2>
-        </div>)
+        return (
+          <div className="ui middle aligned column centered container grid">
+            <div className="ui column">
+              <div className="ui icon warning message">
+                <i className="warning sign icon"></i>
+                <div className="content">
+                  No existen turnos disponibles para esta localidad
+                </div>
+              </div>
+            </div>
+          </div>
+
+          )
       }
     }
 
