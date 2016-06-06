@@ -77,14 +77,17 @@ class InstitutionDisplayer extends Component {
             </Marker>
           </Map>
         </div>
-          <AvailabilityDisplayer
-            className="ui column availabilityDisplayer"
-            availability={institution.turnos}
-            idLocalidad={institution.localidad.id}
-            institution={institution}
-            doctor={doctor}
-            doctorUsername={this.props.doctorUsername}
-          />
+          <div className="ui container">
+            <AvailabilityDisplayer
+              className="ui column availabilityDisplayer"
+              availability={institution.turnos}
+              idLocalidad={institution.localidad.id}
+              institution={institution}
+              doctor={doctor}
+              doctorUsername={this.props.doctorUsername}
+            />
+          </div>
+
         </div>
     )
   }
