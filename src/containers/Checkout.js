@@ -91,7 +91,7 @@ class Checkout extends Component {
     dispatch(fillPatientData())
   }
 
-  renderForm(){
+  renderForm(setDisabled){
       var _render = null;
       let _form = (
       <Formsy.Form ref="appointmentForm" className="ui large form"
@@ -168,7 +168,7 @@ class Checkout extends Component {
 
           </div>
           <div className="column">
-            <button type="submit" className="ui button fluid blue">
+            <button type="submit" disabled={setDisabled} className="ui button fluid blue">
               Solicitar cita
             </button>
           </div>
@@ -183,10 +183,13 @@ class Checkout extends Component {
     const { appointment, patients } = this.props;
     const { keep } = appointment;
     let _modal = (this.state.openPatientModal) ? <PatientsModal patientsList={patients.patient}/> : null;
-
+    const setDisabled = (!patients.selectedPatient && !this.state.canSubmit) || appointment.requestingAppointment
+    console.log('disabled', setDisabled);
     let _changePatientButton = (patients.patient && patients.patient.length > 1) ? (<button onClick={this.reOpenPatientsModal.bind(this)}>
         Cambiar paciente
     </button>) : null;
+    
+   
 
     let _selectedPatientCard = (
       <div>
@@ -203,14 +206,14 @@ class Checkout extends Component {
         </div>
 
         <div className="ui column">
-          <button onClick={() => this.submitAppointment(patients.selectedPatient)} disabled={ !patients.selectedPatient && !this.state.canSubmit } className="ui button fluid blue">
+          <button onClick={() => this.submitAppointment(patients.selectedPatient)} disabled={ setDisabled  } className="ui button fluid blue">
             Solicitar cita
           </button>
         </div>
       </div>
     );
 
-    var _render = (patients.selectedPatient) ? _selectedPatientCard : this.renderForm();
+    var _render = (patients.selectedPatient) ? _selectedPatientCard : this.renderForm(setDisabled);
 
     return (
       <div className="ui one column grid">

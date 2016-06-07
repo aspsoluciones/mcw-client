@@ -77,6 +77,27 @@ function appointment(state = initialState, action) {
         error: action.error
       };
 
+    case APPOINTMENT_REQUEST :
+      return {
+        ...state,
+        requestingAppointment: true
+      }
+    
+
+    case APPOINTMENT_SUCCESS :
+      return {
+        ...state,
+        requestingAppointment: false
+      }
+    
+
+    case APPOINTMENT_FAILURE :
+      return {
+        ...state,
+        requestingAppointment: false
+      }
+    
+
     case APPOINTMENT_NEW_DATE:
       return {
         ...state
