@@ -110,7 +110,7 @@ class AvailabilityDisplayer extends Component {
           this.setNewDate(this.state.closestAppointment.fecha_hora_inicio)}}>
               <i className="idea icon"></i>
               <div className="content">
-                Proximo turno disponible {moment(this.state.closestAppointment.fecha_hora_inicio).format("dddd DD/MMM/YYYY")}
+                Proximo turno disponible {moment(this.state.closestAppointment.fecha_hora_inicio).format("dddd DD/MMMM/YYYY")}
               </div>
             </div>
           </div>)
