@@ -118,7 +118,7 @@ class WeekDisplayer extends Component {
 
   selectAppointment(appointment){
 
-    const {dispatch, doctor, idLocalidad, institution} = this.props;
+    const {dispatch, doctor, idLocalidad, institution, doctorUsername } = this.props;
     const { router } = this.context;
     console.log(router);
 
@@ -131,7 +131,7 @@ class WeekDisplayer extends Component {
 
     dispatch(TakeAppointment({appointment}))
     router.push({
-      pathname: '/doctor/doctorchapatin/appointment/checkout'
+      pathname: '/doctor/' + doctorUsername + '/appointment/checkout'
     });
   }
 

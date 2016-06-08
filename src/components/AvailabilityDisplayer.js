@@ -83,6 +83,7 @@ class AvailabilityDisplayer extends Component {
                          institution={institution}
                          idLocalidad={idLocalidad}
                          onDateChange={this.setNewDate.bind(this)}
+                         doctorUsername={doctorUsername}
                          doctor={doctor}/>
 
         )
