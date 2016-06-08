@@ -105,15 +105,18 @@ class AvailabilityDisplayer extends Component {
     }else{
       if(this.state.closestAppointment && this.state.closestAppointment.fecha_hora_inicio){
         return (
-          <div className="ui column">
-            <div className="ui icon info message" onClick={ () => {
-          this.setNewDate(this.state.closestAppointment.fecha_hora_inicio)}}>
-              <i className="idea icon"></i>
-              <div className="content">
-                Proximo turno disponible {moment(this.state.closestAppointment.fecha_hora_inicio).format("dddd DD/MMMM/YYYY")}
+          <div className="ui middle aligned column centered container grid">
+            <div className="ui column">
+              <div className="ui icon info message" onClick={ () => {
+            this.setNewDate(this.state.closestAppointment.fecha_hora_inicio)}}>
+                <i className="idea icon"></i>
+                <div className="content">
+                  Próximo turno disponible {moment(this.state.closestAppointment.fecha_hora_inicio).format("dddd DD/MMMM/YYYY")}
+                </div>
               </div>
             </div>
-          </div>)
+          </div>
+          )
 
       } else {
         return (
