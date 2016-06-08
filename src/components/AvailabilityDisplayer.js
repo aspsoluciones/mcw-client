@@ -160,6 +160,7 @@ class AvailabilityDisplayer extends Component {
 
   render() {
     const { availability, appointment, idLocalidad, doctor } = this.props;
+    const { selectedDate } = this.state; 
     return(
       <div className="ui column availabilityDisplayer">
         <div className="ui two column stackable grid">
@@ -169,6 +170,7 @@ class AvailabilityDisplayer extends Component {
                 locale={locale}
                 localeUtils={MomentLocaleUtils}
                 className="Availability"
+                selectedDays={day => DateUtils.isSameDay(selectedDate.toDate(), day)}
                 initialMonth={ this.state.month }
                 disabledDays={DateUtils.isPastDay}
                 onDayClick={ (e, day, { disabled, selected }) => {
