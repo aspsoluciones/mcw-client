@@ -31,11 +31,11 @@ class Appointment extends Component {
 
     store.subscribe(() =>{
       let _state = store.getState();
-      if(_state.appointment.keep) {
+      /*if(_state.appointment.keep) {
         router.push({
           pathname: '/doctor/' + this.props.params.doctorUsername + '/appointment/checkout'
         });
-      }
+      }*/
     })
 
 

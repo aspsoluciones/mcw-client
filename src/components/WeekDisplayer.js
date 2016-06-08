@@ -13,9 +13,11 @@ moment.locale('es');
 let numOfAppointments = 4;
 
 function isSameDay(date1, date2) {
-  var _stringDate = date1.format('YYYY-MM-DD');
-  var _result = date2.fecha_hora_inicio.indexOf(_stringDate) != -1;
-  return _result;
+  if(date1 && date2 && date2.fecha_hora_inicio.indexOf){
+    var _stringDate = date1.format('YYYY-MM-DD');
+    var _result = date2.fecha_hora_inicio.indexOf(_stringDate) != -1;
+    return _result;
+  }
 }
 
 
@@ -117,6 +119,8 @@ class WeekDisplayer extends Component {
   selectAppointment(appointment){
 
     const {dispatch, doctor, idLocalidad, institution} = this.props;
+    const { router } = this.context;
+    console.log(router);
 
     this.setState({
       selectedAppointment : appointment
@@ -126,6 +130,9 @@ class WeekDisplayer extends Component {
     appointment.doctor = doctor;
 
     dispatch(TakeAppointment({appointment}))
+    router.push({
+      pathname: '/doctor/doctorchapatin/appointment/checkout'
+    });
   }
 
   toggleExpand() {
