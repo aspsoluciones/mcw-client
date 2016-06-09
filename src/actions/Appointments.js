@@ -233,6 +233,8 @@ function transformAppointment(appointment){
 
   _dataToSend.etapas_solicitud[0].fecha_inicio = _dataToSend.fecha_inicio;
   _dataToSend.etapas_solicitud[0].fecha_fin = _dataToSend.fecha_fin;
+  _dataToSend.etapas_solicitud[0].duracion_en_minutos = turno.duracion_en_minutos;
+  
 
   return _dataToSend;
 

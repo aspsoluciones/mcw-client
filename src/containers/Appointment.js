@@ -88,7 +88,11 @@ class Appointment extends Component {
         _render = (<Loader></Loader>)
       } else if(error){
         console.log('Entrado');
-        _render = (<ErrorDisplayer code={error.status}></ErrorDisplayer>)
+        _render = (
+          <div className="ui one column grid" style={{marginTop:100}}>
+              <ErrorDisplayer code={error.status}></ErrorDisplayer> 
+          </div>
+          )
       } else {
         _render = this.renderAppointmentScreen(appointment);
       }
