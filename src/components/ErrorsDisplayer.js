@@ -11,6 +11,10 @@ function messageToRender(code){
   if(code == 500){
     message = 'Ha ocurrido un error, intente más tarde'
   }
+
+  if(!code){
+    message = 'Ha ocurrido un error inesperado';
+  }
   
   return message;
 } 

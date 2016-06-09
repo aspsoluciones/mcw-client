@@ -20,7 +20,7 @@ import {
 
 import axios from 'axios';
 import moment from 'moment';
-
+import { browserHistory } from 'react-router';
 
 let initialDate = {
   minDate: moment().format("MM-DD-YYYY"),
@@ -245,11 +245,12 @@ function transformAppointment(appointment){
   _dataToSend.fecha_inicio = turno.fecha_hora_inicio.toDate();
   _dataToSend.fecha_fin = turno.fecha_hora_inicio.add('m', turno.duracion_en_minutos).toDate();
 
-  _dataToSend.solicitante.id = solicitante.id
+  _dataToSend.solicitante.id = solicitante.id;
+  _dataToSend.id_responsable_servicio = doctor.id;
   _dataToSend.id_persona_emisora = solicitante.id;
   _dataToSend.solicitante.id_empresa = institution.id_empresa;
   _dataToSend.id_empresa = institution.id_empresa;
-  _dataToSend.solicitante.id_responsable_servicio = doctor.id
+  _dataToSend.solicitante.id_responsable_servicio = doctor.id;
   _dataToSend.nombre_responsable_servicio = doctor.titulo + ' ' + doctor.apellido + ' ' + doctor.nombre;
 
   _dataToSend.etapas_solicitud[0].id_localidad = location.id;
@@ -257,6 +258,8 @@ function transformAppointment(appointment){
 
   _dataToSend.etapas_solicitud[0].fecha_inicio = _dataToSend.fecha_inicio;
   _dataToSend.etapas_solicitud[0].fecha_fin = _dataToSend.fecha_fin;
+  _dataToSend.etapas_solicitud[0].duracion_en_minutos = turno.duracion_en_minutos;
+  
 
   return _dataToSend;
 

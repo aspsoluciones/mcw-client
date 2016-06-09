@@ -19,6 +19,7 @@ import {
 } from "../constants/ActionTypes";
 
 import moment from 'moment';
+import { browserHistory } from 'react-router';
 
 const initialState = {
   loadingAppointments : false, readSuccess:false, loadingDoctorData : false, responsable_servicio: {}, selectedDay : moment()
@@ -76,6 +77,27 @@ function appointment(state = initialState, action) {
         loadingAppointments: false,
         error: action.error
       };
+
+    case APPOINTMENT_REQUEST :
+      return {
+        ...state,
+        requestingAppointment: true
+      }
+    
+
+    case APPOINTMENT_SUCCESS :
+      return {
+        ...state,
+        requestingAppointment: false
+      }
+    
+
+    case APPOINTMENT_FAILURE :
+      return {
+        ...state,
+        requestingAppointment: false
+      }
+    
 
     case APPOINTMENT_NEW_DATE:
       return {

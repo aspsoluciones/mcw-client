@@ -20,12 +20,17 @@ const style = {
 };
 
 function parseCoordinates(coordinatesString){
-  var _str = coordinatesString.split(";");
-  var _coordinates = []
-  _coordinates[0] = parseFloat(_str[0]);
-  _coordinates[1] = parseFloat(_str[1]);
-
-  return _coordinates;
+  if(coordinatesString) {
+    var _separator = (coordinatesString.indexOf(";") != -1) ? ";" : (coordinatesString.indexOf(";") != -1) ? ',' : null
+    var _str = coordinatesString.split(_separator);
+    var _coordinates = []
+    _coordinates[0] = parseFloat(_str[0]);
+    _coordinates[1] = parseFloat(_str[1]);
+    return _coordinates;
+  } else {
+    return null;
+  }
+  
 }
 
 function parseContacts(institution){
@@ -48,6 +53,26 @@ class InstitutionDisplayer extends Component {
     }
   }
 
+  renderMap(position, contact){
+
+    if(position) {
+      return (
+        <Map className="ui column map" center={position} zoom={13} zoomControl={true} scrollWheelZoom={false}>
+            <TileLayer
+              url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            />
+            <Marker position={position}>
+              <Popup>
+                <span>{contact.title}<br/> - {contact.subTitle}</span>
+              </Popup>
+            </Marker>
+          </Map>
+      )
+    }
+
+  }
+
   renderAvailabilityDisplayer(institution, doctor){
       const position = parseCoordinates(institution.localidad.coordenadas)
       const contact = parseContacts(institution)
@@ -65,26 +90,19 @@ class InstitutionDisplayer extends Component {
              { contact.subTitle }
             </div>
           </div>
-          <Map className="ui column map" center={position} zoom={13} zoomControl={true} scrollWheelZoom={false}>
-            <TileLayer
-              url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            />
-            <Marker position={position}>
-              <Popup>
-                <span>{contact.title}<br/> - {contact.subTitle}</span>
-              </Popup>
-            </Marker>
-          </Map>
+          { this.renderMap(position, contact) }
         </div>
-          <AvailabilityDisplayer
-            className="ui column"
-            availability={institution.turnos}
-            idLocalidad={institution.localidad.id}
-            institution={institution}
-            doctor={doctor}
-            doctorUsername={this.props.doctorUsername}
-          />
+          <div className="ui container">
+            <AvailabilityDisplayer
+              className="ui column availabilityDisplayer"
+              availability={institution.turnos}
+              idLocalidad={institution.localidad.id}
+              institution={institution}
+              doctor={doctor}
+              doctorUsername={this.props.doctorUsername}
+            />
+          </div>
+
         </div>
     )
   }

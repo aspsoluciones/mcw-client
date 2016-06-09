@@ -65,7 +65,7 @@ class AvailabilityDisplayer extends Component {
     const { loadingAppointmentsForLocation, loadingAppointments } = appointment;
 
     if(loadingAppointmentsForLocation == idLocalidad || loadingAppointments){
-      return (<Loader inverted={true} loaderText="Leyendo turnos"/>);
+      return (<Loader inverted={true} loaderText="Leyendo..."/>);
     }
     var _datesToUse;
 
@@ -80,7 +80,13 @@ class AvailabilityDisplayer extends Component {
       if(_appointmentsForWeek.length) {
         return (<WeekDisplayer appointmentsForWeek={_appointmentsForWeek}
                          selectedDay={selectedDate}
-                         institution={institution} idLocalidad={idLocalidad}  doctor={doctor}/>)
+                         institution={institution}
+                         idLocalidad={idLocalidad}
+                         onDateChange={this.setNewDate.bind(this)}
+                         doctorUsername={doctorUsername}
+                         doctor={doctor}/>
+
+        )
       } else if(!appointment.loadingAppointments &&
         !appointment.loadingDoctorData &&
         !_appointmentsForWeek.length && appointment.readSuccess
@@ -94,22 +100,38 @@ class AvailabilityDisplayer extends Component {
           });
         });
 
-        return (<Loader inverted={true} loaderText="Leyendo turnos próximos disponibles"></Loader>)
+        return (<Loader inverted={true} loaderText="Leyendo..."></Loader>)
       }
     }else{
-      if(this.state.closestAppointment.fecha_hora_inicio){
-        return (<div className="ui icon info message" onClick={ () => {
-          this.setNewDate(this.state.closestAppointment.fecha_hora_inicio)
-      }}>
-      <i className="idea icon"></i>
-       <div className="content">
-         Proximo turno disponible {moment(this.state.closestAppointment.fecha_hora_inicio).format("dddd DD/MMM/YYYY")}
-       </div>
-      </div>)
+      if(this.state.closestAppointment && this.state.closestAppointment.fecha_hora_inicio){
+        return (
+          <div className="ui middle aligned column centered container grid">
+            <div className="ui column">
+              <div className="ui icon info message" onClick={ () => {
+            this.setNewDate(this.state.closestAppointment.fecha_hora_inicio)}}>
+                <i className="idea icon"></i>
+                <div className="content">
+                  Próximo turno disponible {moment(this.state.closestAppointment.fecha_hora_inicio).format("dddd DD/MMMM/YYYY")}
+                </div>
+              </div>
+            </div>
+          </div>
+          )
+
       } else {
-        return (<div>
-          <h2>Aún no se han registrado turnos en esta localidad</h2>
-        </div>)
+        return (
+          <div className="ui middle aligned column centered container grid">
+            <div className="ui column">
+              <div className="ui icon warning message">
+                <i className="warning sign icon"></i>
+                <div className="content">
+                  No existen turnos disponibles para esta localidad
+                </div>
+              </div>
+            </div>
+          </div>
+
+          )
       }
     }
 
@@ -141,33 +163,38 @@ class AvailabilityDisplayer extends Component {
 
   render() {
     const { availability, appointment, idLocalidad, doctor } = this.props;
+    const { selectedDate } = this.state; 
     return(
-      <div className="ui column">
+      <div className="ui column availabilityDisplayer">
         <div className="ui two column stackable grid">
-          <div className="ui four wide column">
-            <DayPicker
-              locale={locale}
-              localeUtils={MomentLocaleUtils}
-              className="Availability"
-              initialMonth={ this.state.month }
-              disabledDays={DateUtils.isPastDay}
-              onDayClick={ (e, day, { disabled, selected }) => {
+          <div className="ui computer only four wide column">
+            <div className="ui one column computer only ">
+              <DayPicker
+                locale={locale}
+                localeUtils={MomentLocaleUtils}
+                className="Availability"
+                selectedDays={day => DateUtils.isSameDay(selectedDate.toDate(), day)}
+                initialMonth={ this.state.month }
+                disabledDays={DateUtils.isPastDay}
+                onDayClick={ (e, day, { disabled, selected }) => {
                   if(!disabled){
                     this.setNewDate(day);
                   }
                 }
               }
-            />
+              />
+            </div>
+
           </div>
           <div className="ui eleven wide column">
-            <div className="ui column">
+            <div className="ui one column grid">
               { this.renderWeekDisplayer(this.state.selectedDate, availability)}
             </div>
           </div>
         </div>
       </div>
-    )
-  }
+    )}
+
 }
 
 AvailabilityDisplayer.propTypes = {

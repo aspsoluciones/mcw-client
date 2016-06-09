@@ -31,11 +31,11 @@ class Appointment extends Component {
 
     store.subscribe(() =>{
       let _state = store.getState();
-      if(_state.appointment.keep) {
+      /*if(_state.appointment.keep) {
         router.push({
           pathname: '/doctor/' + this.props.params.doctorUsername + '/appointment/checkout'
         });
-      }
+      }*/
     })
 
 
@@ -88,7 +88,11 @@ class Appointment extends Component {
         _render = (<Loader></Loader>)
       } else if(error){
         console.log('Entrado');
-        _render = (<ErrorDisplayer code={error.status}></ErrorDisplayer>)
+        _render = (
+          <div className="ui one column grid" style={{marginTop:100}}>
+              <ErrorDisplayer code={error.status}></ErrorDisplayer> 
+          </div>
+          )
       } else {
         _render = this.renderAppointmentScreen(appointment);
       }

@@ -1,7 +1,7 @@
 @import 'colors';
 .Availability {
   outline: none;
-  
+
   .DayPicker-Caption {
     color: $mcwBlue;
     font-size: 1.5rem;
@@ -15,20 +15,20 @@
     color: $mcwBlue;
   }
   .DayPicker-Day {
-    width: 72px;
-    height: 64px;
+    width: 56.25px;
+    height: 50px;
     vertical-align: top;
     text-align: center;
     border: none !important;
     outline: none;
   }
-  
+
   .DayPicker-Day--disabled {
-    
+
     color: $mcwGrey;
     cursor: pointer;
   }
-  
+
   .DayPicker-Day--today{
     color: $mcwBlue;
     font-weight: bold;

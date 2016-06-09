@@ -8,13 +8,16 @@ import { TakeAppointment } from '../actions/Appointments';
 import _ from 'lodash';
 import moment from 'moment';
 import ReactToolTip from 'react-tooltip';
+import { SelectNewDate } from '../actions/Appointments';
 moment.locale('es');
-let numOfAppointments = 6;
+let numOfAppointments = 4;
 
 function isSameDay(date1, date2) {
-  var _stringDate = date1.format('YYYY-MM-DD');
-  var _result = date2.fecha_hora_inicio.indexOf(_stringDate) != -1;
-  return _result;
+  if(date1 && date2 && date2.fecha_hora_inicio.indexOf){
+    var _stringDate = date1.format('YYYY-MM-DD');
+    var _result = date2.fecha_hora_inicio.indexOf(_stringDate) != -1;
+    return _result;
+  }
 }
 
 
@@ -25,18 +28,59 @@ function retrieveSelectedLocation(idLocalidad, localidades) {
       _localidad = localidades[index];
       return true;
     }
-  })
+  });
 
   return _localidad;
 }
 
+
+
+const WeekDisplayerRow = ({weekDay, weekWithTime, index, expand, onClick}) => {
+
+  const day = weekWithTime[index];
+
+  return(<div className="ui column">
+
+    <h3 className="ui column">{weekDay[index].format("ddd")}</h3>
+    <h3 className="ui column">{weekDay[index].format("DD MMM")}</h3>
+    <div className="ui one column centered grid">
+      {
+        day.times && day.times.map((time, i) => {
+          const appoinmentTime = moment(time.fecha_hora_inicio).format("HH:mm");
+          const tooltipMessage = "Solicitar cita a las " + appoinmentTime;
+          return <div key={i}>
+            {
+              !expand ?
+                i < numOfAppointments
+                  ? <button  data-tip={tooltipMessage}  onClick={ () => onClick(time, location) } className="ui circular tiny button bg-mcwBlue mobileAppointmentButton">{ appoinmentTime }</button>
+                  : null
+                : <button  data-tip={tooltipMessage} onClick={ () => onClick(time, location) } className="ui circular tiny button bg-mcwBlue mobileAppointmentButton">{ appoinmentTime }</button>
+            }
+          </div>
+        })
+      }
+    </div>
+  </div>)
+
+
+};
+
 class WeekDisplayer extends Component {
 
+  setNewWeek(){
+    var _day;
+
+
+    //dispatch(SelectNewDate(_day, appointment.doctorUsername, idLocalidad));
+  }
+
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       expanded: false,
-      showExpandButton: false
+      showExpandButton: false,
+      showFromWeekDay : 0,
+      showUntilWeekDay: 3
     }
   }
 
@@ -74,7 +118,9 @@ class WeekDisplayer extends Component {
 
   selectAppointment(appointment){
 
-    const {dispatch, doctor, idLocalidad, institution} = this.props;
+    const {dispatch, doctor, idLocalidad, institution, doctorUsername } = this.props;
+    const { router } = this.context;
+    console.log(router);
 
     this.setState({
       selectedAppointment : appointment
@@ -84,6 +130,9 @@ class WeekDisplayer extends Component {
     appointment.doctor = doctor;
 
     dispatch(TakeAppointment({appointment}))
+    router.push({
+      pathname: '/doctor/' + doctorUsername + '/appointment/checkout'
+    });
   }
 
   toggleExpand() {
@@ -98,13 +147,94 @@ class WeekDisplayer extends Component {
     })
   }
 
+
+  goToPrevious(){
+    console.log('Previous');
+    const { onDateChange } = this.props;
+    if(this.state.showFromWeekDay == 4) {
+      this.setState({
+        showFromWeekDay: 0,
+        showUntilWeekDay: 3
+      })
+    } else {
+      const { selectedDay } = this.props;
+      onDateChange(moment(selectedDay).subtract('d', 7));
+    }
+  }
+
+  goToNext() {
+    console.log('Next');
+    const { onDateChange } = this.props;
+    if(this.state.showUntilWeekDay == 3){
+      this.setState({
+        showFromWeekDay: 4,
+        showUntilWeekDay: 6
+      })
+    } else {
+      const { selectedDay } = this.props;
+      console.log(moment(selectedDay).add('d', 7));
+      onDateChange(moment(selectedDay).add('d', 7))
+    }
+
+  }
+
+  renderRow(weekdays, weekWithTimes, index){
+      if(index  >= this.state.showFromWeekDay && index <= this.state.showUntilWeekDay){
+        console.log(index);
+        return <WeekDisplayerRow key={index}
+                                 weekDay={weekdays}
+                                 weekWithTime={weekWithTimes}
+                                 index={index}
+                                 onClick={this.selectAppointment.bind(this)}
+                                 expand={this.state.expanded}
+                                 location={this.props.location}
+        />
+      }
+  }
+
+  canGoBack(selectedDay){
+    var _selectedDay = moment(selectedDay);
+    var _today = moment();
+    var _diff = _today.diff(_selectedDay, 'days');
+    console.log(_diff);
+    return _diff >= 0;
+  }
+
   renderWeekDisplayer(){
+    this.canGoBack(this.props.selectedDay);
     var _weekdays = this.calculateWeekToDisplay(this.props.selectedDay);
     var _weekWithTimes = this.assignAppointmentsToWeekDay(_weekdays, this.props.appointmentsForWeek);
-    //console.log(_weekWithTimes);
 
+    const classToApply = (this.state.showUntilWeekDay == 3) ? "ui twelve wide four column grid": "ui twelve wide three column grid";
+    const leftButtonClass = (this.canGoBack(this.props.selectedDay) && this.state.showUntilWeekDay == 3) ? 'ui disabled  icon basic tiny button blue' : 'ui icon basic tiny button blue';
     return(<div className="ui one column grid">
-      <div className="ui one padded column">
+      <div className="ui mobile only row">
+        <div className="ui two wide column">
+          <button className={leftButtonClass} onClick={this.goToPrevious.bind(this)}>
+            <i className="icon chevron left"/>
+          </button>
+        </div>
+        <div className={classToApply}>
+          {
+            _weekdays.map((day, index)=>{
+              return this.renderRow(_weekdays, _weekWithTimes, index)
+            })
+          }
+          {
+            this.state.showExpandButton
+              ? <button onClick={ () => this.toggleExpand() } className="ui fluid tiny button bg-mcwBlue uppercase m-v-lg">{!this.state.expanded ? 'ver más' : 'ver menos' }</button>
+              : null
+          }
+        </div>
+        <div className="ui two wide column" >
+          <button className="ui  icon basic tiny button blue" onClick={this.goToNext.bind(this)}>
+            <i className="icon chevron right"/>
+          </button>
+        </div>
+      </div>
+
+
+      <div className="ui tablet computer only one padded column" >
         <table className="table ui simple-table unstackable table-week-displayer fixed">
           <thead>
           <tr>
@@ -192,7 +322,8 @@ WeekDisplayer.contextTypes = {
 WeekDisplayer.propTypes = {
   institution: PropTypes.any,
   idLocalidad: PropTypes.any,
-  doctor: PropTypes.any
+  doctor: PropTypes.any,
+  onDateChange : PropTypes.func
 };
 
 

@@ -4,7 +4,7 @@ class Footer extends Component {
   render() {
     return (
       <footer>
-        DocFinder ®. Todos los derechos reservados
+        miClinicaWeb ®. Todos los derechos reservados
       </footer>
 
     )
