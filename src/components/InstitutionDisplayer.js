@@ -92,7 +92,7 @@ class InstitutionDisplayer extends Component {
           </div>
           { this.renderMap(position, contact) }
         </div>
-          <div className="ui container">
+          <div className="ui one column">
             <AvailabilityDisplayer
               className="ui column availabilityDisplayer"
               availability={institution.turnos}

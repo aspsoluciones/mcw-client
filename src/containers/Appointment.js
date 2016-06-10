@@ -44,7 +44,7 @@ class Appointment extends Component {
   renderAppointmentScreen(appointment){
     if(appointment.responsable_servicio) {
       return (
-        <div className="ui one column grid">
+        <div className="ui one column">
            <DoctorHeader doctor={ appointment.responsable_servicio }>
            </DoctorHeader>
            <div className="ui container">

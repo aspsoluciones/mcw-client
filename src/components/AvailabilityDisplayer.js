@@ -186,8 +186,8 @@ class AvailabilityDisplayer extends Component {
             </div>
 
           </div>
-          <div className="ui eleven wide column">
-            <div className="ui one column grid">
+          <div className="ui eleven wide column" style={{minHeight:200}}>
+            <div>
               { this.renderWeekDisplayer(this.state.selectedDate, availability)}
             </div>
           </div>

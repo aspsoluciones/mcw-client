@@ -205,15 +205,31 @@ class WeekDisplayer extends Component {
     var _weekdays = this.calculateWeekToDisplay(this.props.selectedDay);
     var _weekWithTimes = this.assignAppointmentsToWeekDay(_weekdays, this.props.appointmentsForWeek);
 
-    const classToApply = (this.state.showUntilWeekDay == 3) ? "ui twelve wide four column grid": "ui twelve wide three column grid";
+    const classToApply = (this.state.showUntilWeekDay == 3) ? "ui sixteen wide four column centered grid": "ui sixteen wide three column centered grid";
     const leftButtonClass = (this.canGoBack(this.props.selectedDay) && this.state.showUntilWeekDay == 3) ? 'ui disabled  icon basic tiny button blue' : 'ui icon basic tiny button blue';
     return(<div className="ui one column grid">
       <div className="ui mobile only row">
-        <div className="ui two wide column">
-          <button className={leftButtonClass} onClick={this.goToPrevious.bind(this)}>
-            <i className="icon chevron left"/>
-          </button>
+
+        <div className="ui grid two column centered">
+          <div className="ui left aligned column">
+            <div className="left floated eight wide column">
+              <button className={leftButtonClass} onClick={this.goToPrevious.bind(this)}>
+                <i className="left chevron icon"></i>
+                 Anterior
+              </button>
+            </div>
+          </div>
+
+          <div className="ui right aligned column">
+            <div className="right floated eight wide column">
+              <button className="ui right icon button basic tiny blue" onClick={this.goToNext.bind(this)}>
+                Siguiente
+                <i className="right chevron icon"></i>
+              </button>
+            </div>
+          </div>
         </div>
+
         <div className={classToApply}>
           {
             _weekdays.map((day, index)=>{
@@ -225,11 +241,6 @@ class WeekDisplayer extends Component {
               ? <button onClick={ () => this.toggleExpand() } className="ui fluid tiny button bg-mcwBlue uppercase m-v-lg">{!this.state.expanded ? 'ver más' : 'ver menos' }</button>
               : null
           }
-        </div>
-        <div className="ui two wide column" >
-          <button className="ui  icon basic tiny button blue" onClick={this.goToNext.bind(this)}>
-            <i className="icon chevron right"/>
-          </button>
         </div>
       </div>
 
