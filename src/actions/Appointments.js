@@ -251,7 +251,7 @@ function transformAppointment(appointment){
   _dataToSend.solicitante.id_empresa = institution.id_empresa;
   _dataToSend.id_empresa = institution.id_empresa;
   _dataToSend.solicitante.id_responsable_servicio = doctor.id;
-  _dataToSend.nombre_responsable_servicio = doctor.titulo + ' ' + doctor.apellido + ' ' + doctor.nombre;
+  _dataToSend.nombre_responsable_servicio = doctor.apellido + ' ' + doctor.nombre;
 
   _dataToSend.etapas_solicitud[0].id_localidad = location.id;
   _dataToSend.etapas_solicitud[0].nombre_localidad = location.nombre || 'Mock';
