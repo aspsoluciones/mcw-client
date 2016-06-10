@@ -11,6 +11,7 @@ import Dashboard from './containers/Dashboard';
 import Login from './containers/Login';
 import Forbidden from './containers/Forbidden';
 import Appointment from './containers/Appointment';
+import Confirmation from './containers/Confirmation';
 import Checkout from './containers/Checkout';
 import Auth from './containers/Auth';
 import Register from './containers/Register';
@@ -34,6 +35,7 @@ render(
     <Router history={hashHistory}>
       <Route name="forbidden" component={Forbidden}/>
       <Route name="doctor" path="/doctor" component={Public}>
+        <Route name="confirmation" path="/doctor/confirmation/:confirmationId" component={Confirmation}/>
         <Route name="appointments" path="/doctor/:doctorUsername" components={Appointment}/>
         <Route name="checkout" path="/doctor/:doctorUsername/appointment/checkout" components={Checkout}/>
       </Route>
