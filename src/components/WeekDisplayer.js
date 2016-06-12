@@ -151,9 +151,9 @@ class WeekDisplayer extends Component {
   }
 
 
-  goToPrevious(direct){
+  goToPrevious(payload){
     const { onDateChange } = this.props;
-    if(this.state.showFromWeekDay == 4 && !direct) {
+    if(this.state.showFromWeekDay == 4 && !payload.direct) {
       this.setState({
         showFromWeekDay: 0,
         showUntilWeekDay: 3
@@ -170,10 +170,10 @@ class WeekDisplayer extends Component {
     onDateChange(day);
   }
 
-  goToNext(direct) {
+  goToNext(payload) {
     console.log('Next');
     const { onDateChange } = this.props;
-    if(this.state.showUntilWeekDay == 3 && !direct){
+    if(this.state.showUntilWeekDay == 3 && !payload.direct){
       this.setState({
         showFromWeekDay: 4,
         showUntilWeekDay: 6
@@ -285,7 +285,7 @@ class WeekDisplayer extends Component {
           <thead>
           <tr>
             <th>
-              <button className={leftButtonClass} onClick={()=> {this.goToPrevious(true)}}>
+              <button className={leftButtonClass} onClick={()=> {this.goToPrevious({direct: true})}}>
                 <i className="left chevron icon"></i>   
               </button>
             </th>
@@ -296,7 +296,7 @@ class WeekDisplayer extends Component {
             }
 
              <th>
-                <button className="ui right icon button basic tiny blue" onClick={()=> {this.goToNext(true)} }>
+                <button className="ui right icon button basic tiny blue" onClick={()=> {this.goToNext({direct: true})} }>
                   <i className="right chevron icon"></i>
                 </button>
               </th>
