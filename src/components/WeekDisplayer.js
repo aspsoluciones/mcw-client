@@ -151,9 +151,9 @@ class WeekDisplayer extends Component {
   }
 
 
-  goToPrevious(){
+  goToPrevious(direct){
     const { onDateChange } = this.props;
-    if(this.state.showFromWeekDay == 4) {
+    if(this.state.showFromWeekDay == 4 && !direct) {
       this.setState({
         showFromWeekDay: 0,
         showUntilWeekDay: 3
@@ -170,10 +170,10 @@ class WeekDisplayer extends Component {
     onDateChange(day);
   }
 
-  goToNext() {
+  goToNext(direct) {
     console.log('Next');
     const { onDateChange } = this.props;
-    if(this.state.showUntilWeekDay == 3){
+    if(this.state.showUntilWeekDay == 3 && !direct){
       this.setState({
         showFromWeekDay: 4,
         showUntilWeekDay: 6
@@ -284,22 +284,36 @@ class WeekDisplayer extends Component {
         <table className="table ui simple-table unstackable table-week-displayer fixed">
           <thead>
           <tr>
+            <th>
+              <button className={leftButtonClass} onClick={()=> {this.goToPrevious(true)}}>
+                <i className="left chevron icon"></i>   
+              </button>
+            </th>
             {
               _weekdays.map((day, i) => {
                 return<th key={i}> {day.format("dddd")}</th>
               })
             }
+
+             <th>
+                <button className="ui right icon button basic tiny blue" onClick={()=> {this.goToNext(true)} }>
+                  <i className="right chevron icon"></i>
+                </button>
+              </th>
           </tr>
           <tr>
+            <th></th>
             {
               _weekdays.map((day, i) => {
                 return <th key={i}>{day.format("DD MMM")}</th>
               })
             }
+            <th></th>
           </tr>
           </thead>
           <tbody>
           <tr>
+          <td></td>
             {
               _weekWithTimes.map((day, i) => {
                 if(day.times) {
@@ -331,6 +345,7 @@ class WeekDisplayer extends Component {
                 }
               })
             }
+            <td></td>
           </tr>
           </tbody>
         </table>
