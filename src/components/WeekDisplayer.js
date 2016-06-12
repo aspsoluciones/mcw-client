@@ -199,6 +199,12 @@ class WeekDisplayer extends Component {
     console.log(_diff);
     return _diff >= 0;
   }
+  
+  renderInternalCalendar(){
+    return(<div className="ui row">
+      <h2>Row</h2>
+    </div>)
+  }
 
   renderWeekDisplayer(){
 
@@ -220,18 +226,22 @@ class WeekDisplayer extends Component {
               </button>
             </div>
           </div>
-          <div className="ui middle aligned column">
-            { selectedDay.format('MMMM') }
+          <div className="ui middle aligned column grid">
+            <div className="ui column">
+              {selectedDay.format('MMMM').toUpperCase()} 
+            </div>
           </div>
 
           <div className="ui right aligned column">
             <div className="right floated six wide column">
               <button className="ui right icon button basic tiny blue" onClick={this.goToNext.bind(this)}>
-                
                 <i className="right chevron icon"></i>
               </button>
             </div>
           </div>
+
+        { this.renderInternalCalendar() }
+
         </div>
 
         <div className={classToApply}>

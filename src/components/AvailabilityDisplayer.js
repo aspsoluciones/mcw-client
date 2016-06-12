@@ -5,15 +5,12 @@
 
 import React, { Component, PropTypes} from 'react';
 import moment from 'moment';
-import DayPicker,{DateUtils} from 'react-day-picker';
-import "react-day-picker/lib/style.css";
-import "../styles/dayPicker.scss";
 import { connect } from "react-redux";
 import _ from 'lodash';
 import Loader from '../components/Loader';
 import { GetAppointments, SelectNewDate, GetClosestAppointments } from '../actions/Appointments';
-import MomentLocaleUtils from 'react-day-picker/moment';
 
+import AppointmentDayPicker from './AppointmentDayPicker';
 import WeekDisplayer from './WeekDisplayer';
 
 const currentYear = (new Date()).getFullYear();
@@ -164,20 +161,7 @@ class AvailabilityDisplayer extends Component {
         <div className="ui two column stackable grid">
           <div className="ui computer only four wide column">
             <div className="ui one column computer only">
-              <DayPicker
-                locale={locale}
-                localeUtils={MomentLocaleUtils}
-                className="Availability"
-                selectedDays={day => DateUtils.isSameDay(selectedDate.toDate(), day)}
-                initialMonth={ this.state.month }
-                disabledDays={DateUtils.isPastDay}
-                onDayClick={ (e, day, { disabled, selected }) => {
-                  if(!disabled){
-                    this.setNewDate(day);
-                  }
-                }
-              }
-              />
+              <AppointmentDayPicker onClick={this.setNewDate.bind(this)} selectedDate={this.state.selectedDate}></AppointmentDayPicker>
             </div>
           </div>
           <div className="ui eleven wide column" style={{minHeight:200}}>
