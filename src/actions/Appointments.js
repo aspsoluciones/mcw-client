@@ -243,7 +243,9 @@ function transformAppointment(appointment){
   _dataToSend.solicitante = fillSolicitante(solicitante);
   _dataToSend.id_persona_registro = solicitante.id;
   _dataToSend.fecha_inicio = turno.fecha_hora_inicio.toDate();
-  _dataToSend.fecha_fin = turno.fecha_hora_inicio.add('m', turno.duracion_en_minutos).toDate();
+  var _initialDate = turno.fecha_hora_inicio.clone();
+
+  _dataToSend.fecha_fin = _initialDate.add('m', turno.duracion_en_minutos).toDate();
 
   _dataToSend.solicitante.id = solicitante.id;
   _dataToSend.id_responsable_servicio = doctor.id;
