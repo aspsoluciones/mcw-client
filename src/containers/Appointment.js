@@ -91,7 +91,6 @@ class Appointment extends Component {
       if(loadingDoctorData && !error){
         _render = (<Loader></Loader>)
       } else if(error){
-        console.log('Entrado');
         _render = (
           <div className="ui one column grid" style={{marginTop:100}}>
               <ErrorDisplayer code={error.status}></ErrorDisplayer> 

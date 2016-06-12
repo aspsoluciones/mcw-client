@@ -14,6 +14,7 @@ import Appointment from './containers/Appointment';
 import Confirmation from './containers/Confirmation';
 import Checkout from './containers/Checkout';
 import Auth from './containers/Auth';
+import AppointmentSuccessContainer from './containers/AppointmentSuccess';
 import Register from './containers/Register';
 import configureStore from './store/configureStore';
 
@@ -38,6 +39,8 @@ render(
         <Route name="confirmation" path="/doctor/confirmation/:confirmationId" component={Confirmation}/>
         <Route name="appointments" path="/doctor/:doctorUsername" components={Appointment}/>
         <Route name="checkout" path="/doctor/:doctorUsername/appointment/checkout" components={Checkout}/>
+        <Route name="checkout" path="/appointment/success" components={AppointmentSuccessContainer}/>
+
       </Route>
       <Route name="app" path="/app" component={App}>
         <Route name="dashboard" path="/app/dashboard" component={Dashboard}/>
