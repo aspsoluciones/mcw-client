@@ -48,9 +48,13 @@ class Appointment extends Component {
            <DoctorHeader doctor={ appointment.responsable_servicio }>
            </DoctorHeader>
            <div className="ui container">
-              <h3 className="color-mcwDark" style={{marginBottom: 0}}>
-                <i className="calendar icon"></i>Hacer una cita
-              </h3>
+              <div className="ui small bg-mcwDark message fullWidth noRound">
+                <div className="content">
+                  <h2 className="header">
+                    <i className="calendar icon"></i>Haz una cita
+                  </h2>
+                </div>
+              </div>
               <div className="ui column">
                 {
                   this.renderLocations(appointment.responsable_servicio)

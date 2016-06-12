@@ -37,11 +37,11 @@ export default function patient (state = PatientInitialState, action) {
     }
 
     case PATIENT_DISPLAY_DATA_FORM:
-          return {
-            ...state,
-            displayForm: true,
-            selectedPatient:null
-          };
+      return {
+        ...state,
+        displayForm: true,
+        selectedPatient:null
+      };
     case PATIENT_SELECT:
       return {
         ...state,

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DoctorBadge = ({doctor}) => {
+const DoctorBadge = ({doctor, noMarginTop}) => {
     
     let doctorPhoto = doctor.foto_url || "//fi.realself.com/300x300/69509a87b24c62c3ebf5a38d9018e1a4/1/c/a/50019-2283600.jpg";
     
@@ -8,9 +8,11 @@ const DoctorBadge = ({doctor}) => {
         backgroundSize: 'cover',
         backgroundImage: 'url(' + doctorPhoto + ')'
     }
+
+    const classToUse = (noMarginTop) ? 'profile-header-image badgeWithMargin' : 'profile-header-image'
     
     return(
-        <div className="profile-header-image">
+        <div className={classToUse}>
             <span className="badge-image">
                 <div className="rounded dr-avatar-image">
                     <div className="badge-bg" style={styles} itemprop="image" alt="Kenton Schoonover, MD"></div>

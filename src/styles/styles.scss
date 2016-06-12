@@ -385,6 +385,22 @@ table.table-week-displayer{
   //min-width: 400px;
 }
 
+.noMarginTop{
+  margin-top:0 !important;
+}
+
+.badgeWithMargin{
+  margin-top:22px !important;
+}
+
+.fullWidth {
+  width: 100% !important;
+}
+
+.noRound{
+  border-radius: 0 !important;
+}
+
 Footer{
     height: 40px;
     margin: 40px 0 0;

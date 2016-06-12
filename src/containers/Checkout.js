@@ -12,6 +12,10 @@ import { ConfirmAppointment } from '../actions/Appointments';
 import { getPatientByEmail, selectPatient, patientSelectModal, fillPatientData, createNewPatientWithSameEmail} from '../actions/PatientsActions';
 import PatientsModal from '../components/PatientsModal';
 import PatientCard from '../components/PatientCard';
+import DoctorBadge from '../components/Doctor/DoctorBadge';
+import DoctorPatientsType from '../components/Doctor/DoctorPatientsType';
+import DoctorLanguages from '../components/Doctor/DoctorLanguages';
+import DoctorName from '../components/Doctor/DoctorName';
 
 Formsy.addValidationRule('isRequiredIfNotValue', function (values, value, otherField) {
   if(value || values[otherField]) {
@@ -109,7 +113,6 @@ class Checkout extends Component {
         <div className="row ui">
           <div className="ui one column grid">
             <div className="ui column">
-
               <FormsyText
                 name='email_particular'
                 hintText="Email"
@@ -174,7 +177,7 @@ class Checkout extends Component {
             </div>
 
           </div>
-          <div className="column">
+          <div className="ui column">
             <button type="submit" disabled={setDisabled} className="ui button fluid blue">
               Solicitar cita
             </button>
@@ -226,26 +229,67 @@ class Checkout extends Component {
     );
 
     var _render = (patients.selectedPatient && !patients.displayForm) ? _selectedPatientCard : (appointment.appointmentSuccess) ? (<AppointmentSuccess></AppointmentSuccess>) : this.renderForm(setDisabled);
-    
+    const doctor = appointment.responsable_servicio;
     return (
-      <div className="ui one column container grid" style={{marginTop:50}}>
-        <div className="ui one column grid segment">
+      <div className="ui one column container grid segment" style={{marginTop:50}}>
+        <div className="ui one column">
           <div className="ui column">
-            <div>
-              Fecha: {keep.appointment.fecha_hora_inicio.format("dddd DD MMMM YYYY")}
+            <div className="ui container">
+                <div className="ui column">
+                  <DoctorBadge className="doctorBadge" doctor={doctor} noMarginTop={true}></DoctorBadge>
+                </div>
+                <div className="ui grid profile-header-content">
+                    <div className="ui one column grid">
+                        <div className="ui column">
+                            <DoctorName doctor={doctor}/>
+                        </div>
+                        <div className="ui column">
+                            <DoctorPatientsType doctor={doctor}/>
+                        </div>
+                        <div className="ui column">
+                            {doctor.idiomas && doctor.idiomas.length && 
+                            <DoctorLanguages languages={doctor.idiomas}></DoctorLanguages>}
+                        
+                        </div>
+                        <div className="ui column color-mcwDark">
+                            <strong>{doctor.mensaje_publico}</strong>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div>
-              Horario: {keep.appointment.fecha_hora_inicio.format("HH:mm")}
+            <div className="ui one column grid">
+              <div className="ui small bg-mcwDark message fullWidth noRound">
+                <div className="content">
+                  <h2 className="header">
+                    <i className="calendar icon"></i>Fecha y hora de la cita
+                  </h2>
+                </div>
+              </div>
+              <div className="ui column">
+                Fecha: {keep.appointment.fecha_hora_inicio.format("dddd DD MMMM YYYY")}
+              </div>
+              <div className="ui column">
+                Horario: {keep.appointment.fecha_hora_inicio.format("HH:mm")}
+              </div>
+              <div className="ui column">
+                Duración: { keep.appointment.duracion_en_minutos} minutos
+              </div>
             </div>
-            <div>
-              Duración: { keep.appointment.duracion_en_minutos} minutos
+            
+            <div className="ui one column grid">
+              <div className="ui small bg-mcwDark message fullWidth noRound">
+                <div className="content">
+                  <h2 className="header">
+                    <i className="user icon"></i>Introduzca sus datos
+                  </h2>
+                </div>
+              </div>
+
+              { _render }
+              <PatientsModal patientsList={patients.patient}/>
             </div>
           </div>
-        </div>
-
-        <div className="ui one column grid segment">
-          { _render }
-          <PatientsModal patientsList={patients.patient}/>
+          
         </div>
       </div>
     )
