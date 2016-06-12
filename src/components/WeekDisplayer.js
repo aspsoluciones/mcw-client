@@ -82,7 +82,8 @@ class WeekDisplayer extends Component {
       expanded: false,
       showExpandButton: false,
       showFromWeekDay : 0,
-      showUntilWeekDay: 3
+      showUntilWeekDay: 3,
+      showCalendar: false
     }
   }
 
@@ -151,7 +152,6 @@ class WeekDisplayer extends Component {
 
 
   goToPrevious(){
-    console.log('Previous');
     const { onDateChange } = this.props;
     if(this.state.showFromWeekDay == 4) {
       this.setState({
@@ -219,16 +219,22 @@ class WeekDisplayer extends Component {
     return null;
   }
 
+  toggleCalendar(){
+
+    this.setState({
+      showCalendar: !this.state.showCalendar
+    })
+
+  }
+
   renderWeekDisplayer(){
-
     const { selectedDay } = this.props;
-
     this.canGoBack(selectedDay);
     var _weekdays = this.calculateWeekToDisplay(selectedDay);
     var _weekWithTimes = this.assignAppointmentsToWeekDay(_weekdays, this.props.appointmentsForWeek);
-
     const classToApply = (this.state.showUntilWeekDay == 3) ? "ui sixteen wide four column centered grid": "ui sixteen wide three column centered grid";
     const leftButtonClass = (this.canGoBack(selectedDay) && this.state.showUntilWeekDay == 3) ? 'ui disabled  icon basic tiny button blue' : 'ui icon basic tiny button blue';
+    
     return(<div className="ui one column grid">
       <div className="ui mobile only row">
         <div className="ui grid three column centered">
@@ -241,7 +247,9 @@ class WeekDisplayer extends Component {
           </div>
           <div className="ui middle aligned column grid">
             <div className="ui column">
-              {selectedDay.format('MMMM').toUpperCase()} 
+              <button className="ui right icon button basic tiny blue" onClick={this.toggleCalendar.bind(this)}>
+                {selectedDay.format('MMMM').toUpperCase()}    
+              </button>
             </div>
           </div>
 
@@ -253,7 +261,7 @@ class WeekDisplayer extends Component {
             </div>
           </div>
 
-        { this.renderInternalCalendar(true) }
+        { this.renderInternalCalendar(this.state.showCalendar) }
 
         </div>
 
