@@ -9,6 +9,8 @@ import _ from 'lodash';
 import moment from 'moment';
 import ReactToolTip from 'react-tooltip';
 import { SelectNewDate } from '../actions/Appointments';
+import AppointmentDayPicker from './AppointmentDayPicker';
+
 moment.locale('es');
 let numOfAppointments = 4;
 
@@ -162,6 +164,12 @@ class WeekDisplayer extends Component {
     }
   }
 
+  goToDate(day){
+    const { onDateChange } = this.props;
+
+    onDateChange(day);
+  }
+
   goToNext() {
     console.log('Next');
     const { onDateChange } = this.props;
@@ -201,9 +209,11 @@ class WeekDisplayer extends Component {
   }
   
   renderInternalCalendar(render){
+    const { selectedDay, month } = this.props;
+
     if(render){
       return(<div className="ui row">
-        <AppointmentDayPicker onClick={this.setNewDate.bind(this)} selectedDate={this.state.selectedDate}></AppointmentDayPicker>
+        <AppointmentDayPicker onClick={this.goToDate.bind(this)} selectedDate={selectedDay} month={month}></AppointmentDayPicker>
       </div>)
     }
     return null;
@@ -243,7 +253,7 @@ class WeekDisplayer extends Component {
             </div>
           </div>
 
-        { this.renderInternalCalendar(false) }
+        { this.renderInternalCalendar(true) }
 
         </div>
 
