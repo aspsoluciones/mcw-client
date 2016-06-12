@@ -9,7 +9,7 @@ import MenuItem from 'material-ui/lib/menus/menu-item';
 import AppointmentSuccess from '../components/Appointments/AppointmentSuccess';
 import { FormsyText, FormsySelect, FormsyDate } from 'formsy-material-ui';
 import { ConfirmAppointment } from '../actions/Appointments';
-import { getPatientByEmail, selectPatient, patientSelectModal, fillPatientData} from '../actions/PatientsActions';
+import { getPatientByEmail, selectPatient, patientSelectModal, fillPatientData, createNewPatientWithSameEmail} from '../actions/PatientsActions';
 import PatientsModal from '../components/PatientsModal';
 import PatientCard from '../components/PatientCard';
 
@@ -62,6 +62,11 @@ class Checkout extends Component {
       institution: keep.appointment.institution,
       doctor: keep.appointment.doctor
     }));
+  }
+
+  addPatientToMail(){
+    const { dispatch } = this.props;
+    dispatch(createNewPatientWithSameEmail());
   }
 
   enableButton() {
@@ -191,12 +196,9 @@ class Checkout extends Component {
     const { keep } = appointment;
     let _modal = (this.state.openPatientModal) ? <PatientsModal patientsList={patients.patient}/> : null;
     const setDisabled = (!patients.selectedPatient && !this.state.canSubmit) || appointment.requestingAppointment
-    console.log('disabled', setDisabled);
-    let _changePatientButton = (patients.patient && patients.patient.length > 1) ? (<button onClick={this.reOpenPatientsModal.bind(this)}>
+    let _changePatientButton = (patients.patient && patients.patient.length > 1) ? (<button className="ui button fluid blue" onClick={this.reOpenPatientsModal.bind(this)}>
         Cambiar paciente
-    </button>) : null;
-    
-   
+    </button>) : null;   
 
     let _selectedPatientCard = (
       <div>
@@ -206,8 +208,11 @@ class Checkout extends Component {
           </div>
           <div className="column">
             {_changePatientButton}
-            <button onClick={this.reRenderForm.bind(this)}>
+            <button className="ui button fluid blue" onClick={this.reRenderForm.bind(this)}>
               Cambiar email
+            </button>
+            <button className="ui button fluid blue" onClick={this.addPatientToMail.bind(this)}>
+              Crear nuevo paciente con el mismo email
             </button>
           </div>
         </div>
@@ -220,7 +225,7 @@ class Checkout extends Component {
       </div>
     );
 
-    var _render = (patients.selectedPatient) ? _selectedPatientCard : (appointment.appointmentSuccess) ? (<AppointmentSuccess></AppointmentSuccess>) : this.renderForm(setDisabled);
+    var _render = (patients.selectedPatient && !patients.displayForm) ? _selectedPatientCard : (appointment.appointmentSuccess) ? (<AppointmentSuccess></AppointmentSuccess>) : this.renderForm(setDisabled);
     
     return (
       <div className="ui one column container grid" style={{marginTop:50}}>

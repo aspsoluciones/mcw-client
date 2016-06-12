@@ -31,6 +31,7 @@ export default function patient (state = PatientInitialState, action) {
       return {
         ...state,
         openModal:false,
+        displayForm: true,
         resetForm: false
       }
     }
