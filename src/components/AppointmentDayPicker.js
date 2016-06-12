@@ -4,7 +4,7 @@ import "react-day-picker/lib/style.css";
 import "../styles/dayPicker.scss";
 import DayPicker,{DateUtils} from 'react-day-picker';
 import 'moment/locale/es';
-
+console.log(MomentLocaleUtils);
 //Pasar esto a un state si se requiere poder cambiar de idioma.
 const locale = 'es';
 
@@ -24,6 +24,8 @@ class AppointmentDayPicker extends Component {
         let proxy = this.clickProxy.bind(this);
         return (
             <DayPicker
+                locale={locale}
+                localeUtils={MomentLocaleUtils}
                 className="Availability"
                 selectedDays={day => DateUtils.isSameDay(selectedDate.toDate(), day)}
                 disabledDays={DateUtils.isPastDay}
