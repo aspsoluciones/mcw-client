@@ -88,14 +88,16 @@ function appointment(state = initialState, action) {
     case APPOINTMENT_SUCCESS :
       return {
         ...state,
-        requestingAppointment: false
+        requestingAppointment: false,
+        appointmentSuccess: true
       }
     
 
     case APPOINTMENT_FAILURE :
       return {
         ...state,
-        requestingAppointment: false
+        requestingAppointment: false,
+        appointmentSuccess: false
       }
     
 

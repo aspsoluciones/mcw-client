@@ -6,6 +6,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Formsy from 'formsy-react';
 import MenuItem from 'material-ui/lib/menus/menu-item';
+import AppointmentSuccess from '../components/Appointments/AppointmentSuccess';
 import { FormsyText, FormsySelect, FormsyDate } from 'formsy-material-ui';
 import { ConfirmAppointment } from '../actions/Appointments';
 import { getPatientByEmail, selectPatient, patientSelectModal, fillPatientData} from '../actions/PatientsActions';
@@ -212,9 +213,9 @@ class Checkout extends Component {
         </div>
       </div>
     );
-
-    var _render = (patients.selectedPatient) ? _selectedPatientCard : this.renderForm(setDisabled);
-
+    
+    var _render = (patients.selectedPatient) ? _selectedPatientCard : (appointment.appointmentSuccess) ? (<AppointmentSuccess></AppointmentSuccess>) : this.renderForm(setDisabled);
+    
     return (
       <div className="ui one column grid">
         <div className="ui one column grid segment">
