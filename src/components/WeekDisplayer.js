@@ -200,10 +200,13 @@ class WeekDisplayer extends Component {
     return _diff >= 0;
   }
   
-  renderInternalCalendar(){
-    return(<div className="ui row">
-      <h2>Row</h2>
-    </div>)
+  renderInternalCalendar(render){
+    if(render){
+      return(<div className="ui row">
+        <AppointmentDayPicker onClick={this.setNewDate.bind(this)} selectedDate={this.state.selectedDate}></AppointmentDayPicker>
+      </div>)
+    }
+    return null;
   }
 
   renderWeekDisplayer(){
@@ -240,7 +243,7 @@ class WeekDisplayer extends Component {
             </div>
           </div>
 
-        { this.renderInternalCalendar() }
+        { this.renderInternalCalendar(false) }
 
         </div>
 

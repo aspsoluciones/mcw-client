@@ -19,7 +19,7 @@ class AppointmentDayPicker extends Component {
     }
     
     render() {
-        const { onCalendarClick, selectedDate } = this.props;
+        const { onCalendarClick, selectedDate, month } = this.props;
         const Month = parseInt(selectedDate.format('M'));
         let proxy = this.clickProxy.bind(this);
         return (
@@ -27,6 +27,7 @@ class AppointmentDayPicker extends Component {
                 className="Availability"
                 selectedDays={day => DateUtils.isSameDay(selectedDate.toDate(), day)}
                 disabledDays={DateUtils.isPastDay}
+                initialMonth={month}
                 onDayClick={ (e, day, { disabled, selected }) => {
                   if(!disabled){
                     proxy(day)
