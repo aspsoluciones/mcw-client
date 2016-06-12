@@ -201,29 +201,33 @@ class WeekDisplayer extends Component {
   }
 
   renderWeekDisplayer(){
-    this.canGoBack(this.props.selectedDay);
-    var _weekdays = this.calculateWeekToDisplay(this.props.selectedDay);
+
+    const { selectedDay } = this.props;
+
+    this.canGoBack(selectedDay);
+    var _weekdays = this.calculateWeekToDisplay(selectedDay);
     var _weekWithTimes = this.assignAppointmentsToWeekDay(_weekdays, this.props.appointmentsForWeek);
 
     const classToApply = (this.state.showUntilWeekDay == 3) ? "ui sixteen wide four column centered grid": "ui sixteen wide three column centered grid";
-    const leftButtonClass = (this.canGoBack(this.props.selectedDay) && this.state.showUntilWeekDay == 3) ? 'ui disabled  icon basic tiny button blue' : 'ui icon basic tiny button blue';
+    const leftButtonClass = (this.canGoBack(selectedDay) && this.state.showUntilWeekDay == 3) ? 'ui disabled  icon basic tiny button blue' : 'ui icon basic tiny button blue';
     return(<div className="ui one column grid">
       <div className="ui mobile only row">
-
-        <div className="ui grid two column centered">
+        <div className="ui grid three column centered">
           <div className="ui left aligned column">
-            <div className="left floated eight wide column">
+            <div className="left floated six wide column">
               <button className={leftButtonClass} onClick={this.goToPrevious.bind(this)}>
-                <i className="left chevron icon"></i>
-                 Anterior
+                <i className="left chevron icon"></i>   
               </button>
             </div>
           </div>
+          <div className="ui middle aligned column">
+            { selectedDay.format('MMMM') }
+          </div>
 
           <div className="ui right aligned column">
-            <div className="right floated eight wide column">
+            <div className="right floated six wide column">
               <button className="ui right icon button basic tiny blue" onClick={this.goToNext.bind(this)}>
-                Siguiente
+                
                 <i className="right chevron icon"></i>
               </button>
             </div>

@@ -163,7 +163,7 @@ class AvailabilityDisplayer extends Component {
       <div className="ui column availabilityDisplayer">
         <div className="ui two column stackable grid">
           <div className="ui computer only four wide column">
-            <div className="ui one column computer only ">
+            <div className="ui one column computer only">
               <DayPicker
                 locale={locale}
                 localeUtils={MomentLocaleUtils}
@@ -179,7 +179,6 @@ class AvailabilityDisplayer extends Component {
               }
               />
             </div>
-
           </div>
           <div className="ui eleven wide column" style={{minHeight:200}}>
             <div>
