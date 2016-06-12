@@ -182,7 +182,7 @@ export function SelectNewDate(newDate, doctorUsername, locationID) {
 
 export function GetClosestAppointments(doctorUsername, locationID) {
     // Auxiliar function for notify Closest appointment available
-    return axios.get('agenda/turnosdisponibles/' + doctorUsername + '/05-15-2016/11-15-2016' );
+    return axios.get('agenda/turnosdisponibles/proximo/' + doctorUsername + '/' + locationID + '/' + moment().add('d',6).format("MM-DD-YYYY"));
 }
 
 export function GetAppointments(doctorUsername, range, locationID) {

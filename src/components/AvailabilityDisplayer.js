@@ -23,17 +23,12 @@ import 'moment/locale/es';
 
 //Pasar esto a un state si se requiere poder cambiar de idioma.
 const locale = 'es';
-function getFirstAppointmentAvailableForLocation(locations, idLocalidad) {
-  let _appointment;
-  locations.some((localidad)=>{
-    if(idLocalidad == localidad.id_localidad){
-      _appointment = localidad.turnos[0];
-      return true;
-    }
-  })
-
+function getFirstAppointmentAvailableForLocation(appointment, idLocalidad) {
+  if(appointment){
+    var _appointment = {'fecha_hora_inicio': moment(appointment)}; 
+  }
+  
   return _appointment;
-
 }
 
 function filterAppointmentsForWeek(selectedDay, appointments, range) {
