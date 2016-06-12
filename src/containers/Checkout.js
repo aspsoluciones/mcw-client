@@ -95,7 +95,8 @@ class Checkout extends Component {
   renderForm(setDisabled){
       var _render = null;
       let _form = (
-      <Formsy.Form ref="appointmentForm" className="ui large form"
+      <div className="ui column">
+        <Formsy.Form ref="appointmentForm" className="ui large form"
                    onValid={this.enableButton.bind(this)}
                    onInvalid={this.disableButton.bind(this)}
                    onValidSubmit={this.submitAppointment.bind(this)}
@@ -174,7 +175,12 @@ class Checkout extends Component {
             </button>
           </div>
         </div>
-      </Formsy.Form>);
+      </Formsy.Form>
+      
+      
+      </div>
+
+      );
 
     return _form;
   }
@@ -213,11 +219,11 @@ class Checkout extends Component {
         </div>
       </div>
     );
-    
+
     var _render = (patients.selectedPatient) ? _selectedPatientCard : (appointment.appointmentSuccess) ? (<AppointmentSuccess></AppointmentSuccess>) : this.renderForm(setDisabled);
     
     return (
-      <div className="ui one column grid">
+      <div className="ui one column container grid" style={{marginTop:50}}>
         <div className="ui one column grid segment">
           <div className="ui column">
             <div>
