@@ -84,7 +84,7 @@ class AvailabilityDisplayer extends Component {
         !appointment.loadingDoctorData &&
         !_appointmentsForWeek.length && appointment.readSuccess
       ) {
-        GetClosestAppointments(doctorUsername, idLocalidad).then((data) => {
+        GetClosestAppointments(doctorUsername, idLocalidad, selectedDate).then((data) => {
           let _closest =  getFirstAppointmentAvailableForLocation(data.data, idLocalidad);
           this.setState({
             showClosestAppointment: true,
