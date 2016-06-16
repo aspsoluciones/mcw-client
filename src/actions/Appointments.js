@@ -244,10 +244,15 @@ function transformAppointment(appointment){
   _dataToSend.nombre_persona_registro = solicitante.nombre + ' ' + solicitante.apellido;
   _dataToSend.solicitante = fillSolicitante(solicitante);
   _dataToSend.id_persona_registro = solicitante.id;
-  _dataToSend.fecha_inicio = turno.fecha_hora_inicio.toDate();
   var _initialDate = turno.fecha_hora_inicio.clone();
 
-  _dataToSend.fecha_fin = _initialDate.add('m', turno.duracion_en_minutos).toDate();
+  _dataToSend.fecha_fin = _initialDate.add('m', turno.duracion_en_minutos);
+  //Convert date to string without timezone
+ 
+  _dataToSend.fecha_fin = _dataToSend.fecha_fin.format("YYYY-MM-DD") + 'T'+ _dataToSend.fecha_fin.format("HH:mm:ss")
+  _dataToSend.fecha_inicio = turno.fecha_hora_inicio.format("YYYY-MM-DD") + 'T'+ turno.fecha_hora_inicio.format("HH:mm:ss")
+  
+  //CONTINUE PARSING
 
   _dataToSend.solicitante.id = solicitante.id;
   _dataToSend.id_responsable_servicio = doctor.id;
