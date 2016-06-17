@@ -21,7 +21,7 @@ const style = {
 
 function parseCoordinates(coordinatesString){
   if(coordinatesString) {
-    var _separator = (coordinatesString.indexOf(";") != -1) ? ";" : (coordinatesString.indexOf(";") != -1) ? ',' : null
+    var _separator = (coordinatesString.indexOf(";") != -1) ? ";" : (coordinatesString.indexOf(",") != -1) ? ',' : null
     var _str = coordinatesString.split(_separator);
     var _coordinates = []
     _coordinates[0] = parseFloat(_str[0]);
