@@ -53,21 +53,16 @@ export default function patient (state = PatientInitialState, action) {
         isLoading: true
       };
     case PATIENT_READ_SUCCESS:
-      if(action.payload.length && action.payload.length !=1) {
+      if(action.payload.length || state.patient.length) {
         return {
           ...state,
           isLoading: false,
           patient: action.payload,
-          openModal : action.payload.length && action.payload.length != 1
+          openModal : true,
+          displayForm: false,
+          selectedPatient: null
         };
-      } else if(action.payload.length && action.payload.length ==1) {
-        return {
-          ...state,
-          isLoading: false,
-          selectedPatient: action.payload[0],
-          patient: action.payload
-        }
-      } else {
+      } else if(!state.patient.length) {
         return {
           ...state,
           isLoading: false,

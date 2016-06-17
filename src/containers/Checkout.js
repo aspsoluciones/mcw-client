@@ -199,8 +199,9 @@ class Checkout extends Component {
     const { keep } = appointment;
     let _modal = (this.state.openPatientModal) ? <PatientsModal patientsList={patients.patient}/> : null;
     const setDisabled = (!patients.selectedPatient && !this.state.canSubmit) || appointment.requestingAppointment
+    
     let _changePatientButton = (patients.patient && patients.patient.length > 1) ? (<button className="ui button fluid blue" onClick={this.reOpenPatientsModal.bind(this)}>
-        Cambiar paciente
+        Cambiar paciente 1
     </button>) : null;   
 
     let _selectedPatientCard = (
