@@ -57,7 +57,7 @@ export default function patient (state = PatientInitialState, action) {
         return {
           ...state,
           isLoading: false,
-          patient: action.payload,
+          patient: (action.payload.length) ? action.payload : state.patient,
           openModal : true,
           displayForm: false,
           selectedPatient: null
@@ -65,8 +65,7 @@ export default function patient (state = PatientInitialState, action) {
       } else if(!state.patient.length) {
         return {
           ...state,
-          isLoading: false,
-          patient: action.payload
+          isLoading: false
         }
       }
       break;

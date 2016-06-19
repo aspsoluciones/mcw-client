@@ -101,6 +101,15 @@ class Checkout extends Component {
     dispatch(fillPatientData())
   }
 
+  renderLoadingForEmail(){
+    const {patients} = this.props;
+    if(patients.isLoading){
+      return (<i className="spinner loading icon"></i>)
+    } else {
+      return null;
+    }
+  }
+
   renderForm(setDisabled){
       var _render = null;
       let _form = (
@@ -120,6 +129,7 @@ class Checkout extends Component {
                 value=""
                 onChange={(e, value) => this.checkUser(value)}
               />
+              {this.renderLoadingForEmail(this.state.patients && this.state.patients.isLoading)}
             </div>
             <div className="ui column">
               <FormsyText
@@ -201,7 +211,7 @@ class Checkout extends Component {
     const setDisabled = (!patients.selectedPatient && !this.state.canSubmit) || appointment.requestingAppointment
     
     let _changePatientButton = (patients.patient && patients.patient.length > 1) ? (<button className="ui button fluid blue" onClick={this.reOpenPatientsModal.bind(this)}>
-        Cambiar paciente 1
+        Cambiar paciente 
     </button>) : null;   
 
     let _selectedPatientCard = (
@@ -213,7 +223,7 @@ class Checkout extends Component {
           <div className="column">
             {_changePatientButton}
             <button className="ui button fluid blue" onClick={this.reRenderForm.bind(this)}>
-              Cambiar email
+              Cambiar email 
             </button>
             <button className="ui button fluid blue" onClick={this.addPatientToMail.bind(this)}>
               Crear nuevo paciente con el mismo email

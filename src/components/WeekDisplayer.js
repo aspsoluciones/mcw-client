@@ -255,7 +255,7 @@ class WeekDisplayer extends Component {
 
           <div className="ui right aligned column">
             <div className="right floated six wide column">
-              <button className="ui right icon button basic tiny blue" onClick={this.goToNext.bind(this)}>
+              <button className="ui icon button basic tiny blue" onClick={this.goToNext.bind(this)}>
                 <i className="right chevron icon"></i>
               </button>
             </div>
@@ -296,7 +296,7 @@ class WeekDisplayer extends Component {
             }
 
              <th>
-                <button className="ui right icon button basic tiny blue" onClick={()=> {this.goToNext({direct: true})} }>
+                <button className="ui icon basic tiny button blue" onClick={()=> {this.goToNext({direct: true})} }>
                   <i className="right chevron icon"></i>
                 </button>
               </th>
