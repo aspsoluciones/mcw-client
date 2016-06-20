@@ -2,7 +2,7 @@ import React from 'react';
 
 const DoctorBadge = ({doctor, noMarginTop}) => {
     
-    let doctorPhoto = doctor.foto_url || "//fi.realself.com/300x300/69509a87b24c62c3ebf5a38d9018e1a4/1/c/a/50019-2283600.jpg";
+    let doctorPhoto = doctor.ubicacion_foto || "//fi.realself.com/300x300/69509a87b24c62c3ebf5a38d9018e1a4/1/c/a/50019-2283600.jpg";
     
     const styles = {
         backgroundSize: 'cover',
