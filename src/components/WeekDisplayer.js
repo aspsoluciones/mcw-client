@@ -11,6 +11,7 @@ import ReactToolTip from 'react-tooltip';
 import { SelectNewDate } from '../actions/Appointments';
 import AppointmentDayPicker from './AppointmentDayPicker';
 
+
 moment.locale('es');
 let numOfAppointments = 4;
 

@@ -5,6 +5,7 @@
 import axios from 'axios';
 import { ApiRef } from '../constants/Commons';
 import { PATIENT_READ_REQUEST, PATIENT_ADD_NEW_PATIENT, PATIENT_SELECT_CANCELLED, PATIENT_READ_SUCCESS, PATIENT_HIDE_DATA_FORM, PATIENT_READ_FAILURE, PATIENT_DISPLAY_DATA_FORM, PATIENT_SELECTED, PATIENT_SELECT } from '../constants/ActionTypes';
+import validator from 'validator';
 
 const PatientInstance = axios.create({
   'baseURL': ApiRef + '/pacientes'
@@ -77,8 +78,8 @@ function hidePatientForm(){
 
 export function getPatientByEmail(patientEmail, companyID) {
   return dispatch => {
-    let _checkEmail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
-    let isEmail = _checkEmail.test(patientEmail);
+    
+    let isEmail = validator.isEmail(patientEmail);
     if(isEmail) {
       dispatch(patientRequest());
       PatientInstance.get('/' + companyID + '/' + patientEmail + '/')

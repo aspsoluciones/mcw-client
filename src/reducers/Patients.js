@@ -22,8 +22,8 @@ export default function patient (state = PatientInitialState, action) {
       return {
         ...state,
         openModal:false,
-        resetForm: true
-
+        resetForm: true,
+        patient: null
       }
     }
 
@@ -32,7 +32,8 @@ export default function patient (state = PatientInitialState, action) {
         ...state,
         openModal:false,
         displayForm: true,
-        resetForm: false
+        resetForm: false,
+        patient: null
       }
     }
 
@@ -53,7 +54,7 @@ export default function patient (state = PatientInitialState, action) {
         isLoading: true
       };
     case PATIENT_READ_SUCCESS:
-      if(action.payload.length || state.patient.length) {
+      if(action.payload.length || (state.patient && state.patient.length)) {
         return {
           ...state,
           isLoading: false,
@@ -62,7 +63,7 @@ export default function patient (state = PatientInitialState, action) {
           displayForm: false,
           selectedPatient: null
         };
-      } else if(!state.patient.length) {
+      } else {
         return {
           ...state,
           isLoading: false

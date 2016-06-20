@@ -97,7 +97,8 @@ function appointment(state = initialState, action) {
       return {
         ...state,
         requestingAppointment: false,
-        appointmentSuccess: false
+        appointmentSuccess: false,
+        error: action.error
       }
     
 

@@ -4,7 +4,12 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import TextField from 'material-ui/lib/text-field';
+import "react-day-picker/lib/style.css";
+import validator from "validator";
 import Formsy from 'formsy-react';
+import DayPicker, { DateUtils } from 'react-day-picker';
+import moment from 'moment';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import AppointmentSuccess from '../components/Appointments/AppointmentSuccess';
 import { FormsyText, FormsySelect, FormsyDate } from 'formsy-material-ui';
@@ -16,12 +21,21 @@ import DoctorBadge from '../components/Doctor/DoctorBadge';
 import DoctorPatientsType from '../components/Doctor/DoctorPatientsType';
 import DoctorLanguages from '../components/Doctor/DoctorLanguages';
 import DoctorName from '../components/Doctor/DoctorName';
+import ErrorsDisplayer from '../components/ErrorsDisplayer';
 
 Formsy.addValidationRule('isRequiredIfNotValue', function (values, value, otherField) {
   if(value || values[otherField]) {
     return true;
   }
 });
+
+Formsy.addValidationRule('isDate', function(values, value, otherField){
+  if(value){
+    console.log(value);
+    console.log(validator.isDate(value));
+    return validator.isDate(value);
+  }
+})
 
 function selectValue(state){
   return state.patients.resetForm;
@@ -30,9 +44,17 @@ function selectValue(state){
 class Checkout extends Component {
   constructor(props) {
     super(props);
+
+    this.handleDayClick = this.handleDayClick.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.showCurrentDate = this.showCurrentDate.bind(this);
+
     this.state = {
       openPatientModal : false,
-      canSubmit: false
+      canSubmit: false,
+      selectedDay: moment(),
+      value: moment().format('L'), // The value of the input field
+      month: new Date() // The month to display in the calendar
     }
   }
 
@@ -110,7 +132,36 @@ class Checkout extends Component {
     }
   }
 
+
+  showCurrentDate() {
+    this.refs.daypicker.showMonth(this.state.month);
+  }
+
+  handleInputChange(e) {
+    const { value } = e.target;
+
+    // Change the current month only if the value entered by the user
+    // is a valid date, according to the `L` format
+    if (moment(value, 'L', true).isValid()) {
+      this.setState({
+        month: moment(value, 'L').toDate(),
+        value
+      }, this.showCurrentDate);
+    } else {
+      this.setState({ value }, this.showCurrentDate);
+    }
+  }
+
+  handleDayClick(e, day) {
+    this.setState({
+      value: moment(day).format('L'),
+      month: day
+    });
+  }
+
   renderForm(setDisabled){
+      const selectedDay = moment(this.state.value, 'L', true).toDate();
+
       var _render = null;
       let _form = (
       <div className="ui column">
@@ -148,10 +199,12 @@ class Checkout extends Component {
                 value=""
               />
             </div>
-            <FormsyDate
+            <div className="ui column">
+           <FormsyDate
               name="fecha_nacimiento"
               floatingLabelText="Fecha de nacimiento"
             />
+            </div>
             <div className="ui column">
               <FormsySelect
                 name="sexo"
@@ -239,7 +292,14 @@ class Checkout extends Component {
       </div>
     );
 
-    var _render = (patients.selectedPatient && !patients.displayForm) ? _selectedPatientCard : this.renderForm(setDisabled);
+    if(appointment.error || patients.error){
+      const error = appointment.error || patients.error;
+      return (<div className="ui one column grid" style={{marginTop:100}}>
+              <ErrorsDisplayer code={error.status}/>
+          </div>)
+    }
+
+    var _render = (patients.selectedPatient && !patients.displayForm) ? _selectedPatientCard : this.renderForm(false);
     const doctor = appointment.responsable_servicio;
     return (
       <div className="ui one column container grid segment" style={{marginTop:50}}>
