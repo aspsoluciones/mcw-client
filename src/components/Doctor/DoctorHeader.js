@@ -17,7 +17,7 @@ const DoctorHeader = ({doctor}) => {
     
     return (
         <div className="ui column">
-            <DoctorCarousel className="doctorCarousel"></DoctorCarousel>
+            <DoctorCarousel doctorPhotos={doctor.fotos} className="doctorCarousel"></DoctorCarousel>
             <div className="ui container">
                 <DoctorBadge className="doctorBadge" doctor={doctor}></DoctorBadge>
                 <div className="ui grid profile-header-content">

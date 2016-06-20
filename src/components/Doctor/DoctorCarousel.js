@@ -62,22 +62,38 @@ var decorators = [{
 }
 ];
 
+function generatePhotosDiv(photos){
+  var _divs = [];
+  photos.map((photo, i)=>{
+    _divs.push(<div className="carouselImage" key={i} style={{backgroundImage: "url(" + photo + ")"}}></div>)
+  })
+  return _divs;
+}
+
 const DoctorCarousel = React.createClass({
   mixins: [Carousel.ControllerMixin],
   render() {
+
+    const { doctorPhotos } = this.props;
+    var _divs;
+    if(doctorPhotos && doctorPhotos.length){
+      _divs = generatePhotosDiv(doctorPhotos);
+    } else {
+      _divs = [(<div key={0} className="carouselImage" style={{backgroundImage: "url(http://www.miclinicaweb.com/media/1003/mcw-logo.jpg)"}}></div>)]
+    }
     
     return (
       <div id="carousel">
         <div className="carousel-outer">
           <Carousel className="doctorCarousel" decorators={decorators}>
-            <div style={{backgroundImage: "url(//fi.realself.com/hero/3b4b9f8ee43989919a60d83fb43a3999/a/e/c/userimage-968246.jpg)"}} className="carouselImage"></div>
-            <div style={{backgroundImage: "url(//fi.realself.com/hero/3b4b9f8ee43989919a60d83fb43a3999/a/e/c/userimage-968246.jpg)"}} className="carouselImage"></div>
+            {_divs}
           </Carousel>
         </div>
      </div>
     )
   }
 });
+
 
 export default DoctorCarousel;
 
