@@ -33,7 +33,7 @@ import './styles/styles.scss'; //Yep, that's right. You can import SASS/CSS file
 render(
 
   <Provider store={store}>
-    <Router history={hashHistory}>
+    <Router  onUpdate={() => window.scrollTo(0, 0)} history={hashHistory}>
       <Route name="forbidden" component={Forbidden}/>
       <Route name="doctor" path="/doctor" component={Public}>
         <Route name="confirmation" path="/doctor/confirmation/:confirmationId" component={Confirmation}/>

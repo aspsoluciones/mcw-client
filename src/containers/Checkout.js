@@ -58,7 +58,10 @@ class Checkout extends Component {
     }
   }
 
+
   componentDidMount(){
+    console.log(this._div);
+
     const { store } = this.context;
     const { appointmentForm } = this.refs;
     let currentValue;
@@ -70,7 +73,6 @@ class Checkout extends Component {
       }
     })
   }
-
 
   openModal() {
     const { dispatch } = this.props;
@@ -302,7 +304,7 @@ class Checkout extends Component {
     var _render = (patients.selectedPatient && !patients.displayForm) ? _selectedPatientCard : this.renderForm(false);
     const doctor = appointment.responsable_servicio;
     return (
-      <div className="ui one column container grid segment" style={{marginTop:50}}>
+      <div ref="_div" className="ui one column container grid segment" style={{marginTop:50}}>
         <div className="ui one column">
           <div className="ui column">
             <div className="ui container">
