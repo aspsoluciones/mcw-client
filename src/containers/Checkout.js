@@ -301,7 +301,7 @@ class Checkout extends Component {
           </div>)
     }
 
-    var _render = (patients.selectedPatient && !patients.displayForm) ? _selectedPatientCard : this.renderForm(false);
+    var _render = (patients.selectedPatient && !patients.displayForm) ? _selectedPatientCard : this.renderForm(setDisabled);
     const doctor = appointment.responsable_servicio;
     return (
       <div ref="_div" className="ui one column container grid segment" style={{marginTop:50}}>
