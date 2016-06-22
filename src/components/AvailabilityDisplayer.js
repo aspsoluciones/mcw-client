@@ -30,7 +30,7 @@ function getFirstAppointmentAvailableForLocation(appointment, idLocalidad) {
 
 function filterAppointmentsForWeek(selectedDay, appointments, range) {
   return _.filter(appointments, function ProcessAppointment(appointment) {
-    if( (range.min.utc() <= moment(appointment.fecha_hora_inicio).utc())  &&  (moment(appointment.fecha_hora_inicio).utc() <= range.max.utc())) {
+    if( (range.min.hour(0).minutes(0).seconds(0) <= moment(appointment.fecha_hora_inicio).utc())  &&  (moment(appointment.fecha_hora_inicio).utc() <= range.max.hour(23).minutes(59).seconds(59))) {
       return appointment
     }
   });
