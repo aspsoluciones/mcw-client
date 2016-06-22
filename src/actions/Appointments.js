@@ -158,6 +158,7 @@ export function GetDoctorData(doctorUsername) {
     axios.get('responsablesservicio/perfilpublico/' + doctorUsername)
     .then((data)=> {
         dispatch(DoctorDataRequestSuccess(data.data));
+        dispatch(GetAppointments(data.data.id, initialDate));
       }).catch((error) => {
         dispatch(DoctorDataRequestFailure(error))
       })
@@ -180,17 +181,17 @@ export function SelectNewDate(newDate, doctorUsername, locationID) {
   }
 }
 
-export function GetClosestAppointments(doctorUsername, locationID, lastDate) {
+export function GetClosestAppointments(doctorID, locationID, lastDate) {
     // Auxiliar function for notify Closest appointment available
-    return axios.get('agenda/turnosdisponibles/proximo/' + doctorUsername + '/' + locationID + '/' + moment(lastDate).add('d',6).format("MM-DD-YYYY"));
+    return axios.get('agenda/turnosdisponibles/proximo/' + doctorID + '/' + locationID + '/' + moment(lastDate).add('d',6).format("MM-DD-YYYY"));
 }
 
-export function GetAppointments(doctorUsername, range, locationID) {
+export function GetAppointments(doctorID, range, locationID) {
   //If a date range is specified.
   return dispatch =>{
     dispatch(AppointmentsRequest(locationID));
     if(range){
-      axios.get('agenda/turnosdisponibles/' + doctorUsername + '/' + range.minDate + '/' + range.maxDate)
+      axios.get('agenda/turnosdisponibles/' + doctorID + '/' + range.minDate + '/' + range.maxDate)
         .then((data)=> {
             if(locationID){
               data.data.forLocation = locationID

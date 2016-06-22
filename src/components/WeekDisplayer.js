@@ -99,7 +99,6 @@ class WeekDisplayer extends Component {
   }
 
   assignAppointmentsToWeekDay(week, appointments) {
-    console.log(week);
     var _weekWithTimes = [{}, {}, {}, {}, {}, {}, {}];
 
       week.map(function ProcessWeekDay(weekDay, i){
@@ -124,7 +123,6 @@ class WeekDisplayer extends Component {
 
     const {dispatch, doctor, idLocalidad, institution, doctorUsername } = this.props;
     const { router } = this.context;
-    console.log(router);
 
     this.setState({
       selectedAppointment : appointment
@@ -172,7 +170,6 @@ class WeekDisplayer extends Component {
   }
 
   goToNext(payload) {
-    console.log('Next');
     const { onDateChange } = this.props;
     if(this.state.showUntilWeekDay == 3 && !payload.direct){
       this.setState({
@@ -181,7 +178,6 @@ class WeekDisplayer extends Component {
       })
     } else {
       const { selectedDay } = this.props;
-      console.log(moment(selectedDay).add('d', 7));
       onDateChange(moment(selectedDay).add('d', 7))
     }
 
@@ -189,7 +185,7 @@ class WeekDisplayer extends Component {
 
   renderRow(weekdays, weekWithTimes, index){
       if(index  >= this.state.showFromWeekDay && index <= this.state.showUntilWeekDay){
-        console.log(index);
+
         return <WeekDisplayerRow key={index}
                                  weekDay={weekdays}
                                  weekWithTime={weekWithTimes}
@@ -205,7 +201,6 @@ class WeekDisplayer extends Component {
     var _selectedDay = moment(selectedDay);
     var _today = moment();
     var _diff = _today.diff(_selectedDay, 'days');
-    console.log(_diff);
     return _diff >= 0;
   }
   

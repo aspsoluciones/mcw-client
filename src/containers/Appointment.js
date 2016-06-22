@@ -19,7 +19,7 @@ class Appointment extends Component {
 
   componentDidMount(){
     const { store, router } = this.context;
-    const { dispatch } = this.props;
+    const { dispatch, appointment } = this.props;
 
     let initialDate = {
       minDate: moment().format("MM-DD-YYYY"),
@@ -27,7 +27,6 @@ class Appointment extends Component {
     };
 
     dispatch(GetDoctorData(this.props.params.doctorUsername));
-    dispatch(GetAppointments(this.props.params.doctorUsername, initialDate));
 
     store.subscribe(() =>{
       let _state = store.getState();
@@ -43,6 +42,8 @@ class Appointment extends Component {
 
   renderAppointmentScreen(appointment){
     if(appointment.responsable_servicio) {
+     
+
       return (
         <div className="ui one column">
            <DoctorHeader doctor={ appointment.responsable_servicio }>
