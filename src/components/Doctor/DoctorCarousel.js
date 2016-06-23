@@ -85,7 +85,7 @@ const DoctorCarousel = React.createClass({
     return (
       <div id="carousel">
         <div className="carousel-outer">
-          <Carousel className="doctorCarousel" decorators={decorators}>
+          <Carousel autoplay={true} edgeEasing="easeInExpo" easing="easeOutQuad" className="doctorCarousel" decorators={decorators}>
             {_divs}
           </Carousel>
         </div>
