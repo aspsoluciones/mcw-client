@@ -42,7 +42,7 @@ const WeekDisplayerRow = ({weekDay, weekWithTime, index, expand, onClick}) => {
 
   const day = weekWithTime[index];
 
-  return(<div className="ui column">
+  return(<div className="ui column center aligned">
 
     <h3 className="ui column">{weekDay[index].format("ddd")}</h3>
     <h3 className="ui column">{weekDay[index].format("DD MMM")}</h3>
@@ -51,7 +51,7 @@ const WeekDisplayerRow = ({weekDay, weekWithTime, index, expand, onClick}) => {
         day.times && day.times.map((time, i) => {
           const appoinmentTime = moment(time.fecha_hora_inicio).format("HH:mm");
           const tooltipMessage = "Solicitar cita a las " + appoinmentTime;
-          return <div key={i}>
+          return <div key={i} className="fullWidth">
             {
               !expand ?
                 i < numOfAppointments
@@ -232,7 +232,7 @@ class WeekDisplayer extends Component {
     const leftButtonClass = (this.canGoBack(selectedDay) && this.state.showUntilWeekDay == 3) ? 'ui disabled  icon basic tiny button blue' : 'ui icon basic tiny button blue';
     
     return(<div className="ui one column grid">
-      <div className="ui mobile only row">
+      <div className="ui mobile tablet only row">
         <div className="ui grid three column centered">
           <div className="ui left aligned column">
             <div className="left floated six wide column">
@@ -276,7 +276,7 @@ class WeekDisplayer extends Component {
       </div>
 
 
-      <div className="ui tablet computer only one padded column" >
+      <div className="ui computer only one padded column" >
         <table className="table ui simple-table unstackable table-week-displayer fixed">
           <thead>
           <tr>

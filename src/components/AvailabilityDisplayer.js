@@ -158,15 +158,20 @@ class AvailabilityDisplayer extends Component {
     return(
       <div className="ui column availabilityDisplayer">
         <div className="ui two column stackable grid">
-          <div className="ui computer tablet only four wide column">
-            <div className="ui one column computer tablet only">
+          <div className="ui computer only four wide column">
+            <div className="ui one column computer only">
               <AppointmentDayPicker 
               onClick={this.setNewDate.bind(this)}
               month={this.state.month} 
               selectedDate={this.state.selectedDate}/>
             </div>
           </div>
-          <div className="ui eleven wide column" style={{minHeight:200}}>
+          <div className="ui eleven wide column computer only" style={{minHeight:200}}>
+            <div>
+              { this.renderWeekDisplayer(this.state.selectedDate, availability)}
+            </div>
+          </div>
+          <div className="ui sixteen wide column mobile tablet only" style={{minHeight:200}}>
             <div>
               { this.renderWeekDisplayer(this.state.selectedDate, availability)}
             </div>
