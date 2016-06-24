@@ -232,7 +232,7 @@ class WeekDisplayer extends Component {
     const leftButtonClass = (this.canGoBack(selectedDay) && this.state.showUntilWeekDay == 3) ? 'ui disabled  icon basic tiny button blue' : 'ui icon basic tiny button blue';
     
     return(<div className="ui one column grid">
-      <div className="ui mobile tablet only row">
+      <div className="ui tablet only mobile only row">
         <div className="ui grid three column centered">
           <div className="ui left aligned column">
             <div className="left floated six wide column">
