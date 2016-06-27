@@ -83,7 +83,7 @@ function appointment(state = initialState, action) {
         ...state,
         requestingAppointment: true
       }
-    
+
 
     case APPOINTMENT_SUCCESS :
       return {
@@ -91,7 +91,7 @@ function appointment(state = initialState, action) {
         requestingAppointment: false,
         appointmentSuccess: true
       }
-    
+
 
     case APPOINTMENT_FAILURE :
       return {
@@ -100,7 +100,7 @@ function appointment(state = initialState, action) {
         appointmentSuccess: false,
         error: action.error
       }
-    
+
 
     case APPOINTMENT_NEW_DATE:
       return {

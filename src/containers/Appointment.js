@@ -41,8 +41,7 @@ class Appointment extends Component {
   }
 
   renderAppointmentScreen(appointment){
-    if(appointment.responsable_servicio) {
-     
+    if(appointment.responsable_servicio && !appointment.errorMessage) {
 
       return (
         <div className="ui one column">
@@ -64,6 +63,10 @@ class Appointment extends Component {
             </div>
         </div>
       )
+    } else {
+      return(<div className="ui one column grid" style={{marginTop:100}}>
+        <ErrorDisplayer code={appointment.errorMessage.status}></ErrorDisplayer>
+      </div>)
     }
     return null;
   }
@@ -94,7 +97,7 @@ class Appointment extends Component {
       } else if(error){
         _render = (
           <div className="ui one column grid" style={{marginTop:100}}>
-              <ErrorDisplayer code={error.status}></ErrorDisplayer> 
+              <ErrorDisplayer code={error.status}></ErrorDisplayer>
           </div>
           )
       } else {

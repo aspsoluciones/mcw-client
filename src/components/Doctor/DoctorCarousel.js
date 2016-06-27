@@ -7,7 +7,7 @@ var Carousel = require('nuka-carousel');
 var style = {
         backgroundImage: "url(//fi.realself.com/hero/3b4b9f8ee43989919a60d83fb43a3999/a/e/c/userimage-968246.jpg)"
     };
-    
+
 var decorators = [{
   component: React.createClass({
     render() {
@@ -19,7 +19,7 @@ var decorators = [{
         </button>
       )
     },
-    
+
     getButtonStyles(disabled) {
         return {
           border: 0,
@@ -45,7 +45,7 @@ var decorators = [{
         </button>
       )
     },
-    
+
     getButtonStyles(disabled) {
         return {
           border: 0,
@@ -81,7 +81,7 @@ const DoctorCarousel = React.createClass({
     } else {
       _divs = [(<div key={0} className="carouselImage" style={{backgroundImage: "url(http://www.miclinicaweb.com/media/1003/mcw-logo.jpg)"}}></div>)]
     }
-    
+
     return (
       <div id="carousel">
         <div className="carousel-outer">
@@ -94,6 +94,4 @@ const DoctorCarousel = React.createClass({
   }
 });
 
-
 export default DoctorCarousel;
-
