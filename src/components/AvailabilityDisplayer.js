@@ -22,9 +22,9 @@ import 'moment/locale/es';
 const locale = 'es';
 function getFirstAppointmentAvailableForLocation(appointment, idLocalidad) {
   if(appointment){
-    var _appointment = {'fecha_hora_inicio': moment(appointment)}; 
+    var _appointment = {'fecha_hora_inicio': moment(appointment)};
   }
-  
+
   return _appointment;
 }
 
@@ -81,7 +81,7 @@ class AvailabilityDisplayer extends Component {
 
         )
       } else if(!appointment.loadingAppointments &&
-        !appointment.loadingDoctorData &&
+        !appointment.loadingDoctorData && !_appointmentsForWeek &&
         !_appointmentsForWeek.length && appointment.readSuccess
       ) {
         GetClosestAppointments(appointment.responsable_servicio.id, idLocalidad, selectedDate).then((data) => {
@@ -154,15 +154,15 @@ class AvailabilityDisplayer extends Component {
 
   render() {
     const { availability, appointment, idLocalidad, doctor } = this.props;
-    const { selectedDate } = this.state; 
+    const { selectedDate } = this.state;
     return(
       <div className="ui column availabilityDisplayer">
         <div className="ui two column stackable grid">
           <div className="ui computer only four wide column">
             <div className="ui one column computer only">
-              <AppointmentDayPicker 
+              <AppointmentDayPicker
               onClick={this.setNewDate.bind(this)}
-              month={this.state.month} 
+              month={this.state.month}
               selectedDate={this.state.selectedDate}/>
             </div>
           </div>
