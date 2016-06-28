@@ -5,8 +5,8 @@ class AppointmentSuccess extends Component {
         return (
             <div className="ui massive icon green message">
                 <i className="check circle icon"></i>
-                <div class="content">
-                    <div class="header">
+                <div className="content">
+                    <div className="header">
                         Gracias por confiar en nosotros. Por favor chequee su correo electrónico para confirmar su solicitud.
                     </div>
                 </div>

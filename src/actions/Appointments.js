@@ -214,7 +214,6 @@ export function ConfirmAppointment(appointment) {
   return dispatch => {
     dispatch(AppointmentRequest());
     axios.post('/solicitudes', transformAppointment(appointment)).then((data) => {
-      console.log(browserHistory);
       dispatch(AppointmentSuccess(data));
       hashHistory.push('appointment/success');
     }).catch((error) => {

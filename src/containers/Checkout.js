@@ -31,8 +31,6 @@ Formsy.addValidationRule('isRequiredIfNotValue', function (values, value, otherF
 
 Formsy.addValidationRule('isDate', function(values, value, otherField){
   if(value){
-    console.log(value);
-    console.log(validator.isDate(value));
     return validator.isDate(value);
   }
 })
@@ -60,10 +58,10 @@ class Checkout extends Component {
 
 
   componentDidMount(){
-    console.log(this._div);
-
     const { store } = this.context;
+    const { dispatch } = this.props;
     const { appointmentForm } = this.refs;
+
     let currentValue;
     store.subscribe(()=>{
       let previousValue = currentValue;
@@ -72,6 +70,16 @@ class Checkout extends Component {
         appointmentForm.reset();
       }
     })
+
+    if(!this.props.appointment.keep) this.goBack();
+  }
+
+  goBack(){
+    const { router } = this.context;
+    
+    router.push({
+      pathname: '/doctor/' + this.props.params.doctorUsername
+    });
   }
 
   openModal() {
@@ -261,7 +269,12 @@ class Checkout extends Component {
   render() {
 
     const { appointment, patients } = this.props;
-    const { keep } = appointment;
+    const keep = (appointment && appointment.keep) ? appointment.keep : {};
+
+    const fecha = (keep && keep.fecha_hora_inicio) ? keep.fecha_hora_inicio.format("dddd DD MMMM YYYY") : null; 
+    const horario = (keep && keep.fecha_hora_inicio) ? keep.fecha_hora_inicio.format("HH:mm") : null;
+    const duracion_minutos = (keep && keep.duracion_en_minutos) ? keep.duracion_en_minutos : null;
+    
     let _modal = (this.state.openPatientModal) ? <PatientsModal patientsList={patients.patient}/> : null;
     const setDisabled = (!patients.selectedPatient && !this.state.canSubmit) || appointment.requestingAppointment
     
@@ -339,13 +352,13 @@ class Checkout extends Component {
                 </div>
               </div>
               <div className="ui column">
-                Fecha: {keep.appointment.fecha_hora_inicio.format("dddd DD MMMM YYYY")}
+                Fecha: {fecha}
               </div>
               <div className="ui column">
-                Horario: {keep.appointment.fecha_hora_inicio.format("HH:mm")}
+                Horario: {horario}
               </div>
               <div className="ui column">
-                Duración: { keep.appointment.duracion_en_minutos} minutos
+                Duración: { duracion_minutos } minutos
               </div>
             </div>
             
@@ -383,7 +396,8 @@ Checkout.propTypes = {
 }
 
 Checkout.contextTypes = {
-  store: PropTypes.any
+  store: PropTypes.any,
+  router : PropTypes.any
 };
 
 Checkout.stateTypes = {

@@ -23,7 +23,6 @@ class SessionTracker extends Component {
   componentDidMount() {
     $('.ui.modal').modal();
     /*setTimeout(() => {
-      console.log('Hello');
       this.showLoginModal();
     },3000)*/
   }

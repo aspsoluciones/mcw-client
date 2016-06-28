@@ -44,11 +44,34 @@ class AvailabilityDisplayer extends Component {
 
   constructor(props) {
     super(props);
+
+    console.warn(history.length)
+
     this.state = {
       displayDay : moment(),
       appointmentsForWeek : this.calculateAvailableAppointmentsForWeek(moment(), this.props.availability, true),
       selectedDate: moment()
     };
+  }
+
+  componentDidMount(){
+    const { router } = this.context;
+    //var currentRoutes = router.getCurrentRoutes();
+    // var lastRoute = currentRoutes[currentRoutes.length - 1];
+    // console.warn(lastRoute.name);
+    
+  }
+
+  componentWillMount(){
+    const { router } = this.context;
+
+    // router.push({
+    //   pathname: '/doctor/' + this.props.params.doctorUsername
+    // });
+  }
+
+  componentDidUpdate(){
+    
   }
 
   renderWeekDisplayer(selectedDate, appointments){
@@ -68,7 +91,7 @@ class AvailabilityDisplayer extends Component {
     });
 
     var _appointmentsForWeek = this.calculateAvailableAppointmentsForWeek(selectedDate, _datesToUse, true);
-    if(!this.state.showClosestAppointment){
+    if(!this.state.showClosestAppointment){    
       if(_appointmentsForWeek.length) {
         return (<WeekDisplayer appointmentsForWeek={_appointmentsForWeek}
                          selectedDay={selectedDate}
@@ -84,6 +107,12 @@ class AvailabilityDisplayer extends Component {
         !appointment.loadingDoctorData && !_appointmentsForWeek &&
         !_appointmentsForWeek.length && appointment.readSuccess
       ) {
+      
+      // } else if(!appointment.loadingAppointments &&
+      //   !appointment.loadingDoctorData && !_appointmentsForWeek &&
+      //   !_appointmentsForWeek.length && appointment.readSuccess
+      // ) {
+
         GetClosestAppointments(appointment.responsable_servicio.id, idLocalidad, selectedDate).then((data) => {
           let _closest =  getFirstAppointmentAvailableForLocation(data.data, idLocalidad);
           this.setState({
@@ -155,7 +184,8 @@ class AvailabilityDisplayer extends Component {
   render() {
     const { availability, appointment, idLocalidad, doctor } = this.props;
     const { selectedDate } = this.state;
-    return(
+    // (this.state.closestAppointment && this.state.closestAppointment.fecha_hora_inicio)
+    return( 
       <div className="ui column availabilityDisplayer">
         <div className="ui two column stackable grid">
           <div className="ui computer only four wide column">
@@ -166,12 +196,7 @@ class AvailabilityDisplayer extends Component {
               selectedDate={this.state.selectedDate}/>
             </div>
           </div>
-          <div className="ui eleven wide column computer only" style={{minHeight:200}}>
-            <div>
-              { this.renderWeekDisplayer(this.state.selectedDate, availability)}
-            </div>
-          </div>
-          <div className="ui sixteen wide column mobile tablet only" style={{minHeight:200}}>
+          <div className="ui twelve wide computer only sixteen wide column mobile tablet only" style={{minHeight:200}}>
             <div>
               { this.renderWeekDisplayer(this.state.selectedDate, availability)}
             </div>
@@ -190,6 +215,10 @@ AvailabilityDisplayer.propTypes = {
   doctor: PropTypes.any
 };
 
+AvailabilityDisplayer.contextTypes = {
+  router : PropTypes.any
+};
+
 function mapStateToProps(state) {
   const { appointment } = state;
   return {
@@ -198,3 +227,9 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(AvailabilityDisplayer);
+
+// <div className="ui sixteen wide column mobile tablet only" style={{minHeight:200}}>
+//             <div>
+//               { this.renderWeekDisplayer(this.state.selectedDate, availability)}
+//             </div>
+//           </div>

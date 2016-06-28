@@ -21,12 +21,11 @@ function renderAge(age){
 
 
 export function DoctorProfileCard(doctorData) {
-  console.log(doctorData);
   return  <div className="ui vertical stripe segment">
             <div className="ui middle aligned grid container">
               <div className="ui row segment no-padded-segment">
                 <div className="six wide column no-padded">
-                  <div class="ui column">
+                  <div className="ui column">
                     <image className="ui image medium" src={doctorData.foto_url}/>
                   </div>
                 </div>

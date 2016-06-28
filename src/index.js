@@ -3,7 +3,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import { Provider } from 'react-redux';
 
-import { Router, Route, browserHistory, hashHistory, IndexRoute } from 'react-router'
+import { Router, Route, browserHistory, hashHistory, History, IndexRoute } from 'react-router'
 
 import App from './containers/App';
 import Public from './containers/Public';
@@ -37,9 +37,9 @@ render(
       <Route name="forbidden" component={Forbidden}/>
       <Route name="doctor" path="/doctor" component={Public}>
         <Route name="confirmation" path="/doctor/confirmation/:confirmationId" component={Confirmation}/>
-        <Route name="appointments" path="/doctor/:doctorUsername" components={Appointment}/>
-        <Route name="checkout" path="/doctor/:doctorUsername/appointment/checkout" components={Checkout}/>
-        <Route name="checkout" path="/appointment/success" components={AppointmentSuccessContainer}/>
+        <Route name="appointments" path="/doctor/:doctorUsername" component={Appointment}/>
+        <Route name="checkout" path="/doctor/:doctorUsername/appointment/checkout" component={Checkout}/>
+        <Route name="checkout" path="/appointment/success" component={AppointmentSuccessContainer}/>
 
       </Route>
       <Route name="app" path="/app" component={App}>
