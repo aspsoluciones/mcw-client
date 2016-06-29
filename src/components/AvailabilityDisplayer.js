@@ -59,7 +59,7 @@ class AvailabilityDisplayer extends Component {
     //var currentRoutes = router.getCurrentRoutes();
     // var lastRoute = currentRoutes[currentRoutes.length - 1];
     // console.warn(lastRoute.name);
-    
+
   }
 
   componentWillMount(){
@@ -71,7 +71,7 @@ class AvailabilityDisplayer extends Component {
   }
 
   componentDidUpdate(){
-    
+
   }
 
   renderWeekDisplayer(selectedDate, appointments){
@@ -91,7 +91,7 @@ class AvailabilityDisplayer extends Component {
     });
 
     var _appointmentsForWeek = this.calculateAvailableAppointmentsForWeek(selectedDate, _datesToUse, true);
-    if(!this.state.showClosestAppointment){    
+    if(!this.state.showClosestAppointment){
       if(_appointmentsForWeek.length) {
         return (<WeekDisplayer appointmentsForWeek={_appointmentsForWeek}
                          selectedDay={selectedDate}
@@ -104,14 +104,9 @@ class AvailabilityDisplayer extends Component {
 
         )
       } else if(!appointment.loadingAppointments &&
-        !appointment.loadingDoctorData && !_appointmentsForWeek &&
+        !appointment.loadingDoctorData && 
         !_appointmentsForWeek.length && appointment.readSuccess
       ) {
-      
-      // } else if(!appointment.loadingAppointments &&
-      //   !appointment.loadingDoctorData && !_appointmentsForWeek &&
-      //   !_appointmentsForWeek.length && appointment.readSuccess
-      // ) {
 
         GetClosestAppointments(appointment.responsable_servicio.id, idLocalidad, selectedDate).then((data) => {
           let _closest =  getFirstAppointmentAvailableForLocation(data.data, idLocalidad);
@@ -185,7 +180,7 @@ class AvailabilityDisplayer extends Component {
     const { availability, appointment, idLocalidad, doctor } = this.props;
     const { selectedDate } = this.state;
     // (this.state.closestAppointment && this.state.closestAppointment.fecha_hora_inicio)
-    return( 
+    return(
       <div className="ui column availabilityDisplayer">
         <div className="ui two column stackable grid">
           <div className="ui computer only four wide column">

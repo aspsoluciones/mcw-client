@@ -62,13 +62,15 @@ function appointment(state = initialState, action) {
       if(action.payload && action.payload.locationID){
         return {
           ...state,
-          loadingAppointmentsForLocation : action.payload.locationID
+          loadingAppointmentsForLocation : action.payload.locationID,
+          readSuccess: false
         }
       }
 
       return {
         ...state,
-        loadingAppointments: true
+        loadingAppointments: true,
+        readSuccess: false
       };
 
     case APPOINTMENTS_READ_FAILURE:
@@ -125,6 +127,8 @@ function appointment(state = initialState, action) {
       return {
         ...state,
         loadingDoctorData: true,
+        loadingAppointments: true,
+        readSuccess: false,
         doctorUsername: action.payload
       };
     case DOCTOR_READ_SUCCESS:
