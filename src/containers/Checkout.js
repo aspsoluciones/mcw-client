@@ -22,6 +22,8 @@ import DoctorPatientsType from '../components/Doctor/DoctorPatientsType';
 import DoctorLanguages from '../components/Doctor/DoctorLanguages';
 import DoctorName from '../components/Doctor/DoctorName';
 import ErrorsDisplayer from '../components/ErrorsDisplayer';
+//
+import IntlTelInput from 'react-intl-tel-input';
 
 Formsy.addValidationRule('isRequiredIfNotValue', function (values, value, otherField) {
   if(value || values[otherField]) {
@@ -46,13 +48,15 @@ class Checkout extends Component {
     this.handleDayClick = this.handleDayClick.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.showCurrentDate = this.showCurrentDate.bind(this);
+    this.changeHandler = this.changeHandler.bind(this);
 
     this.state = {
       openPatientModal : false,
       canSubmit: false,
       selectedDay: moment(),
       value: moment().format('L'), // The value of the input field
-      month: new Date() // The month to display in the calendar
+      month: new Date(), // The month to display in the calendar
+      validatePhone: false
     }
   }
 
@@ -80,6 +84,12 @@ class Checkout extends Component {
     router.push({
       pathname: '/doctor/' + this.props.params.doctorUsername
     });
+  }
+
+  changeHandler(status, value, countryData, number, id) {
+    this.setState({
+      validatePhone: status
+    })
   }
 
   openModal() {
@@ -227,19 +237,19 @@ class Checkout extends Component {
               </FormsySelect>
             </div>
             <div className="ui column">
-              <FormsyText
-                name='numero_tel_celular'
-                hintText="Número de teléfono celular"
-                validations="isRequiredIfNotValue:numero_tel_particular"
-                value=""
-              />
+              <IntlTelInput defaultCountry={'pa'}
+                            preferredCountries={['pa', 'ar']}
+                            numberType={'FIXED_LINE'}
+                            onPhoneNumberChange={this.changeHandler}
+                              css={['intl-tel-input', 'form-control']}
+                              utilsScript={'libphonenumber.js'} />
             </div>
             <div className="ui column">
-              <FormsyText
-                name='numero_tel_particular'
-                hintText="Número de teléfono particular"
-                validations="isRequiredIfNotValue:numero_tel_celular"
-              />
+              <IntlTelInput defaultCountry={'pa'}
+                            preferredCountries={['pa', 'ar']}
+                            onPhoneNumberChange={this.changeHandler}
+                              css={['intl-tel-input', 'form-control']}
+                              utilsScript={'libphonenumber.js'} />
             </div>
             <div className="ui column">
               <FormsyText
@@ -276,7 +286,7 @@ class Checkout extends Component {
     const duracion_minutos = (keep && keep.duracion_en_minutos) ? keep.duracion_en_minutos : null;
     
     let _modal = (this.state.openPatientModal) ? <PatientsModal patientsList={patients.patient}/> : null;
-    const setDisabled = (!patients.selectedPatient && !this.state.canSubmit) || appointment.requestingAppointment
+    const setDisabled = (!patients.selectedPatient && !this.state.canSubmit) || appointment.requestingAppointment || !this.state.validatePhone
     
     let _changePatientButton = (patients.patient && patients.patient.length > 1) ? (<button className="ui button fluid blue" onClick={this.reOpenPatientsModal.bind(this)}>
         Cambiar paciente 

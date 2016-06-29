@@ -45,8 +45,6 @@ class AvailabilityDisplayer extends Component {
   constructor(props) {
     super(props);
 
-    console.warn(history.length)
-
     this.state = {
       displayDay : moment(),
       appointmentsForWeek : this.calculateAvailableAppointmentsForWeek(moment(), this.props.availability, true),
@@ -55,19 +53,11 @@ class AvailabilityDisplayer extends Component {
   }
 
   componentDidMount(){
-    const { router } = this.context;
-    //var currentRoutes = router.getCurrentRoutes();
-    // var lastRoute = currentRoutes[currentRoutes.length - 1];
-    // console.warn(lastRoute.name);
 
   }
 
   componentWillMount(){
-    const { router } = this.context;
-
-    // router.push({
-    //   pathname: '/doctor/' + this.props.params.doctorUsername
-    // });
+  
   }
 
   componentDidUpdate(){
@@ -122,7 +112,7 @@ class AvailabilityDisplayer extends Component {
     }else{
       if(this.state.closestAppointment && this.state.closestAppointment.fecha_hora_inicio){
         return (
-          <div className="ui middle aligned column centered container grid">
+          <div className="ui middle aligned column centered container grid fullHeight">
             <div className="ui column">
               <div className="ui icon info message" onClick={ () => {
             this.setNewDate(this.state.closestAppointment.fecha_hora_inicio)}}>
@@ -137,7 +127,7 @@ class AvailabilityDisplayer extends Component {
 
       } else {
         return (
-          <div className="ui middle aligned column centered container grid">
+          <div className="ui middle aligned column centered container grid fullHeight">
             <div className="ui column">
               <div className="ui icon warning message">
                 <i className="warning sign icon"></i>
@@ -192,9 +182,7 @@ class AvailabilityDisplayer extends Component {
             </div>
           </div>
           <div className="ui twelve wide computer only sixteen wide column mobile tablet only" style={{minHeight:200}}>
-            <div>
-              { this.renderWeekDisplayer(this.state.selectedDate, availability)}
-            </div>
+            { this.renderWeekDisplayer(this.state.selectedDate, availability)}
           </div>
         </div>
       </div>
