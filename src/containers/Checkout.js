@@ -24,6 +24,8 @@ import DoctorName from '../components/Doctor/DoctorName';
 import ErrorsDisplayer from '../components/ErrorsDisplayer';
 //
 import IntlTelInput from 'react-intl-tel-input';
+import { recaptchaKey } from '../constants/Commons';
+var ReCAPTCHA = require("react-google-recaptcha");
 
 Formsy.addValidationRule('isRequiredIfNotValue', function (values, value, otherField) {
   if(value || values[otherField]) {
@@ -48,7 +50,9 @@ class Checkout extends Component {
     this.handleDayClick = this.handleDayClick.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.showCurrentDate = this.showCurrentDate.bind(this);
-    this.changeHandler = this.changeHandler.bind(this);
+    this.phoneVerify = this.phoneVerify.bind(this);
+    this.phoneLineVerify = this.phoneLineVerify.bind(this);
+    this.recaptchaValidate = this.recaptchaValidate.bind(this);
 
     this.state = {
       openPatientModal : false,
@@ -56,7 +60,9 @@ class Checkout extends Component {
       selectedDay: moment(),
       value: moment().format('L'), // The value of the input field
       month: new Date(), // The month to display in the calendar
-      validatePhone: false
+      validatePhone: false,
+      validateLinePhone: false,
+      recaptcha: false
     }
   }
 
@@ -86,9 +92,25 @@ class Checkout extends Component {
     });
   }
 
-  changeHandler(status, value, countryData, number, id) {
+  phoneVerify(status, value, countryData, number, id) {
     this.setState({
       validatePhone: status
+    })
+
+    this.state.phone = value;
+  }
+
+  phoneLineVerify(status, value, countryData, number, id) {
+    this.setState({
+      validateLinePhone: status
+    })
+
+    this.state.linePhone = value;
+  }
+
+  recaptchaValidate(response) {
+    this.setState({
+      recaptcha: true
     })
   }
 
@@ -100,6 +122,9 @@ class Checkout extends Component {
   submitAppointment(data) {
     const { dispatch, appointment } = this.props;
     const { keep } = appointment;
+    data.numero_tel_celular = this.state.phone;
+    data.numero_tel_particular = this.state.linePhone;
+    console.warn(data)
     //TODO Transformations for adapt the object to the DTO for Appointments
     dispatch(ConfirmAppointment({
       solicitante : data,
@@ -237,19 +262,26 @@ class Checkout extends Component {
               </FormsySelect>
             </div>
             <div className="ui column">
-              <IntlTelInput defaultCountry={'pa'}
-                            preferredCountries={['pa', 'ar']}
-                            numberType={'FIXED_LINE'}
-                            onPhoneNumberChange={this.changeHandler}
+              <div className="field">
+                <label>Número de teléfono particular</label>
+                <IntlTelInput defaultCountry={'pa'}
+                              preferredCountries={['pa', 'ar']}
+                              numberType={'FIXED_LINE'}
+                              onPhoneNumberChange={this.phoneLineVerify}
                               css={['intl-tel-input', 'form-control']}
                               utilsScript={'libphonenumber.js'} />
+              </div>
             </div>
             <div className="ui column">
-              <IntlTelInput defaultCountry={'pa'}
+              <div className="field">
+                <label>Número de teléfono celular</label>
+                <IntlTelInput
+                            defaultCountry={'pa'}
                             preferredCountries={['pa', 'ar']}
-                            onPhoneNumberChange={this.changeHandler}
-                              css={['intl-tel-input', 'form-control']}
-                              utilsScript={'libphonenumber.js'} />
+                            onPhoneNumberChange={this.phoneVerify}
+                            css={['intl-tel-input', 'form-control']}
+                            utilsScript={'libphonenumber.js'} />
+              </div>
             </div>
             <div className="ui column">
               <FormsyText
@@ -260,11 +292,21 @@ class Checkout extends Component {
             </div>
 
           </div>
+
+          <div className="recaptcha">
+            <ReCAPTCHA
+              ref="recaptcha"
+              sitekey={recaptchaKey}
+              onChange={this.recaptchaValidate}
+            />
+          </div>
+
           <div className="ui column">
             <button type="submit" disabled={setDisabled} className="ui button fluid blue">
               Solicitar cita
             </button>
           </div>
+
         </div>
       </Formsy.Form>
       
@@ -280,13 +322,12 @@ class Checkout extends Component {
 
     const { appointment, patients } = this.props;
     const keep = (appointment && appointment.keep) ? appointment.keep : {};
-
-    const fecha = (keep && keep.fecha_hora_inicio) ? keep.fecha_hora_inicio.format("dddd DD MMMM YYYY") : null; 
-    const horario = (keep && keep.fecha_hora_inicio) ? keep.fecha_hora_inicio.format("HH:mm") : null;
-    const duracion_minutos = (keep && keep.duracion_en_minutos) ? keep.duracion_en_minutos : null;
+    const fecha = (keep && keep.appointment && keep.appointment.fecha_hora_inicio) ? keep.appointment.fecha_hora_inicio.format("dddd DD MMMM YYYY") : null; 
+    const horario = (keep && keep.appointment && keep.appointment.fecha_hora_inicio) ? keep.appointment.fecha_hora_inicio.format("HH:mm") : null;
+    const duracion_minutos = (keep && keep.appointment && keep.appointment.duracion_en_minutos) ? keep.appointment.duracion_en_minutos : null;
     
     let _modal = (this.state.openPatientModal) ? <PatientsModal patientsList={patients.patient}/> : null;
-    const setDisabled = (!patients.selectedPatient && !this.state.canSubmit) || appointment.requestingAppointment || !this.state.validatePhone
+    const setDisabled = (!patients.selectedPatient && !this.state.canSubmit) || appointment.requestingAppointment || !this.state.validatePhone || !this.state.validateLinePhone || !this.state.recaptcha;
     
     let _changePatientButton = (patients.patient && patients.patient.length > 1) ? (<button className="ui button fluid blue" onClick={this.reOpenPatientsModal.bind(this)}>
         Cambiar paciente 

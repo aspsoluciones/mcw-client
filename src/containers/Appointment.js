@@ -11,6 +11,9 @@ import DoctorGeneralInformation from '../components/Doctor/DoctorGeneralInformat
 import Loader from '../components/Loader';
 import moment from 'moment';
 import ErrorDisplayer from '../components/ErrorsDisplayer';
+import {
+ changeLanguage
+} from '../actions/UserActions'
 
 class Appointment extends Component {
     constructor(props) {
@@ -27,7 +30,7 @@ class Appointment extends Component {
     };
 
     dispatch(GetDoctorData(this.props.params.doctorUsername));
-
+    dispatch(changeLanguage('es-PA'));
     store.subscribe(() =>{
       let _state = store.getState();
       /*if(_state.appointment.keep) {
@@ -37,8 +40,7 @@ class Appointment extends Component {
       }*/
     })
 
-
-  }
+    }
 
   renderAppointmentScreen(appointment){
     if(appointment.responsable_servicio && !appointment.errorMessage) {

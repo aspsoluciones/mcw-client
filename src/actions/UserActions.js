@@ -4,16 +4,22 @@
 
 import { FireRef, UidRef, ApiRef } from '../constants/Commons';
 import {USER_CREATE, USER_DELETE, USER_UPDATE, USER_UPDATE_ERROR, USER_UPDATE_SUCCESS,
-  USER_CREATE_FAILURE, USER_CREATE_SUCCESS, USER_READ, USER_READ_SUCCESS, USER_READ_FAILURE
+  USER_CREATE_FAILURE, USER_CREATE_SUCCESS, USER_READ, USER_READ_SUCCESS, USER_READ_FAILURE, USER_LANGUAGE
 } from "../constants/ActionTypes";
 
 import axios from 'axios';
-
 
 function updateUserSuccess(userData) {
   return {
     type: USER_CREATE_SUCCESS,
     userData
+  }
+}
+
+function userLanguageSuccess(data) {
+  return {
+    type: USER_LANGUAGE,
+    data
   }
 }
 
@@ -58,3 +64,20 @@ export function updateUser(userData) {
   };
 }
 
+export function changeLanguage(lang) {
+  //userData = { domain, username };
+  if(!lang) lang = 'es-PA';
+    var config = {
+      headers: { 'User-Language': lang }
+    };
+
+  return dispatch => {
+    axios.get(ApiRef + '/localization/ConsultaTurnosWeb', config)
+        .then((response) => {
+          dispatch(userLanguageSuccess(response.data))
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+  }
+}

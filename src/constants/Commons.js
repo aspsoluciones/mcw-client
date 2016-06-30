@@ -7,3 +7,4 @@ export const UidRef= 'mcw_uid';
 export const TokenRef= 'mcw_token';
 export const RefreshTokenRef= 'mcw_refresh_token';
 export const ExpiresInRef= 'mcw_expires_in';
+export const recaptchaKey= '6LfU5iMTAAAAAO2JkWBdkVa_ZXiQXcbyw1nSuBhU';
