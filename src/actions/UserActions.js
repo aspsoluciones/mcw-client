@@ -65,7 +65,6 @@ export function updateUser(userData) {
 }
 
 export function changeLanguage(lang) {
-  //userData = { domain, username };
   if(!lang) lang = 'es-PA';
     var config = {
       headers: { 'User-Language': lang }

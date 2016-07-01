@@ -5,13 +5,19 @@
 import {
   USER_CREATE, USER_CREATE_FAILURE, USER_CREATE_SUCCESS,
   USER_UPDATE, USER_UPDATE_ERROR, USER_UPDATE_SUCCESS,
-  USER_READ, USER_READ_SUCCESS, USER_READ_FAILURE
+  USER_READ, USER_READ_SUCCESS, USER_READ_FAILURE, USER_LANGUAGE
 } from "../constants/ActionTypes";
 
 function user(state = {
   isFetching: false
 }, action) {
   switch (action.type) {
+
+    case USER_LANGUAGE:
+      return Object.assign({}, state, {
+        languageJson: action.data 
+      })
+
     case USER_CREATE:
       return Object.assign({}, state, {
         isFetching: true

@@ -11,9 +11,7 @@ import DoctorGeneralInformation from '../components/Doctor/DoctorGeneralInformat
 import Loader from '../components/Loader';
 import moment from 'moment';
 import ErrorDisplayer from '../components/ErrorsDisplayer';
-import {
- changeLanguage
-} from '../actions/UserActions'
+import { changeLanguage } from '../actions/UserActions';
 
 class Appointment extends Component {
     constructor(props) {
@@ -23,21 +21,14 @@ class Appointment extends Component {
   componentDidMount(){
     const { store, router } = this.context;
     const { dispatch, appointment } = this.props;
-
     let initialDate = {
       minDate: moment().format("MM-DD-YYYY"),
       maxDate: moment().add('d',6).format("MM-DD-YYYY")
     };
 
     dispatch(GetDoctorData(this.props.params.doctorUsername));
-    dispatch(changeLanguage('es-PA'));
     store.subscribe(() =>{
       let _state = store.getState();
-      /*if(_state.appointment.keep) {
-        router.push({
-          pathname: '/doctor/' + this.props.params.doctorUsername + '/appointment/checkout'
-        });
-      }*/
     })
 
     }
@@ -53,6 +44,7 @@ class Appointment extends Component {
               <div className="ui small bg-mcwDark message fullWidth noRound">
                 <div className="content">
                   <h2 className="header">
+                  
                     <i className="calendar icon"></i>Haz una cita
                   </h2>
                 </div>
@@ -82,6 +74,7 @@ class Appointment extends Component {
               institution={localidad}
               doctor={responsable_servicio}
               doctorUsername={this.props.params.doctorUsername}
+              languageJson={this.props.user.languageJson}
               key={i}/>
           </div>
         </div>)
@@ -111,9 +104,10 @@ class Appointment extends Component {
 }
 
 function mapStateToProps(state) {
-  const { appointment } = state;
+  const { appointment, user } = state;
   return {
-    appointment
+    appointment,
+    user
   };
 }
 

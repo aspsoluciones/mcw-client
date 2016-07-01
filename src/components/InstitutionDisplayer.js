@@ -99,6 +99,7 @@ class InstitutionDisplayer extends Component {
               idLocalidad={institution.localidad.id}
               institution={institution}
               doctor={doctor}
+              languageJson={this.props.languageJson}
               doctorUsername={this.props.doctorUsername}
             />
           </div>
@@ -120,7 +121,8 @@ class InstitutionDisplayer extends Component {
 
 InstitutionDisplayer.propTypes = {
   institution : PropTypes.any,
-  doctor: PropTypes.any
+  doctor: PropTypes.any,
+  languageJson: PropTypes.any
 };
 
 InstitutionDisplayer.contextTypes = {

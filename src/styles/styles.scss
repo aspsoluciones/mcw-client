@@ -373,6 +373,10 @@ table.table-week-displayer{
   //min-width: 400px;
 }
 
+.buttonBorderLess{
+  box-shadow: 0 0 0 0 rgb(0, 0, 0) inset !important;
+}
+
 .noMarginTop{
   margin-top:0 !important;
 }
@@ -390,6 +394,10 @@ table.table-week-displayer{
 
 .noRound{
   border-radius: 0 !important;
+}
+
+.pointer{
+  cursor: pointer;
 }
 
 Footer{

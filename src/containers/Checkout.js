@@ -22,7 +22,7 @@ import DoctorPatientsType from '../components/Doctor/DoctorPatientsType';
 import DoctorLanguages from '../components/Doctor/DoctorLanguages';
 import DoctorName from '../components/Doctor/DoctorName';
 import ErrorsDisplayer from '../components/ErrorsDisplayer';
-//
+import { changeLanguage } from '../actions/UserActions';
 import IntlTelInput from 'react-intl-tel-input';
 import { recaptchaKey } from '../constants/Commons';
 var ReCAPTCHA = require("react-google-recaptcha");
@@ -71,7 +71,6 @@ class Checkout extends Component {
     const { store } = this.context;
     const { dispatch } = this.props;
     const { appointmentForm } = this.refs;
-
     let currentValue;
     store.subscribe(()=>{
       let previousValue = currentValue;
@@ -124,7 +123,6 @@ class Checkout extends Component {
     const { keep } = appointment;
     data.numero_tel_celular = this.state.phone;
     data.numero_tel_particular = this.state.linePhone;
-    console.warn(data)
     //TODO Transformations for adapt the object to the DTO for Appointments
     dispatch(ConfirmAppointment({
       solicitante : data,
@@ -206,7 +204,8 @@ class Checkout extends Component {
 
   renderForm(setDisabled){
       const selectedDay = moment(this.state.value, 'L', true).toDate();
-
+      var { user } = this.props;
+      var languageJson = (user.languageJson) ? user.languageJson : {};
       var _render = null;
       let _form = (
       <div className="ui column">
@@ -230,7 +229,7 @@ class Checkout extends Component {
             <div className="ui column">
               <FormsyText
                 name='nombre'
-                hintText="Nombre"
+                hintText={languageJson.first_name}
                 required
                 value=""
               />
@@ -239,7 +238,7 @@ class Checkout extends Component {
             <div className="ui column">
               <FormsyText
                 name='apellido'
-                hintText="Apellido"
+                hintText={languageJson.last_name}
                 required
                 value=""
               />
@@ -247,14 +246,14 @@ class Checkout extends Component {
             <div className="ui column">
            <FormsyDate
               name="fecha_nacimiento"
-              floatingLabelText="Fecha de nacimiento"
+              floatingLabelText={languageJson.birth_date}
             />
             </div>
             <div className="ui column">
               <FormsySelect
                 name="sexo"
                 required
-                floatingLabelText="Sexo"
+                floatingLabelText={languageJson.gender}
                 menuItems={this.selectFieldItems}
               >
                 <MenuItem value={'M'} primaryText="Masculino" />
@@ -263,7 +262,7 @@ class Checkout extends Component {
             </div>
             <div className="ui column">
               <div className="field">
-                <label>Número de teléfono particular</label>
+                <label>{languageJson.personal_phone}</label>
                 <IntlTelInput defaultCountry={'pa'}
                               preferredCountries={['pa', 'ar']}
                               numberType={'FIXED_LINE'}
@@ -274,7 +273,7 @@ class Checkout extends Component {
             </div>
             <div className="ui column">
               <div className="field">
-                <label>Número de teléfono celular</label>
+                <label>{languageJson.cell_phone}</label>
                 <IntlTelInput
                             defaultCountry={'pa'}
                             preferredCountries={['pa', 'ar']}
@@ -286,7 +285,7 @@ class Checkout extends Component {
             <div className="ui column">
               <FormsyText
                 name='note'
-                hintText="Notas"
+                hintText={languageJson.notes}
                 value=""
               />
             </div>
@@ -320,7 +319,8 @@ class Checkout extends Component {
 
   render() {
 
-    const { appointment, patients } = this.props;
+    const { appointment, patients, user } = this.props;
+    var languageJson = (user.languageJson) ? user.languageJson : {};
     const keep = (appointment && appointment.keep) ? appointment.keep : {};
     const fecha = (keep && keep.appointment && keep.appointment.fecha_hora_inicio) ? keep.appointment.fecha_hora_inicio.format("dddd DD MMMM YYYY") : null; 
     const horario = (keep && keep.appointment && keep.appointment.fecha_hora_inicio) ? keep.appointment.fecha_hora_inicio.format("HH:mm") : null;
@@ -403,13 +403,13 @@ class Checkout extends Component {
                 </div>
               </div>
               <div className="ui column">
-                Fecha: {fecha}
+                {languageJson.date}: {fecha}
               </div>
               <div className="ui column">
-                Horario: {horario}
+                {languageJson.time}: {horario}
               </div>
               <div className="ui column">
-                Duración: { duracion_minutos } minutos
+                {languageJson.duration}: { duracion_minutos } {languageJson.minutes}
               </div>
             </div>
             
@@ -435,10 +435,11 @@ class Checkout extends Component {
 }
 
 function mapStateToProps(state) {
-  const { appointment, patients } = state;
+  const { appointment, patients, user } = state;
   return {
     appointment,
-    patients
+    patients,
+    user
   }
 }
 

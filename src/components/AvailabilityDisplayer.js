@@ -90,7 +90,8 @@ class AvailabilityDisplayer extends Component {
                          idLocalidad={idLocalidad}
                          onDateChange={this.setNewDate.bind(this)}
                          doctorUsername={doctorUsername}
-                         doctor={doctor}/>
+                         doctor={doctor}
+                         languageJson={this.props.languageJson}/>
 
         )
       } else if(!appointment.loadingAppointments &&
@@ -195,7 +196,8 @@ AvailabilityDisplayer.propTypes = {
   institution: PropTypes.object,
   idLocalidad: PropTypes.any,
   doctorUsername: PropTypes.string,
-  doctor: PropTypes.any
+  doctor: PropTypes.any,
+  languageJson: PropTypes.any
 };
 
 AvailabilityDisplayer.contextTypes = {

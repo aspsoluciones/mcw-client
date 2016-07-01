@@ -347,7 +347,7 @@ class WeekDisplayer extends Component {
         </table>
         {
           this.state.showExpandButton
-            ? <button onClick={ () => this.toggleExpand() } className="ui fluid tiny button bg-mcwBlue uppercase m-v-lg">{!this.state.expanded ? 'ver más' : 'ver menos' }</button>
+            ? <button onClick={ () => this.toggleExpand() } className="ui fluid tiny button bg-mcwBlue uppercase m-v-lg">{!this.state.expanded ? this.props.languageJson.view_more : this.props.languageJson.view_less }</button>
             : null
         }
       </div>
@@ -380,7 +380,8 @@ WeekDisplayer.propTypes = {
   institution: PropTypes.any,
   idLocalidad: PropTypes.any,
   doctor: PropTypes.any,
-  onDateChange : PropTypes.func
+  onDateChange : PropTypes.func,
+  languageJson: PropTypes.any
 };
 
 
