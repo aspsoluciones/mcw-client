@@ -36,7 +36,8 @@ export function addPatientToAccount() {
     type: PATIENT_ADD_NEW_PATIENT,
     payload: {
       openModal: false,
-      resetForm:false
+      resetForm:false,
+      showForm: true
     }
   }
 }
@@ -66,7 +67,10 @@ function patientReadSuccess(payload){
 
 function displayPatientForm() {
   return {
-    type: PATIENT_DISPLAY_DATA_FORM
+    type: PATIENT_DISPLAY_DATA_FORM,
+    payload: {
+      showForm: true
+    }
   }
 }
 
