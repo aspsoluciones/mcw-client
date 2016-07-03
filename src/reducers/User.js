@@ -5,7 +5,8 @@
 import {
   USER_CREATE, USER_CREATE_FAILURE, USER_CREATE_SUCCESS,
   USER_UPDATE, USER_UPDATE_ERROR, USER_UPDATE_SUCCESS,
-  USER_READ, USER_READ_SUCCESS, USER_READ_FAILURE, USER_LANGUAGE
+  USER_READ, USER_READ_SUCCESS, USER_READ_FAILURE, USER_LANGUAGE_FAILURE, 
+  USER_LANGUAGE_REQUEST, USER_LANGUAGE_SUCCESS
 } from "../constants/ActionTypes";
 
 function user(state = {
@@ -13,9 +14,22 @@ function user(state = {
 }, action) {
   switch (action.type) {
 
-    case USER_LANGUAGE:
+    case USER_LANGUAGE_SUCCESS:
       return Object.assign({}, state, {
-        languageJson: action.data 
+        languageJson: action.data,
+        loadingLanguages: false 
+        
+      })
+
+    case USER_LANGUAGE_FAILURE:
+      return Object.assign({}, state, {
+        loadingLanguages: false,
+        error: action.error     
+    })
+
+    case USER_LANGUAGE_REQUEST:
+      return Object.assign({}, state, {
+        loadingLanguages: true 
       })
 
     case USER_CREATE:

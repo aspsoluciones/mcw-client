@@ -4,7 +4,8 @@
 
 import { FireRef, UidRef, ApiRef } from '../constants/Commons';
 import {USER_CREATE, USER_DELETE, USER_UPDATE, USER_UPDATE_ERROR, USER_UPDATE_SUCCESS,
-  USER_CREATE_FAILURE, USER_CREATE_SUCCESS, USER_READ, USER_READ_SUCCESS, USER_READ_FAILURE, USER_LANGUAGE
+  USER_CREATE_FAILURE, USER_CREATE_SUCCESS, USER_READ, USER_READ_SUCCESS, USER_READ_FAILURE,
+  USER_LANGUAGE_FAILURE, USER_LANGUAGE_REQUEST, USER_LANGUAGE_SUCCESS
 } from "../constants/ActionTypes";
 
 import axios from 'axios';
@@ -18,8 +19,21 @@ function updateUserSuccess(userData) {
 
 function userLanguageSuccess(data) {
   return {
-    type: USER_LANGUAGE,
+    type: USER_LANGUAGE_SUCCESS,
     data
+  }
+}
+
+function userLanguageRequest(data) {
+  return {
+    type: USER_LANGUAGE_REQUEST
+  }
+}
+
+function userLanguageFailure(error) {
+  return {
+    type: USER_LANGUAGE_FAILURE,
+    error
   }
 }
 
@@ -71,12 +85,15 @@ export function changeLanguage(lang) {
     };
 
   return dispatch => {
+    dispatch(userLanguageRequest());
+
     axios.get(ApiRef + '/localization/ConsultaTurnosWeb', config)
         .then((response) => {
+          response.data.selectedLang = lang;
           dispatch(userLanguageSuccess(response.data))
         })
         .catch((error) => {
-          console.log(error)
+          dispatch(userLanguageFailure(error));
         })
   }
 }

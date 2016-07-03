@@ -8,7 +8,7 @@ import DoctorLanguages from './DoctorLanguages';
 
 //TODO Should we add the option of define an own cover photo for a doctor;
 
-const DoctorHeader = ({doctor}) => {
+const DoctorHeader = ({doctor, language}) => {
     
     var coverStyle = {
         background:"url(http://www.mybpd.ca/img/slides/dental-7g-01-slider-2.jpg) no-repeat right top",
@@ -29,8 +29,8 @@ const DoctorHeader = ({doctor}) => {
                             <DoctorPatientsType doctor={doctor}/>
                         </div>
                         <div className="ui column">
-                            {doctor.idiomas && doctor.idiomas.length && 
-                            <DoctorLanguages languages={doctor.idiomas}></DoctorLanguages>}
+                            {doctor.idiomas && doctor.idiomas.length && language && language.languages && 
+                            <DoctorLanguages languages={doctor.idiomas} language={language}></DoctorLanguages>}
                         
                         </div>
                         <div className="ui column color-mcwDark">

@@ -34,18 +34,21 @@ class Appointment extends Component {
     }
 
   renderAppointmentScreen(appointment){
+    const { user } = this.props;
+    const { languageJson } = user;
+    console.log(this.props.user.languageJson);
     if(appointment.responsable_servicio && !appointment.errorMessage) {
-
+      const makeAnAppointment = (languageJson) ? languageJson.make_an_appointment : null;
       return (
         <div className="ui one column">
-           <DoctorHeader doctor={ appointment.responsable_servicio }>
+           <DoctorHeader doctor={ appointment.responsable_servicio } language={languageJson}>
            </DoctorHeader>
            <div className="ui container">
               <div className="ui small bg-mcwDark message fullWidth noRound">
                 <div className="content">
                   <h2 className="header">
                   
-                    <i className="calendar icon"></i>Haz una cita
+                    <i className="calendar icon"></i>{makeAnAppointment}
                   </h2>
                 </div>
               </div>
@@ -84,10 +87,11 @@ class Appointment extends Component {
 
 
     render() {
-      const { appointment } = this.props;
+      const { appointment, user } = this.props;
       const {loadingDoctorData, error} = appointment;
+      const { languageJson } = user;
       let _render;
-      if(loadingDoctorData && !error){
+      if((loadingDoctorData) && !error){
         _render = (<Loader></Loader>)
       } else if(error){
         _render = (
