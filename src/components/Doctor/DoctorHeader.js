@@ -26,12 +26,14 @@ const DoctorHeader = ({doctor, language}) => {
                             <DoctorName doctor={doctor}/>
                         </div>
                         <div className="ui column">
-                            <DoctorPatientsType doctor={doctor}/>
+                        {
+                            language && language.focuses && <DoctorPatientsType doctor={doctor} language={language}/>
+                        }
+                            
                         </div>
                         <div className="ui column">
                             {doctor.idiomas && doctor.idiomas.length && language && language.languages && 
                             <DoctorLanguages languages={doctor.idiomas} language={language}></DoctorLanguages>}
-                        
                         </div>
                         <div className="ui column color-mcwDark">
                             <strong>{doctor.mensaje_publico}</strong>

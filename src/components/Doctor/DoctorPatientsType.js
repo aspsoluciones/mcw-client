@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DoctorPatientsType = ({ doctor }) => {
+const DoctorPatientsType = ({ doctor, language }) => {
      
     const { atencion_adultos, atencion_adultos_mayores, atencion_bebes, atencion_ninos } = doctor
        
@@ -11,7 +11,7 @@ const DoctorPatientsType = ({ doctor }) => {
     
     return (
         <div>
-            <strong className="color-mcwDark">Enfoques </strong>
+            <strong className="color-mcwDark">{language.focuses} </strong>
             { atencion_adultosLabel }
             { atencion_adultos_mayoresLabel }          
             { atencion_bebesLabel }
