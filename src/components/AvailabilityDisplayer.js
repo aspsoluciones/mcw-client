@@ -66,7 +66,7 @@ class AvailabilityDisplayer extends Component {
 
   renderWeekDisplayer(selectedDate, appointments){
 
-    const { idLocalidad, institution, availability, appointment, doctor, doctorUsername, dispatch } = this.props;
+    const { idLocalidad, institution, availability, appointment, doctor, doctorUsername, dispatch, user } = this.props;
     const { loadingAppointmentsForLocation, loadingAppointments } = appointment;
 
     if(loadingAppointmentsForLocation == idLocalidad || loadingAppointments){
@@ -91,7 +91,7 @@ class AvailabilityDisplayer extends Component {
                          onDateChange={this.setNewDate.bind(this)}
                          doctorUsername={doctorUsername}
                          doctor={doctor}
-                         languageJson={this.props.languageJson}/>
+                         languageJson={this.props.user.languageJson}/>
 
         )
       } else if(!appointment.loadingAppointments &&
@@ -119,7 +119,11 @@ class AvailabilityDisplayer extends Component {
             this.setNewDate(this.state.closestAppointment.fecha_hora_inicio)}}>
                 <i className="idea icon"></i>
                 <div className="content">
-                  Próximo turno disponible {moment(this.state.closestAppointment.fecha_hora_inicio).format("dddd DD/MMMM/YYYY")}
+
+                  <span>
+                    {this.props.user.languageJson.closest_available_appointment} {moment(this.state.closestAppointment.fecha_hora_inicio).format("dddd DD/MMMM/YYYY")}
+                  </span>
+                
                 </div>
               </div>
             </div>
@@ -133,7 +137,7 @@ class AvailabilityDisplayer extends Component {
               <div className="ui icon warning message">
                 <i className="warning sign icon"></i>
                 <div className="content">
-                  No existen turnos disponibles para esta localidad
+                  <span>Span</span>
                 </div>
               </div>
             </div>
@@ -205,9 +209,9 @@ AvailabilityDisplayer.contextTypes = {
 };
 
 function mapStateToProps(state) {
-  const { appointment } = state;
+  const { appointment, user } = state;
   return {
-    appointment
+    appointment, user
   }
 }
 
