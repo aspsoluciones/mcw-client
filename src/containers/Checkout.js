@@ -203,9 +203,13 @@ class Checkout extends Component {
   }
 
   renderForm(setDisabled){
+      const RequestAppointment = (this.props.user.languageJson) ? this.props.user.languageJson.appointment_request : null
       const selectedDay = moment(this.state.value, 'L', true).toDate();
       var { user } = this.props;
       var languageJson = (user.languageJson) ? user.languageJson : {};
+      const MaleLabel = (this.props.user.languageJson) ? this.props.user.languageJson.male : null
+      const FemaleLabel = (this.props.user.languageJson) ? this.props.user.languageJson.female : null
+      
       var _render = null;
       let _form = (
       <div className="ui column">
@@ -256,8 +260,8 @@ class Checkout extends Component {
                 floatingLabelText={languageJson.gender}
                 menuItems={this.selectFieldItems}
               >
-                <MenuItem value={'M'} primaryText="Masculino" />
-                <MenuItem value={'F'} primaryText="Femenino" />
+                <MenuItem value={'M'} primaryText={MaleLabel} />
+                <MenuItem value={'F'} primaryText={FemaleLabel} />
               </FormsySelect>
             </div>
             <div className="ui column">
@@ -302,7 +306,7 @@ class Checkout extends Component {
 
           <div className="ui column">
             <button type="submit" disabled={setDisabled} className="ui button fluid blue">
-              Solicitar cita
+             {RequestAppointment}
             </button>
           </div>
 
@@ -321,8 +325,12 @@ class Checkout extends Component {
 
     const { appointment, patients, user } = this.props;
     var languageJson = (user.languageJson) ? user.languageJson : {};
+    const locale = (this.props.user.languageJson && this.props.user.languageJson.selectedLang == 'en-us') ? 'en': 'es';
+    const AppointmentDateAndTime = (this.props.user.languageJson) ? this.props.user.languageJson.appointment_date_time : null;
+    const EnterYourData = (this.props.user.languageJson) ? this.props.user.languageJson.enter_your_data : null
+    const RequestAppointment = (this.props.user.languageJson) ? this.props.user.languageJson.appointment_request : null
     const keep = (appointment && appointment.keep) ? appointment.keep : {};
-    const fecha = (keep && keep.appointment && keep.appointment.fecha_hora_inicio) ? keep.appointment.fecha_hora_inicio.format("dddd DD MMMM YYYY") : null; 
+    const fecha = (keep && keep.appointment && keep.appointment.fecha_hora_inicio) ? keep.appointment.fecha_hora_inicio.locale(locale).format("dddd DD MMMM YYYY") : null; 
     const horario = (keep && keep.appointment && keep.appointment.fecha_hora_inicio) ? keep.appointment.fecha_hora_inicio.format("HH:mm") : null;
     const duracion_minutos = (keep && keep.appointment && keep.appointment.duracion_en_minutos) ? keep.appointment.duracion_en_minutos : null;
     
@@ -352,7 +360,7 @@ class Checkout extends Component {
 
         <div className="ui column">
           <button onClick={() => this.submitAppointment(patients.selectedPatient)} disabled={ setDisabled  } className="ui button fluid blue">
-            Solicitar cita
+            {RequestAppointment}
           </button>
         </div>
       </div>
@@ -381,11 +389,14 @@ class Checkout extends Component {
                             <DoctorName doctor={doctor}/>
                         </div>
                         <div className="ui column">
-                            <DoctorPatientsType doctor={doctor}/>
+                          {
+                              this.props.user.languageJson && this.props.user.languageJson.focuses 
+                                && <DoctorPatientsType doctor={doctor} language={this.props.user.languageJson}/>
+                          }                        
                         </div>
                         <div className="ui column">
-                            {doctor.idiomas && doctor.idiomas.length && 
-                            <DoctorLanguages languages={doctor.idiomas}></DoctorLanguages>}
+                          {doctor.idiomas && doctor.idiomas.length && this.props.user.languageJson && this.props.user.languageJson.languages && 
+                            <DoctorLanguages languages={doctor.idiomas} language={this.props.user.languageJson}></DoctorLanguages>}
                         
                         </div>
                         <div className="ui column color-mcwDark">
@@ -398,7 +409,7 @@ class Checkout extends Component {
               <div className="ui small bg-mcwDark message fullWidth noRound">
                 <div className="content">
                   <h2 className="header">
-                    <i className="calendar icon"></i>Fecha y hora de la cita
+                    <i className="calendar icon"></i>{AppointmentDateAndTime}
                   </h2>
                 </div>
               </div>
@@ -417,7 +428,7 @@ class Checkout extends Component {
               <div className="ui small bg-mcwDark message fullWidth noRound">
                 <div className="content">
                   <h2 className="header">
-                    <i className="user icon"></i>Introduzca sus datos
+                    <i className="user icon"></i>{EnterYourData}
                   </h2>
                 </div>
               </div>
