@@ -5,10 +5,12 @@ import AppointmentSuccess from '../components/Appointments/AppointmentSuccess'
 class AppointmentSuccessContainer extends Component {
 
     render() {
-        const { appointment } = this.props;
+        const { appointment, user } = this.props;
+        const { languageJson } = user;
+
         return (
             <div>
-                <AppointmentSuccess></AppointmentSuccess>
+                <AppointmentSuccess message={languageJson.appointment_success}></AppointmentSuccess>
             </div>
         );
     }
@@ -19,9 +21,10 @@ AppointmentSuccessContainer.propTypes = {
 };
 
 function mapStateToProps(state) {
-    const { appointment } = state;
+    const { appointment, user } = state;
     return {
-        appointment
+        appointment,
+        user
     }
 }
 AppointmentSuccessContainer = connect(mapStateToProps)(AppointmentSuccessContainer)

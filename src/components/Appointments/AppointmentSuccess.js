@@ -2,12 +2,13 @@ import React, {Component, PropTypes} from 'react';
 
 class AppointmentSuccess extends Component {
     render() {
+        const {message} = this.props;
         return (
             <div className="ui massive icon green message">
                 <i className="check circle icon"></i>
                 <div className="content">
                     <div className="header">
-                        Gracias por confiar en nosotros. Por favor chequee su correo electrónico para confirmar su solicitud.
+                        { message }
                     </div>
                 </div>
                 
@@ -17,7 +18,7 @@ class AppointmentSuccess extends Component {
 }
 
 AppointmentSuccess.propTypes = {
-
+    message : PropTypes.string
 };
 
 export default AppointmentSuccess;
