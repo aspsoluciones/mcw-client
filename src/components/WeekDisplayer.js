@@ -223,8 +223,12 @@ class WeekDisplayer extends Component {
 
   }
 
+  
+
   renderWeekDisplayer(){
     const { selectedDay } = this.props;
+    let locale = (this.props.languageJson.selectedLang == 'en-us') ? 'en': 'es';
+
     this.canGoBack(selectedDay);
     var _weekdays = this.calculateWeekToDisplay(selectedDay);
     var _weekWithTimes = this.assignAppointmentsToWeekDay(_weekdays, this.props.appointmentsForWeek);
@@ -287,7 +291,7 @@ class WeekDisplayer extends Component {
             </th>
             {
               _weekdays.map((day, i) => {
-                return<th key={i}> {day.format("dddd")}</th>
+                return<th key={i}> {day.locale(locale).format("dddd")}</th>
               })
             }
 
@@ -301,7 +305,7 @@ class WeekDisplayer extends Component {
             <th></th>
             {
               _weekdays.map((day, i) => {
-                return <th key={i}>{day.format("DD MMM")}</th>
+                return <th key={i}>{day.locale(locale).format("DD MMM")}</th>
               })
             }
             <th></th>
@@ -319,7 +323,7 @@ class WeekDisplayer extends Component {
                       {
                         day.times.map((time, i) => {
                           const appoinmentTime = moment(time.fecha_hora_inicio).format("HH:mm");
-                          const tooltipMessage = "Solicitar cita a las " + appoinmentTime;
+                          const tooltipMessage = this.props.languageJson.request_appointment_at + " " +  appoinmentTime;
                           return <div key={i} className="ui column">
                             {
                               !this.state.expanded ?
