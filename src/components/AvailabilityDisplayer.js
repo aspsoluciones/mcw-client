@@ -121,7 +121,7 @@ class AvailabilityDisplayer extends Component {
                 <div className="content">
 
                   <span>
-                    {this.props.user.languageJson.closest_available_appointment} {moment(this.state.closestAppointment.fecha_hora_inicio).format("dddd DD/MMMM/YYYY")}
+                    {this.props.languageJson.closest_available_appointment} {moment(this.state.closestAppointment.fecha_hora_inicio).format("dddd DD/MMMM/YYYY")}
                   </span>
                 
                 </div>
@@ -137,7 +137,7 @@ class AvailabilityDisplayer extends Component {
               <div className="ui icon warning message">
                 <i className="warning sign icon"></i>
                 <div className="content">
-                  <span>Span</span>
+                  <span>{this.props.languageJson.not_available_appointments}</span>
                 </div>
               </div>
             </div>
@@ -174,6 +174,7 @@ class AvailabilityDisplayer extends Component {
   render() {
     const { availability, appointment, idLocalidad, doctor } = this.props;
     const { selectedDate } = this.state;
+    const selectedLang = (this.props.languageJson) ? this.props.languageJson.selectedLang : 'es-PA';
     // (this.state.closestAppointment && this.state.closestAppointment.fecha_hora_inicio)
     return(
       <div className="ui column availabilityDisplayer">
@@ -183,7 +184,9 @@ class AvailabilityDisplayer extends Component {
               <AppointmentDayPicker
               onClick={this.setNewDate.bind(this)}
               month={this.state.month}
-              selectedDate={this.state.selectedDate}/>
+              selectedDate={this.state.selectedDate}
+              locale={selectedLang}
+              />
             </div>
           </div>
           <div className="ui twelve wide computer only sixteen wide column mobile tablet only" style={{minHeight:200}}>

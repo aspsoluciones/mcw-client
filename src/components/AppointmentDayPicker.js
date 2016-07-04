@@ -18,12 +18,18 @@ class AppointmentDayPicker extends Component {
     }
     
     render() {
-        const { onCalendarClick, selectedDate, month } = this.props;
+        const { onCalendarClick, selectedDate, month, locale } = this.props;
+        let lang
+        if(locale == 'en-us'){
+            lang = 'en';
+        } else {
+            lang = 'es';
+        }
         const Month = parseInt(selectedDate.format('M'));
         let proxy = this.clickProxy.bind(this);
         return (
             <DayPicker
-                locale={locale}
+                locale={lang}
                 localeUtils={MomentLocaleUtils}
                 className="Availability"
                 selectedDays={day => DateUtils.isSameDay(selectedDate.toDate(), day)}
@@ -43,7 +49,8 @@ class AppointmentDayPicker extends Component {
 AppointmentDayPicker.propTypes = {
     month: PropTypes.any,
     onCalendarClick: PropTypes.func,
-    selectedDate: PropTypes.any
+    selectedDate: PropTypes.any,
+    locale: PropTypes.string
 };
 
 export default AppointmentDayPicker;
