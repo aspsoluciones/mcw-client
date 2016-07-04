@@ -7,14 +7,24 @@ import React, { Component, PropTypes} from 'react';
 
 function messageToRender(code){
   let message;
-  if(code == 500){
-    message = 'Ha ocurrido un error, intente más tarde';
-  }
-  if(code == 404){
-    message = 'Url no encontrada, revise los datos ingresados';
-  }
-  if(!code){
+
+  if(!code ){
     message = 'Ha ocurrido un error inesperado';
+  } else {
+
+    switch(code){
+        case(500):
+            message = 'Ha ocurrido un error, intente más tarde';
+            break;
+        case(404):
+            message = 'Url no encontrada, revise los datos ingresados';
+            break;
+        case(400):
+          message = 'Ha ocurrido un error en nuestro sistema, intente nuevamente más tarde';
+          break;
+        default:
+        message = 'Ha ocurrido un error inesperado';
+    }
   }
 
   return message;
