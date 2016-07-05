@@ -37,12 +37,21 @@ class Appointment extends Component {
     const { user } = this.props;
     const { languageJson } = user;
     console.log(this.props.user.languageJson);
+     var { widget } = this.props.location.query;
     if(appointment.responsable_servicio && !appointment.errorMessage) {
       const makeAnAppointment = (languageJson) ? languageJson.make_an_appointment : null;
       return (
         <div className="ui one column">
-           <DoctorHeader doctor={ appointment.responsable_servicio } language={languageJson}>
-           </DoctorHeader>
+
+          {
+          (widget != 'true') 
+            ?
+                 <DoctorHeader doctor={ appointment.responsable_servicio } language={languageJson}></DoctorHeader>
+            :
+            null
+        }
+
+        
            <div className="ui container">
               <div className="ui small bg-mcwDark message fullWidth noRound">
                 <div className="content">

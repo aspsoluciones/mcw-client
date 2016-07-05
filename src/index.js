@@ -40,6 +40,7 @@ render(
       <Route name="doctor" path="/doctor" component={Public}>
         <Route name="confirmation" path="/doctor/confirmation/:confirmationId" component={Confirmation}/>
         <Route name="appointments" path="/doctor/:doctorUsername" component={Appointment}/>
+        <Route name="appointmentsWidget" path="/doctor/:doctorUsername?widget=:widget" component={Appointment}/>
         <Route name="checkout" path="/doctor/:doctorUsername/appointment/checkout" component={Checkout}/>
         <Route name="checkout" path="/appointment/success" component={AppointmentSuccessContainer}/>
 
