@@ -119,10 +119,15 @@ class Checkout extends Component {
   }
 
   submitAppointment(data) {
-    const { dispatch, appointment } = this.props;
+    const { dispatch, appointment, patients } = this.props;
     const { keep } = appointment;
-    data.numero_tel_celular = this.state.phone;
-    data.numero_tel_particular = this.state.linePhone;
+
+    if(!data.numero_tel_celular){
+      data.numero_tel_celular = this.state.phone;
+    }
+    if(!data.numero_tel_particular){
+      data.numero_tel_particular = this.state.linePhone;
+    }
     //TODO Transformations for adapt the object to the DTO for Appointments
     dispatch(ConfirmAppointment({
       solicitante : data,
