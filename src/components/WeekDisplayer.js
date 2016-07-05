@@ -248,7 +248,7 @@ class WeekDisplayer extends Component {
           <div className="ui middle aligned column grid">
             <div className="ui column">
               <button className="ui right icon button basic tiny blue" onClick={this.toggleCalendar.bind(this)}>
-                {selectedDay.format('MMMM').toUpperCase()}    
+                {selectedDay.locale(locale).format('MMMM').toUpperCase()}    
               </button>
             </div>
           </div>
