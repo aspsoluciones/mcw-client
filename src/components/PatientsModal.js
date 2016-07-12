@@ -18,7 +18,7 @@ class PatientsModal extends Component {
     }
   }
 
-  patientSelected = (patient) => {
+  patientSelected = (patient)=> {
     const { dispatch } = this.props;
     dispatch(selectPatient(patient));
   };

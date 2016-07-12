@@ -16,6 +16,23 @@ import { changeLanguage } from '../actions/UserActions';
 class Appointment extends Component {
     constructor(props) {
       super(props);
+
+    
+    }
+
+    componentWillMount(){
+      this.setState({
+        routeDoctorParam : this.props.params.doctorUsername
+      })
+    }
+
+    componentDidUpdate(){
+        
+      console.log(this);
+      if(this.state.routeDoctorParam != this.props.params.doctorUsername){
+        location.reload();
+      }
+
     }
 
   componentDidMount(){
@@ -44,19 +61,19 @@ class Appointment extends Component {
         <div className="ui one column">
 
           {
-          (widget != 'true') 
+          (widget != 'true')
             ?
                  <DoctorHeader doctor={ appointment.responsable_servicio } language={languageJson}></DoctorHeader>
             :
             null
         }
 
-        
+
            <div className="ui container">
               <div className="ui small bg-mcwDark message fullWidth noRound">
                 <div className="content">
                   <h2 className="header">
-                  
+
                     <i className="calendar icon"></i>{makeAnAppointment}
                   </h2>
                 </div>
