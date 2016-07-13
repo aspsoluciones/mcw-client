@@ -4,6 +4,7 @@ import {render} from 'react-dom';
 import { Provider } from 'react-redux';
 
 import { Router, Route, browserHistory, hashHistory, History, IndexRoute } from 'react-router'
+import * as Promise from 'promise-polyfill';
 
 import App from './containers/App';
 import Public from './containers/Public';
