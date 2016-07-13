@@ -12,13 +12,17 @@ class Confirmation extends React.Component{
   }
   componentDidMount() {
     const { dispatch } = this.props;
-    //dispatch(VerifyAppointment(this.props.params.confirmationId));
-	axios.post('/solicitudes/verificar/' + this.props.params.confirmationId)
+    axios.post('/solicitudes/verificar/' + this.props.params.confirmationId)
     .then((data)=> {
-        this.setState({ status: "Su solicitud fue confirmada satisfactoriamente." });
-      }).catch((error) => {
-        this.setState({ status: "Ha ocurrido un problema. Por favor pongase en contacto con el administrador" });
-      })
+      this.setState({ status: "Su solicitud fue confirmada satisfactoriamente." });
+    }).catch((error) => {
+      if(error.status == 400) {
+        this.setState({ status: "Su solicitud no existe ó ha expirado. Por favor, intente nuevamente" });  
+      }
+      else {
+        this.setState({ status: "Ha ocurrido un problema. Por favor pongase en contacto con el administrador" });  
+      }
+    })
   }
   
   render() {
