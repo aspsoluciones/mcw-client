@@ -5,40 +5,41 @@
 import React, { Component, PropTypes} from 'react';
 
 
-function messageToRender(code){
-  let message;
+function messageToRender(error){
+  let msg;
 
-  if(!code ){
-    message = 'Ha ocurrido un error inesperado';
+  if(error.data && error.data.message){
+    return error.data.message;
+  } else if(!error.status || !error ){
+    msg = 'Ha ocurrido un error inesperado';
   } else {
-
-    switch(code){
+    switch(error.status){
         case(500):
-            message = 'Ha ocurrido un error, intente más tarde';
+            msg = 'Ha ocurrido un error, intente más tarde';
             break;
         case(404):
-            message = 'Url no encontrada, revise los datos ingresados';
+            msg = 'Url no encontrada, revise los datos ingresados';
             break;
         case(400):
-          message = 'Ha ocurrido un error en nuestro sistema, intente nuevamente más tarde';
+          msg = 'Ha ocurrido un error en nuestro sistema, intente nuevamente más tarde';
           break;
         default:
-        message = 'Ha ocurrido un error inesperado';
+        msg = 'Ha ocurrido un error inesperado';
     }
   }
 
-  return message;
+  return msg;
 }
 
 class ErrorsDisplayer extends Component {
   render() {
-    const { code } = this.props;
+    const { error } = this.props;
     return(
       <div className="ui column centered grid">
         <div className="ui row">
           <div className="middle aligned content">
             <h5 className="ui header red">
-              {  messageToRender(code) }
+              {  messageToRender(error) }
             </h5>
           </div>
         </div>
@@ -49,7 +50,8 @@ class ErrorsDisplayer extends Component {
 }
 
 ErrorsDisplayer.propTypes = {
-  code: PropTypes.number
+  code: PropTypes.number,
+  message: PropTypes.string
 };
 
 export default ErrorsDisplayer;

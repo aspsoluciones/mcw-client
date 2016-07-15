@@ -1,23 +1,20 @@
 /**
  * Created by epotignano on 12/4/16.
  */
-import React, { Component, PropTypes} from 'react';
-import { connect } from 'react-redux';
-import { GetAppointments, GetDoctorData }  from '../actions/Appointments';
-import { DoctorProfileCard } from '../components/DoctorProfileCard';
-import InstitutionDisplayer from '../components/InstitutionDisplayer';
-import DoctorHeader from '../components/Doctor/DoctorHeader';
-import DoctorGeneralInformation from '../components/Doctor/DoctorGeneralInformation';
-import Loader from '../components/Loader';
-import moment from 'moment';
-import ErrorDisplayer from '../components/ErrorsDisplayer';
-import { changeLanguage } from '../actions/UserActions';
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
+import {GetDoctorData} from "../actions/Appointments";
+import InstitutionDisplayer from "../components/InstitutionDisplayer";
+import DoctorHeader from "../components/Doctor/DoctorHeader";
+import Loader from "../components/Loader";
+import moment from "moment";
+import ErrorDisplayer from "../components/ErrorsDisplayer";
 
 class Appointment extends Component {
     constructor(props) {
       super(props);
 
-    
+
     }
 
     componentWillMount(){
@@ -27,7 +24,7 @@ class Appointment extends Component {
     }
 
     componentDidUpdate(){
-        
+
       console.log(this);
       if(this.state.routeDoctorParam != this.props.params.doctorUsername){
         location.reload();
@@ -88,7 +85,7 @@ class Appointment extends Component {
       )
     } else {
       return(<div className="ui one column grid" style={{marginTop:100}}>
-        <ErrorDisplayer code={appointment.errorMessage.status}></ErrorDisplayer>
+        <ErrorDisplayer error={ {status: appointment.errorMessage.status}}></ErrorDisplayer>
       </div>)
     }
     return null;

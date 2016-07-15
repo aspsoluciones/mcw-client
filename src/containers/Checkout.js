@@ -85,7 +85,7 @@ class Checkout extends Component {
 
   goBack(){
     const { router } = this.context;
-    
+
     router.push({
       pathname: '/doctor/' + this.props.params.doctorUsername
     });
@@ -214,7 +214,7 @@ class Checkout extends Component {
       var languageJson = (user.languageJson) ? user.languageJson : {};
       const MaleLabel = (this.props.user.languageJson) ? this.props.user.languageJson.male : null
       const FemaleLabel = (this.props.user.languageJson) ? this.props.user.languageJson.female : null
-      
+
       var _render = null;
       let _form = (
       <div className="ui column">
@@ -311,15 +311,15 @@ class Checkout extends Component {
           </div>
 
           <div className="ui column">
-            <button type="submit" disabled={setDisabled} className="ui button fluid blue">
+            <button type="submit" disabled={setDisabled} className="ui button fluid bg-mcwBlue">
              {RequestAppointment}
             </button>
           </div>
 
         </div>
       </Formsy.Form>
-      
-      
+
+
       </div>
 
       );
@@ -336,16 +336,16 @@ class Checkout extends Component {
     const EnterYourData = (this.props.user.languageJson) ? this.props.user.languageJson.enter_your_data : null
     const RequestAppointment = (this.props.user.languageJson) ? this.props.user.languageJson.appointment_request : null
     const keep = (appointment && appointment.keep) ? appointment.keep : {};
-    const fecha = (keep && keep.appointment && keep.appointment.fecha_hora_inicio) ? keep.appointment.fecha_hora_inicio.locale(locale).format("dddd DD MMMM YYYY") : null; 
+    const fecha = (keep && keep.appointment && keep.appointment.fecha_hora_inicio) ? keep.appointment.fecha_hora_inicio.locale(locale).format("dddd DD MMMM YYYY") : null;
     const horario = (keep && keep.appointment && keep.appointment.fecha_hora_inicio) ? keep.appointment.fecha_hora_inicio.format("HH:mm") : null;
     const duracion_minutos = (keep && keep.appointment && keep.appointment.duracion_en_minutos) ? keep.appointment.duracion_en_minutos : null;
-    
+
     let _modal = (this.state.openPatientModal) ? <PatientsModal patientsList={patients.patient}/> : null;
     const setDisabled = (!patients.selectedPatient || patients.displayForm) && (!this.state.canSubmit || appointment.requestingAppointment || (!this.state.validatePhone && !this.state.validateLinePhone) || !this.state.recaptcha);
     console.log(setDisabled);
-    let _changePatientButton = (patients.patient && patients.patient.length > 1) ? (<button className="ui button fluid blue" onClick={this.reOpenPatientsModal.bind(this)}>
-        Cambiar paciente 
-    </button>) : null;   
+    let _changePatientButton = (patients.patient && patients.patient.length > 1) ? (<button className="ui button fluid bg-mcwBlue" onClick={this.reOpenPatientsModal.bind(this)}>
+        Cambiar paciente
+    </button>) : null;
 
     let _selectedPatientCard = (
       <div>
@@ -353,21 +353,29 @@ class Checkout extends Component {
           <div className="column">
             <PatientCard patient={patients.selectedPatient}/>
           </div>
-          <div className="column">
-            {_changePatientButton}
-            <button className="ui button fluid blue" onClick={this.reRenderForm.bind(this)}>
-              Cambiar email 
-            </button>
-            <button className="ui button fluid blue" onClick={this.addPatientToMail.bind(this)}>
-              Crear nuevo paciente con el mismo email
-            </button>
+          <div className="ui one column grid">
+            <div className="ui column">
+              {_changePatientButton}
+            </div>
+            <div className="ui column">
+              <button className="ui button fluid bg-mcwBlue" onClick={this.reRenderForm.bind(this)}>
+                Cambiar email
+              </button>
+            </div>
+            <div className="ui column">
+              <button className="ui button fluid bg-mcwBlue" onClick={this.addPatientToMail.bind(this)}>
+                Crear nuevo paciente con el mismo email
+              </button>
+            </div>
           </div>
         </div>
 
-        <div className="ui column">
-          <button onClick={() => this.submitAppointment(patients.selectedPatient)} disabled={ setDisabled  } className="ui button fluid blue">
-            {RequestAppointment}
-          </button>
+        <div className="ui one column grid">
+          <div className="ui column">
+            <button onClick={() => this.submitAppointment(patients.selectedPatient)} disabled={ setDisabled  } className="ui button fluid bg-mcwBlue">
+              {RequestAppointment}
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -375,7 +383,7 @@ class Checkout extends Component {
     if(appointment.error || patients.error){
       const error = appointment.error || patients.error;
       return (<div className="ui one column grid" style={{marginTop:100}}>
-              <ErrorsDisplayer code={error.status}/>
+              <ErrorsDisplayer error={error}/>
           </div>)
     }
 
@@ -396,14 +404,14 @@ class Checkout extends Component {
                         </div>
                         <div className="ui column">
                           {
-                              this.props.user.languageJson && this.props.user.languageJson.focuses 
+                              this.props.user.languageJson && this.props.user.languageJson.focuses
                                 && <DoctorPatientsType doctor={doctor} language={this.props.user.languageJson}/>
-                          }                        
+                          }
                         </div>
                         <div className="ui column">
-                          {doctor.idiomas && doctor.idiomas.length && this.props.user.languageJson && this.props.user.languageJson.languages && 
+                          {doctor.idiomas && doctor.idiomas.length && this.props.user.languageJson && this.props.user.languageJson.languages &&
                             <DoctorLanguages languages={doctor.idiomas} language={this.props.user.languageJson}></DoctorLanguages>}
-                        
+
                         </div>
                         <div className="ui column color-mcwDark">
                             <strong>{doctor.mensaje_publico}</strong>
@@ -429,7 +437,7 @@ class Checkout extends Component {
                 {languageJson.duration}: { duracion_minutos } {languageJson.minutes}
               </div>
             </div>
-            
+
             <div className="ui one column grid">
               <div className="ui small bg-mcwDark message fullWidth noRound">
                 <div className="content">
@@ -443,7 +451,7 @@ class Checkout extends Component {
               <PatientsModal patientsList={patients.patient}/>
             </div>
           </div>
-          
+
         </div>
       </div>
     )
