@@ -18,6 +18,21 @@ class Appointment extends Component {
       super(props);
     }
 
+    componentWillMount(){
+      this.setState({
+        routeDoctorParam : this.props.params.doctorUsername
+      })
+    }
+
+    componentDidUpdate(){
+
+      console.log(this);
+      if(this.state.routeDoctorParam != this.props.params.doctorUsername){
+        location.reload();
+      }
+
+    }
+
   componentDidMount(){
     const { store, router } = this.context;
     const { dispatch, appointment } = this.props;
