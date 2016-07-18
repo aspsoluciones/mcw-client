@@ -9,9 +9,9 @@ import {
     LOGIN_FAILURE,
     LOGIN_SUCCESS,
     REGISTER_ATTEMP,
-   REGISTER_SUCCESS,
-   REGISTER_FAILURE,
-  INVALID_SESSION
+    REGISTER_SUCCESS,
+    REGISTER_FAILURE,
+    INVALID_SESSION
 } from "../constants/ActionTypes";
 
 import {

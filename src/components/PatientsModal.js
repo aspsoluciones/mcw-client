@@ -18,7 +18,7 @@ class PatientsModal extends Component {
     }
   }
 
-  patientSelected = (patient)=> {
+  patientSelected (patient) {
     const { dispatch } = this.props;
     dispatch(selectPatient(patient));
   };
@@ -33,12 +33,12 @@ class PatientsModal extends Component {
 
 
 
-   handleClose = () => {
+   handleClose() {
      const { dispatch } = this.props;
      dispatch(createNewPatientWithSameEmail());
   };
 
-  handleCancel = () => {
+  handleCancel() {
     const { dispatch } = this.props;
     dispatch(cancelPatientSelection());
   };

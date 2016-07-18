@@ -18,7 +18,6 @@ function user(state = {
       return Object.assign({}, state, {
         languageJson: action.data,
         loadingLanguages: false 
-        
       })
 
     case USER_LANGUAGE_FAILURE:

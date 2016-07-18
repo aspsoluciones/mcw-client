@@ -1,4 +1,3 @@
-/** AUTH **/
 export const LOGIN_ATTEMP = 'LOGIN_ATTEMPT';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';

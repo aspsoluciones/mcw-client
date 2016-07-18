@@ -1,24 +1,13 @@
 {
-  "stage"    : 0,
-  "optional" : "runtime",
-  "loose"    : "all",
-  "env":
-  {
-    "development/client":
-    {
-      "plugins":
-      [
-        "react-transform"
-      ],
-      "extra":
-      {
-        "react-transform":
-        [{
-          "target"  : "react-transform-hmr",
-          "imports" : ["react"],
-          "locals"  : ["module"]
-        }]
-      }
+  "presets": [
+    "es2015",
+    "react"
+  ],
+  "env": {
+    "development": {
+      "presets": [
+        "react-hmre"
+      ]
     }
   }
 }

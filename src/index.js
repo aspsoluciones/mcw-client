@@ -1,4 +1,3 @@
-require('es6-promise').polyfill();
 import React from 'react';
 
 import {render} from 'react-dom';
@@ -23,7 +22,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import '../node_modules/jquery/dist/jquery';
 import 'file?name=libphonenumber.js!../node_modules/react-intl-tel-input/dist/libphonenumber.js';
 
-require('../semantic/dist/semantic');
+require('../semantic/dist/semantic.min.js');
 require('../semantic/dist/semantic.min.css');
 
 require('leaflet');
@@ -56,8 +55,3 @@ render(
     </Router>
   </Provider>, document.getElementById('app')
 );
-
-window.addEventListener('error', function(e){
-  // e instanceof ErrorEvent
-  console.error('caught the error by me ' + e.message);
-});

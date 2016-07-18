@@ -12,72 +12,63 @@ const PatientInitialState = {
 export default function patient (state = PatientInitialState, action) {
   switch(action.type) {
     case PATIENT_SELECTED:
-      return {
-        ...state,
+      return Object.assign({}, state, {
         selectedPatient: action.payload,
         openModal: false
-      };
+      })
 
     case PATIENT_SELECT_CANCELLED:{
-      return {
-        ...state,
+      return Object.assign({}, state, {
         openModal:false,
         resetForm: true,
         patient: null
-      }
+      })
     }
 
-    case PATIENT_ADD_NEW_PATIENT:{
-      return {
-        ...state,
-        openModal:false,
-        displayForm: true,
-        resetForm: false,
-        patient: null
-      }
-    }
+    case PATIENT_ADD_NEW_PATIENT:
+      return Object.assign({}, state, {
+          openModal:false,
+          displayForm: true,
+          resetForm: false,
+          patient: null
+      })
 
     case PATIENT_DISPLAY_DATA_FORM:
-      return {
-        ...state,
+      return Object.assign({}, state, {
         displayForm: true,
         selectedPatient:null
-      };
+      })
+      
     case PATIENT_SELECT:
-      return {
-        ...state,
+      return Object.assign({}, state, {
         openModal: true
-      };
+      })
+      
     case PATIENT_READ_REQUEST:
-      return {
-        ...state,
+      return Object.assign({}, state, {
         isLoading: true
-      };
+      })
     case PATIENT_READ_SUCCESS:
       if(action.payload.length || (state.patient && state.patient.length)) {
-        return {
-          ...state,
+        return Object.assign({}, state, {
           isLoading: false,
           patient: (action.payload.length) ? action.payload : state.patient,
           openModal : true,
           displayForm: false,
           selectedPatient: null
-        };
+        })
+        
       } else {
-        return {
-          ...state,
-          isLoading: false
-        }
+         return Object.assign({}, state, {
+            isLoading: false
+          })
       }
-      break;
-
 
     case PATIENT_READ_FAILURE:
-      return {
-        ...state,
+      return Object.assign({}, state, {    
         isLoading: false,
         error: action.error
-      };
+      })
     default: return state;
   }
 }

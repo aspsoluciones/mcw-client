@@ -60,89 +60,82 @@ function appointment(state = initialState, action) {
     case APPOINTMENTS_READ_REQUEST:
 
       if(action.payload && action.payload.locationID){
-        return {
-          ...state,
+         return Object.assign({}, state, {
           loadingAppointmentsForLocation : action.payload.locationID,
           readSuccess: false
-        }
+        })
       }
 
-      return {
-        ...state,
+    return Object.assign({}, state, {
         loadingAppointments: true,
         readSuccess: false
-      };
+      })
 
     case APPOINTMENTS_READ_FAILURE:
-      return {
-        ...state,
+      return Object.assign({}, state, {
         loadingAppointments: false,
         error: action.error
-      };
+      })
 
     case APPOINTMENT_REQUEST :
-      return {
-        ...state,
-        requestingAppointment: true
-      }
-
+      return Object.assign({}, state, {
+         requestingAppointment: true
+      })
 
     case APPOINTMENT_SUCCESS :
-      return {
-        ...state,
+
+    return Object.assign({}, state, {
         requestingAppointment: false,
         appointmentSuccess: true
-      }
+      })
 
 
     case APPOINTMENT_FAILURE :
-      return {
-        ...state,
-        requestingAppointment: false,
-        appointmentSuccess: false,
-        error: action.error
-      }
+      return Object.assign({}, state, {
+          requestingAppointment: false,
+          appointmentSuccess: false,
+          error: action.error
+        })
 
 
-    case APPOINTMENT_NEW_DATE:
+    /*case APPOINTMENT_NEW_DATE:
       return {
         ...state
-      }
+      }*/ 
 
     case APPOINTMENTS_READ_SUCCESS:
       const _responsable_servicio = mergeDoctorAndAppointments(state.responsable_servicio, action.payload);
-      return {
-        ...state,
-        loadingAppointments: false,
-        loadingAppointmentsForLocation: false,
-        responsable_servicio: _responsable_servicio, readSuccess: true
-      };
+      return Object.assign({}, state, {  
+          loadingAppointments: false,
+          loadingAppointmentsForLocation: false,
+          responsable_servicio: _responsable_servicio, 
+          readSuccess: true
+        })
+
     case APPOINTMENT_SELECTED:
-      return {
-        ...state,
+      return Object.assign({}, state, {  
         keep: action.payload
-      };
+      })
 
     case DOCTOR_READ_REQUEST:
-      return {
-        ...state,
+      return Object.assign({}, state, {  
         loadingDoctorData: true,
         loadingAppointments: true,
         readSuccess: false,
         doctorUsername: action.payload
-      };
+      })
+
     case DOCTOR_READ_SUCCESS:
-      return {
-        ...state,
+      return Object.assign({}, state, {  
         loadingDoctorData : false,
         responsable_servicio: action.payload
-      };
+      })
     case DOCTOR_READ_FAILURE:
-    return {
-      ...state,
-      loadingDoctorData : false,
-      errorMessage: action.error
-    };
+      return Object.assign({}, state, {  
+        loadingDoctorData : false,
+        errorMessage: action.error
+      })
+
     default:
       return state
   }
