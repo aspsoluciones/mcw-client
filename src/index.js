@@ -19,11 +19,11 @@ import Register from './containers/Register';
 import configureStore from './store/configureStore';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import '../node_modules/jquery/dist/jquery';
+// import '../node_modules/jquery/dist/jquery';
 import 'file?name=libphonenumber.js!../node_modules/react-intl-tel-input/dist/libphonenumber.js';
 
-require('../semantic/dist/semantic.min.js');
-require('../semantic/dist/semantic.min.css');
+// require('../semantic/dist/semantic.min.js');
+// require('../semantic/dist/semantic.min.css');
 
 require('leaflet');
 require('./configs/axios.config');

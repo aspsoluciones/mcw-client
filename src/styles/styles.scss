@@ -12,6 +12,10 @@ body {
 nav.inverted.fixed{
     z-index: 1002!important;
     background-color: $mcwBlue!important;
+
+    .ui.basic.inverted.button{
+      box-shadow: none!important;
+    }
 }
 
 .content-container {

@@ -114,7 +114,7 @@ class AvailabilityDisplayer extends Component {
       if(this.state.closestAppointment && this.state.closestAppointment.fecha_hora_inicio){
         return (
           <div className="ui middle aligned column centered container grid fullHeight">
-            <div className="ui column">
+            <div className="ui column centered aligned">
               <div className="ui icon info message" onClick={ () => {
             this.setNewDate(this.state.closestAppointment.fecha_hora_inicio)}}>
                 <i className="idea icon"></i>
@@ -133,7 +133,7 @@ class AvailabilityDisplayer extends Component {
       } else {
         return (
           <div className="ui middle aligned column centered container grid fullHeight">
-            <div className="ui column">
+            <div className="ui column centered aligned">
               <div className="ui icon warning message">
                 <i className="warning sign icon"></i>
                 <div className="content">

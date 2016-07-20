@@ -4,7 +4,7 @@ class AppointmentSuccess extends Component {
     render() {
         const {message} = this.props;
         return (
-            <div className="ui massive icon green message">
+            <div className="ui massive icon green message centered aligned">
                 <i className="check circle icon"></i>
                 <div className="content">
                     <div className="header">

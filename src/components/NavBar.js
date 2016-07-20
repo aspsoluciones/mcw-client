@@ -16,16 +16,16 @@ class NavBar extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
 
-    $('.ui.dropdown').dropdown({
+    /*$('.ui.dropdown').dropdown({
       onChange: function(value, text, $selectedItem) {
         dispatch(changeLanguage(value));
         localStorage.setItem(UserLanguage, value);
       }
-    });
+    });*/
   }
 
   componentDidUpdate() {
-    $('.ui.dropdown').dropdown('refresh')
+    /*$('.ui.dropdown').dropdown('refresh')*/
   }
   render() {
     const { router } = this.context;

@@ -15,7 +15,7 @@ const DoctorBadge = ({doctor, noMarginTop}) => {
         <div className={classToUse}>
             <span className="badge-image">
                 <div className="rounded dr-avatar-image">
-                    <div className="badge-bg" style={styles} itemprop="image" alt="Kenton Schoonover, MD"></div>
+                    <div className="badge-bg" style={styles} alt="Kenton Schoonover, MD"></div>
                  </div>
              </span>
         </div> 

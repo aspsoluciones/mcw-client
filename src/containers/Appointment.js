@@ -51,8 +51,8 @@ class Appointment extends Component {
   renderAppointmentScreen(appointment){
     const { user } = this.props;
     const { languageJson } = user;
-    console.log(this.props.user.languageJson);
-     var { widget } = this.props.location.query;
+    var { widget } = this.props.location.query;
+    
     if(appointment.responsable_servicio && !appointment.errorMessage) {
       const makeAnAppointment = (languageJson) ? languageJson.make_an_appointment : null;
       return (
