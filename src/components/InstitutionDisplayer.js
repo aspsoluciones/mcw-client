@@ -2,18 +2,10 @@
  * Created by epotignano on 13/4/16.
  */
 
-import React, { Component, PropTypes} from 'react';
-import { connect } from 'react-redux';
-import AvailabilityDisplayer from '../components/AvailabilityDisplayer';
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-import Card from 'material-ui/lib/card/card';
-import CardMedia from 'material-ui/lib/card/card-media';
-import CardTitle from 'material-ui/lib/card/card-title';
-import CardText from 'material-ui/lib/card/card-text';
-
-import FlatButton from 'material-ui/lib/flat-button';
-import FloatingActionButton from 'material-ui/lib/floating-action-button';
-import ContentAdd from 'material-ui/lib/svg-icons/content/add';
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
+import AvailabilityDisplayer from "../components/AvailabilityDisplayer";
+import {Map, Marker, Popup, TileLayer} from "react-leaflet";
 
 const style = {
   marginRight: 20
@@ -30,7 +22,7 @@ function parseCoordinates(coordinatesString){
   } else {
     return null;
   }
-  
+
 }
 
 function parseContacts(institution){

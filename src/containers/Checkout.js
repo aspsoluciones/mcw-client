@@ -2,29 +2,42 @@
  * Created by epotignano on 15/4/16.
  */
 
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import TextField from 'material-ui/lib/text-field';
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
 import "react-day-picker/lib/style.css";
 import validator from "validator";
-import Formsy from 'formsy-react';
-import DayPicker, { DateUtils } from 'react-day-picker';
-import moment from 'moment';
-import MenuItem from 'material-ui/lib/menus/menu-item';
-import AppointmentSuccess from '../components/Appointments/AppointmentSuccess';
-import { FormsyText, FormsySelect, FormsyDate } from 'formsy-material-ui';
-import { ConfirmAppointment } from '../actions/Appointments';
-import { getPatientByEmail, selectPatient, patientSelectModal, fillPatientData, createNewPatientWithSameEmail} from '../actions/PatientsActions';
-import PatientsModal from '../components/PatientsModal';
-import PatientCard from '../components/PatientCard';
-import DoctorBadge from '../components/Doctor/DoctorBadge';
-import DoctorPatientsType from '../components/Doctor/DoctorPatientsType';
-import DoctorLanguages from '../components/Doctor/DoctorLanguages';
-import DoctorName from '../components/Doctor/DoctorName';
-import ErrorsDisplayer from '../components/ErrorsDisplayer';
-import { changeLanguage } from '../actions/UserActions';
-import IntlTelInput from 'react-intl-tel-input';
-import { recaptchaKey } from '../constants/Commons';
+import Formsy from "formsy-react";
+import moment from "moment";
+import baseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import AppTheme from "../settings/AppTheme";
+
+
+import MenuItem from "material-ui/MenuItem";
+import FormsyCheckbox from 'formsy-material-ui/lib/FormsyCheckbox';
+import FormsyDate from 'formsy-material-ui/lib/FormsyDate';
+import FormsyRadio from 'formsy-material-ui/lib/FormsyRadio';
+import FormsyRadioGroup from 'formsy-material-ui/lib/FormsyRadioGroup';
+import FormsySelect from 'formsy-material-ui/lib/FormsySelect';
+import FormsyText from 'formsy-material-ui/lib/FormsyText';
+import FormsyTime from 'formsy-material-ui/lib/FormsyTime';
+import FormsyToggle from 'formsy-material-ui/lib/FormsyToggle';
+import {ConfirmAppointment} from "../actions/Appointments";
+import {
+  getPatientByEmail,
+  patientSelectModal,
+  fillPatientData,
+  createNewPatientWithSameEmail
+} from "../actions/PatientsActions";
+import PatientsModal from "../components/PatientsModal";
+import PatientCard from "../components/PatientCard";
+import DoctorBadge from "../components/Doctor/DoctorBadge";
+import DoctorPatientsType from "../components/Doctor/DoctorPatientsType";
+import DoctorLanguages from "../components/Doctor/DoctorLanguages";
+import DoctorName from "../components/Doctor/DoctorName";
+import ErrorsDisplayer from "../components/ErrorsDisplayer";
+import IntlTelInput from "react-intl-tel-input";
+import {recaptchaKey} from "../constants/Commons";
 var ReCAPTCHA = require("react-google-recaptcha");
 
 Formsy.addValidationRule('isRequiredIfNotValue', function (values, value, otherField) {
@@ -65,6 +78,11 @@ class Checkout extends Component {
       recaptcha: false
     }
   }
+
+  getChildContext() {
+    return {muiTheme: getMuiTheme(AppTheme)};
+  }
+
 
 
   componentDidMount(){
@@ -474,7 +492,11 @@ Checkout.propTypes = {
 
 Checkout.contextTypes = {
   store: PropTypes.any,
-  router : PropTypes.any
+  router : PropTypes.any,
+};
+
+Checkout.childContextTypes = {
+  muiTheme: React.PropTypes.object.isRequired,
 };
 
 Checkout.stateTypes = {

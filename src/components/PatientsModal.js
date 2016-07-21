@@ -5,8 +5,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import PatientCard from '../components/PatientCard';
-import Dialog from 'material-ui/lib/dialog';
-import FlatButton from 'material-ui/lib/flat-button';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 
 import { selectPatient, cancelPatientSelection, createNewPatientWithSameEmail } from '../actions/PatientsActions';
 

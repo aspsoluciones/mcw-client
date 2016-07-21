@@ -1,48 +1,42 @@
 // This file bootstraps the app with the boilerplate necessary
 // to support hot reloading in Redux
-import React, {PropTypes} from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { default as NavBar } from "../components/NavBar";
-import Loader from '../components/Loader';
-import SessionTracker from '../components/SessionTracker';
-import AppTheme from '../settings/AppTheme';
-import ThemeManager from 'material-ui/lib/styles/theme-manager';
+import React, {PropTypes} from "react";
+import {connect} from "react-redux";
+import {default as NavBar} from "../components/NavBar";
+import SessionTracker from "../components/SessionTracker";
+import AppTheme from "../settings/AppTheme";
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+const darkMuiTheme = getMuiTheme(darkBaseTheme);
 
-//TODO Remove, is only for test purposes
-let messages = {
-  'IMAGE_UPLOAD': {
-    error: 'Error al intentar subir la nueva imágen',
-    success: 'Nueva imágen subida con éxito'
-  }
-}
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
 
 class App extends React.Component{
   componentDidMount() {
-    /*
-      TODO When component mount and the first dashboard be done, we will be watching here what is going on with
-      The user authorization, tokens, and so
-    */
+
 
   }
-  
+
   getChildContext() {
     return {
-      muiTheme: ThemeManager.getMuiTheme(AppTheme)
+      muiTheme: getMuiTheme(AppTheme)
     };
   }
 
   render() {
     return (
+      <MuiThemeProvider muiTheme={AppTheme}>
       <div>
-        <NavBar/>
-        <main className="ui page grid main content-container">
-          <div className="row">
-            <SessionTracker/>
-            {this.props.children}
-          </div>
-        </main>
-      </div>
+          <NavBar/>
+          <main className="ui page grid main content-container">
+            <div className="row">
+              <SessionTracker/>
+              {this.props.children}
+            </div>
+          </main>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }
