@@ -17,6 +17,7 @@ const currentYear = (new Date()).getFullYear();
 const fromMonth = new Date(currentYear, 0, 1, 0, 0);
 const toMonth = new Date(currentYear + 10, 11, 31, 23, 59);
 import 'moment/locale/es';
+import {UidRef, UserLanguage} from "../constants/Commons";
 
 //Pasar esto a un state si se requiere poder cambiar de idioma.
 const locale = 'es';
@@ -57,7 +58,7 @@ class AvailabilityDisplayer extends Component {
   }
 
   componentWillMount(){
-  
+
   }
 
   componentDidUpdate(){
@@ -95,7 +96,7 @@ class AvailabilityDisplayer extends Component {
 
         )
       } else if(!appointment.loadingAppointments &&
-        !appointment.loadingDoctorData && 
+        !appointment.loadingDoctorData &&
         !_appointmentsForWeek.length && appointment.readSuccess
       ) {
 
@@ -123,7 +124,7 @@ class AvailabilityDisplayer extends Component {
                   <span>
                     {this.props.languageJson.closest_available_appointment} {moment(this.state.closestAppointment.fecha_hora_inicio).format("dddd DD/MMMM/YYYY")}
                   </span>
-                
+
                 </div>
               </div>
             </div>
@@ -185,7 +186,7 @@ class AvailabilityDisplayer extends Component {
               onClick={this.setNewDate.bind(this)}
               month={this.state.month}
               selectedDate={this.state.selectedDate}
-              locale={selectedLang}
+              locale={( localStorage.getItem(UserLanguage) || 'es-PA')}
               />
             </div>
           </div>

@@ -8,7 +8,7 @@ import 'moment/locale/es';
 const locale = 'es';
 
 class AppointmentDayPicker extends Component {
-    
+
     constructor(props){
         super(props);
     }
@@ -16,11 +16,11 @@ class AppointmentDayPicker extends Component {
     clickProxy(day){
         this.props.onClick(day);
     }
-    
+
     render() {
         const { onCalendarClick, selectedDate, month, locale } = this.props;
         let lang
-        if(locale == 'en-us'){
+        if(locale == 'en-US'){
             lang = 'en';
         } else {
             lang = 'es';

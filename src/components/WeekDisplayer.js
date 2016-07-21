@@ -227,8 +227,8 @@ class WeekDisplayer extends Component {
 
   renderWeekDisplayer(){
     const { selectedDay } = this.props;
-    let locale = (this.props.languageJson.selectedLang == 'en-us') ? 'en': 'es';
-
+    let locale = (( localStorage.getItem(UserLanguage) || 'es-PA') == 'en-US') ? 'en': 'es';
+    console.log(moment.locale());
     this.canGoBack(selectedDay);
     var _weekdays = this.calculateWeekToDisplay(selectedDay);
     var _weekWithTimes = this.assignAppointmentsToWeekDay(_weekdays, this.props.appointmentsForWeek);
