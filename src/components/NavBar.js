@@ -2,31 +2,40 @@
  * Created by epotignano on 19/02/16.
  */
 
-import React, {PropTypes} from 'react';
-import { connect } from 'react-redux';
-import { Link } from "react-router";
-import UserAvatar  from './userAvatar';
+import React, {PropTypes} from "react";
+import {connect} from "react-redux";
+import {UidRef, UserLanguage} from "../constants/Commons";
 import { changeLanguage } from '../actions/UserActions';
-import { UidRef, UserLanguage } from '../constants/Commons';
+import getMuiTheme from "material-ui/styles/getMuiTheme";
+import AppTheme from "../settings/AppTheme";
+
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+
 
 var uid = localStorage.getItem(UidRef);
 var language = localStorage.getItem(UserLanguage);
-
+console.log(language);
 class NavBar extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      value: language || 'es-PA'
+    }
+  }
+
+  getChildContext() {
+    return {muiTheme: getMuiTheme(AppTheme)};
+  }
+
   componentDidMount() {
     const { dispatch } = this.props;
-
-    /*$('.ui.dropdown').dropdown({
-      onChange: function(value, text, $selectedItem) {
-        dispatch(changeLanguage(value));
-        localStorage.setItem(UserLanguage, value);
-      }
-    });*/
   }
 
   componentDidUpdate() {
-    /*$('.ui.dropdown').dropdown('refresh')*/
   }
+
   render() {
     const { router } = this.context;
     var { user } = this.props;
@@ -37,15 +46,16 @@ class NavBar extends React.Component {
       <nav className="ui inverted fixed menu navbar grid">
         <div className="ui container">
           <div className="right menu">
-            <div className="ui floating dropdown labeled search icon inverted white basic button pointer" style={{boxShadow: '0 0 0 0 rgb(0, 0, 0) inset!important'}}>
-              <i className="world icon"></i>
-              <span className="text">{defaultText}</span>
-              <div className="menu">
-                <div className="item" value="es-PA">es-PA</div>
-                <div className="item" value="es-AR">es-AR</div>
-                <div className="item" value="en-US">en-US</div>
-              </div>
-            </div>
+            <DropDownMenu value={this.state.value} onChange={(event, index, value) =>{
+              const { dispatch } = this.props;
+              dispatch(changeLanguage(value));
+              localStorage.setItem(UserLanguage, value);
+              this.setState({value})
+            }} openImmediately={false}>
+              <MenuItem value={'es-PA'} primaryText="es-PA" />
+              <MenuItem value={'es-AR'} primaryText="es-AR" />
+              <MenuItem value={'en-US'} primaryText="en-US" />
+            </DropDownMenu>
           </div>
         </div>
       </nav>
@@ -58,6 +68,10 @@ NavBar.contextTypes = {
 };
 NavBar.propTypes = {
   dispatch: PropTypes.func.isRequired
+};
+
+NavBar.childContextTypes = {
+  muiTheme: React.PropTypes.object.isRequired,
 };
 
 var mapStateProps = function(state) {
