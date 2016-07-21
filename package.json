@@ -31,7 +31,7 @@
   "dependencies": {
     "axios": "0.10.0",
     "formsy-material-ui": "0.4.3",
-    "formsy-react": "^0.18.1",
+    "formsy-react": "0.18.0",
     "jquery": "3.1.0",
     "leaflet": "0.7.7",
     "lodash.clonedeep": "4.3.2",
@@ -50,7 +50,7 @@
     "react-router": "2.5.2",
     "react-router-redux": "4.0.5",
     "react-semantify": "0.4.1",
-    "react-tap-event-plugin": "0.2.2",
+    "react-tap-event-plugin": "1.0.0",
     "react-tooltip": "2.0.2",
     "redux": "3.5.2",
     "redux-logger": "2.6.0",
