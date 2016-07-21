@@ -8,14 +8,21 @@ import "react-day-picker/lib/style.css";
 import validator from "validator";
 import Formsy from "formsy-react";
 import moment from "moment";
-import getMuiTheme from "material-ui/styles/getMuiTheme";
+import baseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppTheme from "../settings/AppTheme";
-import MenuItem from "material-ui/MenuItem";
-import FormsyDate from "formsy-material-ui/lib/FormsyDate";
-import FormsySelect from "formsy-material-ui/lib/FormsySelect";
-import FormsyText from "formsy-material-ui/lib/FormsyText";
-import {ConfirmAppointment} from "../actions/Appointments";
 
+
+import MenuItem from "material-ui/MenuItem";
+import FormsyCheckbox from 'formsy-material-ui/lib/FormsyCheckbox';
+import FormsyDate from 'formsy-material-ui/lib/FormsyDate';
+import FormsyRadio from 'formsy-material-ui/lib/FormsyRadio';
+import FormsyRadioGroup from 'formsy-material-ui/lib/FormsyRadioGroup';
+import FormsySelect from 'formsy-material-ui/lib/FormsySelect';
+import FormsyText from 'formsy-material-ui/lib/FormsyText';
+import FormsyTime from 'formsy-material-ui/lib/FormsyTime';
+import FormsyToggle from 'formsy-material-ui/lib/FormsyToggle';
+import {ConfirmAppointment} from "../actions/Appointments";
 import {
   getPatientByEmail,
   patientSelectModal,
@@ -242,7 +249,9 @@ class Checkout extends Component {
                 hintText="Email"
                 required
                 value=""
-                onChange={(e, value) => this.checkUser(value)}
+                onChange={(event, value) => {
+                  this.checkUser(event.currentTarget.value);
+                }}
               />
               {this.renderLoadingForEmail(this.state.patients && this.state.patients.isLoading)}
             </div>
