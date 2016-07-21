@@ -10,7 +10,8 @@ import moment from 'moment';
 import ReactToolTip from 'react-tooltip';
 import { SelectNewDate } from '../actions/Appointments';
 import AppointmentDayPicker from './AppointmentDayPicker';
-
+import {UidRef, UserLanguage} from "../constants/Commons";
+var language = localStorage.getItem(UserLanguage) || 'es-PA';
 
 moment.locale('es');
 let numOfAppointments = 4;
@@ -49,7 +50,7 @@ const WeekDisplayerRow = ({weekDay, weekWithTime, index, expand, onClick}) => {
     <div className="ui one column centered grid">
       {
         day.times && day.times.map((time, i) => {
-          const appoinmentTime = moment(time.fecha_hora_inicio).format("HH:mm");
+          const appoinmentTime = (language == 'es-AR') ?  moment(time.fecha_hora_inicio).format("HH:mm") : moment(time.fecha_hora_inicio).format('LT');
           const tooltipMessage = "Solicitar cita a las " + appoinmentTime;
           return <div key={i} className="fullWidth">
             {
@@ -131,7 +132,7 @@ class WeekDisplayer extends Component {
     appointment.institution = institution;
     appointment.doctor = doctor;
 
-    dispatch(TakeAppointment({appointment}))
+    dispatch(TakeAppointment({appointment}));
     router.push({
       pathname: '/doctor/' + doctorUsername + '/appointment/checkout'
     });
@@ -203,7 +204,7 @@ class WeekDisplayer extends Component {
     var _diff = _today.diff(_selectedDay, 'days');
     return _diff >= 0;
   }
-  
+
   renderInternalCalendar(render){
     const { selectedDay, month } = this.props;
 
@@ -223,7 +224,7 @@ class WeekDisplayer extends Component {
 
   }
 
-  
+
 
   renderWeekDisplayer(){
     const { selectedDay } = this.props;
@@ -234,21 +235,21 @@ class WeekDisplayer extends Component {
     var _weekWithTimes = this.assignAppointmentsToWeekDay(_weekdays, this.props.appointmentsForWeek);
     const classToApply = (this.state.showUntilWeekDay == 3) ? "ui sixteen wide four column centered grid": "ui sixteen wide three column centered grid";
     const leftButtonClass = (this.canGoBack(selectedDay) && this.state.showUntilWeekDay == 3) ? 'ui disabled  icon basic tiny button blue' : 'ui icon basic tiny button blue';
-    
+
     return(<div className="ui one column grid">
       <div className="ui tablet only mobile only row">
         <div className="ui grid three column centered">
           <div className="ui left aligned column">
             <div className="left floated six wide column">
               <button className={leftButtonClass} onClick={this.goToPrevious.bind(this)}>
-                <i className="left chevron icon"></i>   
+                <i className="left chevron icon"></i>
               </button>
             </div>
           </div>
           <div className="ui middle aligned column grid">
             <div className="ui column">
               <button className="ui right icon button basic tiny blue" onClick={this.toggleCalendar.bind(this)}>
-                {selectedDay.locale(locale).format('MMMM').toUpperCase()}    
+                {selectedDay.locale(locale).format('MMMM').toUpperCase()}
               </button>
             </div>
           </div>
@@ -286,7 +287,7 @@ class WeekDisplayer extends Component {
           <tr>
             <th>
               <button className={leftButtonClass} onClick={()=> {this.goToPrevious({direct: true})}}>
-                <i className="left chevron icon"></i>   
+                <i className="left chevron icon"></i>
               </button>
             </th>
             {

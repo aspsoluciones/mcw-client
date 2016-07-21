@@ -31,27 +31,22 @@ class PatientsModal extends Component {
     }
   }
 
-
-
-   handleClose() {
-     const { dispatch } = this.props;
-     dispatch(createNewPatientWithSameEmail());
-  };
-
-  handleCancel() {
-    const { dispatch } = this.props;
-    dispatch(cancelPatientSelection());
-  };
-
   render(){
      const actions = [
       <FlatButton
         label="Cancelar"
-        onTouchTap={this.handleCancel}
+        onTouchTap={()=>{
+          const { dispatch } = this.props;
+          dispatch(cancelPatientSelection());
+          }
+        }
       />,
      <FlatButton
        label="Crear nuevo paciente con el mismo email"
-       onTouchTap={this.handleClose}
+       onTouchTap={()=>{
+         const { dispatch } = this.props;
+         dispatch(createNewPatientWithSameEmail());
+       }}
      />
     ];
 
