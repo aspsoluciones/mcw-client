@@ -33,6 +33,7 @@ function messageToRender(error){
 
 class ErrorsDisplayer extends Component {
   render() {
+    window.scrollTo(0, 0);
     const { error } = this.props;
     return(
       <div className="ui column centered grid">
