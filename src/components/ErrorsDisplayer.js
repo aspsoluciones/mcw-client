@@ -8,12 +8,12 @@ import React, { Component, PropTypes} from 'react';
 function messageToRender(error){
   let msg;
 
-  if(error.data && error.data.message){
+  if(error && error.data && error.data.message){
     return error.data.message;
   } else if(!error.status || !error ){
     msg = 'Ha ocurrido un error inesperado';
   } else {
-    switch(error.status){
+    switch(error && error.status){
         case(500):
             msg = 'Ha ocurrido un error, intente más tarde';
             break;

@@ -11,7 +11,6 @@ import ReactToolTip from 'react-tooltip';
 import { SelectNewDate } from '../actions/Appointments';
 import AppointmentDayPicker from './AppointmentDayPicker';
 import {UidRef, UserLanguage} from "../constants/Commons";
-var language = localStorage.getItem(UserLanguage) || 'es-PA';
 
 moment.locale('es');
 let numOfAppointments = 4;
@@ -50,7 +49,7 @@ const WeekDisplayerRow = ({weekDay, weekWithTime, index, expand, onClick}) => {
     <div className="ui one column centered grid">
       {
         day.times && day.times.map((time, i) => {
-          const appoinmentTime = (language == 'es-AR') ?  moment(time.fecha_hora_inicio).format("HH:mm") : moment(time.fecha_hora_inicio).format('LT');
+          const appoinmentTime =  (( localStorage.getItem(UserLanguage) || 'es-PA') == 'es-AR') ?  moment(time.fecha_hora_inicio).format("HH:mm") : moment(time.fecha_hora_inicio).format('h:mm a');
           const tooltipMessage = "Solicitar cita a las " + appoinmentTime;
           return <div key={i} className="fullWidth">
             {
@@ -323,7 +322,7 @@ class WeekDisplayer extends Component {
                     <div className="ui one column">
                       {
                         day.times.map((time, i) => {
-                          const appoinmentTime = moment(time.fecha_hora_inicio).format("HH:mm");
+                          const appoinmentTime = (( localStorage.getItem(UserLanguage) || 'es-PA') == 'es-AR') ? moment(time.fecha_hora_inicio).format("HH:mm") : moment(time.fecha_hora_inicio).format('h:mm a');
                           const tooltipMessage = this.props.languageJson.request_appointment_at + " " +  appoinmentTime;
                           return <div key={i} className="ui column">
                             {
