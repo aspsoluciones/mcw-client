@@ -7,6 +7,8 @@ import {connect} from "react-redux";
 import "react-day-picker/lib/style.css";
 import validator from "validator";
 import Formsy from "formsy-react";
+import {UserLanguage} from "../constants/Commons";
+
 import moment from "moment";
 import getMuiTheme from "material-ui/styles/getMuiTheme";
 import AppTheme from "../settings/AppTheme";
@@ -343,13 +345,14 @@ class Checkout extends Component {
 
     const { appointment, patients, user } = this.props;
     var languageJson = (user.languageJson) ? user.languageJson : {};
-    const locale = (this.props.user.languageJson && this.props.user.languageJson.selectedLang == 'en-us') ? 'en': 'es';
+    const locale = (( localStorage.getItem(UserLanguage) || 'es-PA') == 'en-US') ? 'en': 'es';
     const AppointmentDateAndTime = (this.props.user.languageJson) ? this.props.user.languageJson.appointment_date_time : null;
     const EnterYourData = (this.props.user.languageJson) ? this.props.user.languageJson.enter_your_data : null
     const RequestAppointment = (this.props.user.languageJson) ? this.props.user.languageJson.appointment_request : null
     const keep = (appointment && appointment.keep) ? appointment.keep : {};
+
     const fecha = (keep && keep.appointment && keep.appointment.fecha_hora_inicio) ? keep.appointment.fecha_hora_inicio.locale(locale).format("dddd DD MMMM YYYY") : null;
-    const horario = (keep && keep.appointment && keep.appointment.fecha_hora_inicio) ? keep.appointment.fecha_hora_inicio.format("HH:mm") : null;
+    const horario = (keep && keep.appointment && keep.appointment.fecha_hora_inicio) ? (( localStorage.getItem(UserLanguage) || 'es-PA') == 'es-AR') ? keep.appointment.fecha_hora_inicio.format("HH:mm") : keep.appointment.fecha_hora_inicio.format("h:mm a")  : null;
     const duracion_minutos = (keep && keep.appointment && keep.appointment.duracion_en_minutos) ? keep.appointment.duracion_en_minutos : null;
 
     let _modal = (this.state.openPatientModal) ? <PatientsModal patientsList={patients.patient}/> : null;

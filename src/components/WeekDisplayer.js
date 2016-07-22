@@ -2,15 +2,14 @@
  * Created by epotignano on 14/4/16.
  */
 
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { TakeAppointment } from '../actions/Appointments';
-import _ from 'lodash';
-import moment from 'moment';
-import ReactToolTip from 'react-tooltip';
-import { SelectNewDate } from '../actions/Appointments';
-import AppointmentDayPicker from './AppointmentDayPicker';
-import {UidRef, UserLanguage} from "../constants/Commons";
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
+import {TakeAppointment} from "../actions/Appointments";
+import _ from "lodash";
+import moment from "moment";
+import ReactToolTip from "react-tooltip";
+import AppointmentDayPicker from "./AppointmentDayPicker";
+import {UserLanguage} from "../constants/Commons";
 
 moment.locale('es');
 let numOfAppointments = 4;
