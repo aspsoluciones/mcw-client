@@ -1,17 +1,14 @@
 /**
  * Created by epotignano on 12/4/16.
  */
-import React, { Component, PropTypes} from 'react';
-import { connect } from 'react-redux';
-import { GetAppointments, GetDoctorData }  from '../actions/Appointments';
-import { DoctorProfileCard } from '../components/DoctorProfileCard';
-import InstitutionDisplayer from '../components/InstitutionDisplayer';
-import DoctorHeader from '../components/Doctor/DoctorHeader';
-import DoctorGeneralInformation from '../components/Doctor/DoctorGeneralInformation';
-import Loader from '../components/Loader';
-import moment from 'moment';
-import ErrorDisplayer from '../components/ErrorsDisplayer';
-import { changeLanguage } from '../actions/UserActions';
+import React, {Component, PropTypes} from "react";
+import {connect} from "react-redux";
+import {GetDoctorData} from "../actions/Appointments";
+import InstitutionDisplayer from "../components/InstitutionDisplayer";
+import DoctorHeader from "../components/Doctor/DoctorHeader";
+import Loader from "../components/Loader";
+import moment from "moment";
+import ErrorDisplayer from "../components/ErrorsDisplayer";
 
 class Appointment extends Component {
     constructor(props) {
@@ -52,26 +49,26 @@ class Appointment extends Component {
     const { user } = this.props;
     const { languageJson } = user;
     var { widget } = this.props.location.query;
-    
+
     if(appointment.responsable_servicio && !appointment.errorMessage) {
       const makeAnAppointment = (languageJson) ? languageJson.make_an_appointment : null;
       return (
         <div className="ui one column">
 
           {
-          (widget != 'true') 
+          (widget != 'true')
             ?
                  <DoctorHeader doctor={ appointment.responsable_servicio } language={languageJson}></DoctorHeader>
             :
             null
         }
 
-        
+
            <div className="ui container">
               <div className="ui small bg-mcwDark message fullWidth noRound">
                 <div className="content">
                   <h2 className="header">
-                  
+
                     <i className="calendar icon"></i>{makeAnAppointment}
                   </h2>
                 </div>
@@ -86,7 +83,7 @@ class Appointment extends Component {
       )
     } else {
       return(<div className="ui one column grid" style={{marginTop:100}}>
-        <ErrorDisplayer code={appointment.errorMessage.status}></ErrorDisplayer>
+        <ErrorDisplayer error={appointment.errorMessage}></ErrorDisplayer>
       </div>)
     }
     return null;

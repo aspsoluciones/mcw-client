@@ -8,9 +8,16 @@ import React, { Component, PropTypes} from 'react';
 function messageToRender(error){
   let msg;
 
+  //handle special errros messages
+  if(error && error.status == 404 && error.config.url.indexOf('perfilpublico') != -1 ) {
+    msg = "Este perfil no ha sido encontrado.  Por favor verifique la dirección de URL ingresada o contacte a la persona buscada."
+
+    return msg;
+  }
+
   if(error && error.data && error.data.message){
     return error.data.message;
-  } else if(!error.status || !error ){
+  } else if(!error || !error.status  ){
     msg = 'Ha ocurrido un error inesperado';
   } else {
     switch(error && error.status){
