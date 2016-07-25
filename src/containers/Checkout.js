@@ -398,7 +398,7 @@ class Checkout extends Component {
     if(appointment.error || patients.error){
       const error = appointment.error || patients.error;
       return (<div className="ui one column grid" style={{marginTop:100}}>
-              <ErrorsDisplayer error={error}/>
+              <ErrorsDisplayer error={error} languageJson={languageJson}/>
           </div>)
     }
 

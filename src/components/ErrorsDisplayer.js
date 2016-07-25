@@ -9,18 +9,21 @@ function messageToRender(error, languageJson){
 
   let msg;
 
+  if(!error || !error.status  ){
+    msg = 'Ha ocurrido un error inesperado';
+  };
+
+  if(error && error.data && error.data.message){
+    return error.data.message;
+  }
+
   if(languageJson){
     //handle special errros messages
     if(error && error.status == 404 && error.config.url.indexOf('perfilpublico') != -1 ) {
       msg = languageJson.doctor_404;
       return msg;
     }
-
-    if(error && error.data && error.data.message){
-      return error.data.message;
-    } else if(!error || !error.status  ){
-      msg = 'Ha ocurrido un error inesperado';
-    } else {
+    else {
       switch(error && error.status){
         case(500):
           msg = languageJson.error_500;
