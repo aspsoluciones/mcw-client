@@ -5,35 +5,39 @@
 import React, { Component, PropTypes} from 'react';
 
 
-function messageToRender(error){
+function messageToRender(error, languageJson){
+
   let msg;
 
-  //handle special errros messages
-  if(error && error.status == 404 && error.config.url.indexOf('perfilpublico') != -1 ) {
-    msg = "Este perfil no ha sido encontrado.  Por favor verifique la dirección de URL ingresada o contacte a la persona buscada."
+  if(languageJson){
+    //handle special errros messages
+    if(error && error.status == 404 && error.config.url.indexOf('perfilpublico') != -1 ) {
+      msg = languageJson.doctor_404;
+      return msg;
+    }
 
-    return msg;
-  }
-
-  if(error && error.data && error.data.message){
-    return error.data.message;
-  } else if(!error || !error.status  ){
-    msg = 'Ha ocurrido un error inesperado';
-  } else {
-    switch(error && error.status){
+    if(error && error.data && error.data.message){
+      return error.data.message;
+    } else if(!error || !error.status  ){
+      msg = 'Ha ocurrido un error inesperado';
+    } else {
+      switch(error && error.status){
         case(500):
-            msg = 'Ha ocurrido un error, intente más tarde';
-            break;
+          msg = languageJson.error_500;
+          break;
         case(404):
-            msg = 'Url no encontrada, revise los datos ingresados';
-            break;
+          msg = languageJson.error_404;
+          break;
         case(400):
-          msg = 'Ha ocurrido un error en nuestro sistema, intente nuevamente más tarde';
+          msg = languageJson.error_400;
           break;
         default:
-        msg = 'Ha ocurrido un error inesperado';
+          msg = languageJson.error_unknow;
+      }
     }
   }
+
+
 
   return msg;
 }
@@ -41,13 +45,13 @@ function messageToRender(error){
 class ErrorsDisplayer extends Component {
   render() {
     window.scrollTo(0, 0);
-    const { error } = this.props;
+    const { error, languageJson} = this.props;
     return(
       <div className="ui column centered grid">
         <div className="ui row">
           <div className="middle aligned content">
             <h5 className="ui header red">
-              {  messageToRender(error) }
+              {  messageToRender(error, languageJson) }
             </h5>
           </div>
         </div>
@@ -58,8 +62,8 @@ class ErrorsDisplayer extends Component {
 }
 
 ErrorsDisplayer.propTypes = {
-  code: PropTypes.number,
-  message: PropTypes.string
+  message: PropTypes.string,
+  languageJson: PropTypes.any
 };
 
 export default ErrorsDisplayer;

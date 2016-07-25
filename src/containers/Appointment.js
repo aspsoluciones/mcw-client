@@ -83,7 +83,7 @@ class Appointment extends Component {
       )
     } else {
       return(<div className="ui one column grid" style={{marginTop:100}}>
-        <ErrorDisplayer error={appointment.errorMessage}></ErrorDisplayer>
+        <ErrorDisplayer error={appointment.errorMessage} languageJson={user.languageJson}></ErrorDisplayer>
       </div>)
     }
     return null;
