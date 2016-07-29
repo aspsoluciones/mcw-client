@@ -9,6 +9,11 @@ import { UserLanguage } from '../constants/Commons';
 var language = localStorage.getItem(UserLanguage);
 
 class App extends React.Component{
+
+  constructor(props) {
+      super(props);
+  }
+
   componentDidMount() {
     const { store } = this.context;
     const { dispatch } = this.props;

@@ -1,14 +1,17 @@
 /**
  * Created by epotignano on 12/4/16.
  */
-import React, {Component, PropTypes} from "react";
-import {connect} from "react-redux";
-import {GetDoctorData} from "../actions/Appointments";
-import InstitutionDisplayer from "../components/InstitutionDisplayer";
-import DoctorHeader from "../components/Doctor/DoctorHeader";
-import Loader from "../components/Loader";
-import moment from "moment";
-import ErrorDisplayer from "../components/ErrorsDisplayer";
+import React, { Component, PropTypes} from 'react';
+import { connect } from 'react-redux';
+import { GetAppointments, GetDoctorData }  from '../actions/Appointments';
+import { DoctorProfileCard } from '../components/DoctorProfileCard';
+import InstitutionDisplayer from '../components/InstitutionDisplayer';
+import DoctorHeader from '../components/Doctor/DoctorHeader';
+import DoctorGeneralInformation from '../components/Doctor/DoctorGeneralInformation';
+import Loader from '../components/Loader';
+import moment from 'moment';
+import ErrorDisplayer from '../components/ErrorsDisplayer';
+import { changeLanguage } from '../actions/UserActions';
 
 class Appointment extends Component {
     constructor(props) {

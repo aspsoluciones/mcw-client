@@ -1,10 +1,8 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { Router, Route, browserHistory, hashHistory, History, IndexRoute } from 'react-router'
+import { Router, Route} from 'react-router'
 
 //ROUTES
-
-
 import App from './containers/App';
 import Public from './containers/Public';
 import Dashboard from './containers/Dashboard';

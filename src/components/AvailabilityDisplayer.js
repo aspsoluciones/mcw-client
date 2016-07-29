@@ -48,7 +48,8 @@ class AvailabilityDisplayer extends Component {
 
     this.state = {
       displayDay : moment(),
-      appointmentsForWeek : this.calculateAvailableAppointmentsForWeek(moment(), this.props.availability, true),
+      // appointmentsForWeek : this.calculateAvailableAppointmentsForWeek(moment(), this.props.availability, true),
+      appointmentsForWeek : null,
       selectedDate: moment()
     };
   }
@@ -220,9 +221,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(AvailabilityDisplayer);
-
-// <div className="ui sixteen wide column mobile tablet only" style={{minHeight:200}}>
-//             <div>
-//               { this.renderWeekDisplayer(this.state.selectedDate, availability)}
-//             </div>
-//           </div>

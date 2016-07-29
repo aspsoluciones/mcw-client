@@ -1,9 +1,8 @@
 import React from 'react';
-
 import {render} from 'react-dom';
 import { Provider } from 'react-redux';
 
-import { Router, Route, browserHistory, hashHistory, History, IndexRoute } from 'react-router'
+import { Router, Route, hashHistory, History } from 'react-router'
 
 import App from './containers/App';
 import Public from './containers/Public';
@@ -24,7 +23,7 @@ import 'file?name=libphonenumber.js!../node_modules/react-intl-tel-input/dist/li
 
 // require('../semantic/dist/semantic.min.js');
 // require('../semantic/dist/semantic.min.css');
-
+require('eventsource-polyfill');
 require('leaflet');
 require('./configs/axios.config');
 const store = configureStore();
