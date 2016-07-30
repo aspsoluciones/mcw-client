@@ -20,7 +20,7 @@ import {
 
 import axios from 'axios';
 import moment from 'moment';
-import { browserHistory, hashHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 
 let initialDate = {
   minDate: moment().format("MM-DD-YYYY"),
@@ -215,7 +215,7 @@ export function ConfirmAppointment(appointment) {
     dispatch(AppointmentRequest());
     axios.post('/solicitudes', transformAppointment(appointment)).then((data) => {
       dispatch(AppointmentSuccess(data));
-      hashHistory.push('appointment/success');
+      browserHistory.push('appointment/success');
     }).catch((error) => {
       dispatch(AppointmentFailure(error));
     });
@@ -248,10 +248,10 @@ function transformAppointment(appointment){
 
   _dataToSend.fecha_fin = _initialDate.add('m', turno.duracion_en_minutos);
   //Convert date to string without timezone
- 
+
   _dataToSend.fecha_fin = _dataToSend.fecha_fin.format("YYYY-MM-DD") + 'T'+ _dataToSend.fecha_fin.format("HH:mm:ss")
   _dataToSend.fecha_inicio = turno.fecha_hora_inicio.format("YYYY-MM-DD") + 'T'+ turno.fecha_hora_inicio.format("HH:mm:ss")
-  
+
   //CONTINUE PARSING
 
   _dataToSend.solicitante.id = solicitante.id;

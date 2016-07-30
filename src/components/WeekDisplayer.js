@@ -132,7 +132,7 @@ class WeekDisplayer extends Component {
 
     dispatch(TakeAppointment({appointment}));
     router.push({
-      pathname: '/doctor/' + doctorUsername + '/appointment/checkout'
+      pathname: '/' + doctorUsername + '/appointment/checkout'
     });
   }
 

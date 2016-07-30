@@ -99,7 +99,7 @@ class Checkout extends Component {
     const { router } = this.context;
 
     router.push({
-      pathname: '/doctor/' + this.props.params.doctorUsername
+      pathname: '/' + this.props.params.doctorUsername
     });
   }
 
