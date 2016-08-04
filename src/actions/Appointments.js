@@ -20,7 +20,7 @@ import {
 
 import axios from 'axios';
 import moment from 'moment';
-import { browserHistory } from 'react-router';
+import { hashHistory } from 'react-router';
 
 let initialDate = {
   minDate: moment().format("MM-DD-YYYY"),
@@ -215,7 +215,7 @@ export function ConfirmAppointment(appointment) {
     dispatch(AppointmentRequest());
     axios.post('/solicitudes', transformAppointment(appointment)).then((data) => {
       dispatch(AppointmentSuccess(data));
-      browserHistory.push('appointment/success');
+      hashHistory.push('appointment/success');
     }).catch((error) => {
       dispatch(AppointmentFailure(error));
     });
