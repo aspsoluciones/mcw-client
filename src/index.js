@@ -2,7 +2,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import { Provider } from 'react-redux';
 
-import { Router, Route, hashHistory, History } from 'react-router'
+import { Router, Route, browserHistory, History } from 'react-router'
 
 import App from './containers/App';
 import Public from './containers/Public';
@@ -34,13 +34,13 @@ import './styles/styles.scss'; //Yep, that's right. You can import SASS/CSS file
 render(
 
   <Provider store={store}>
-    <Router  onUpdate={() => window.scrollTo(0, 0)} history={hashHistory}>
+    <Router  onUpdate={() => window.scrollTo(0, 0)} history={browserHistory}>
       <Route name="forbidden" component={Forbidden}/>
-      <Route name="doctor" path="/" component={Public}>
+      <Route name="doctor" path="/:something" component={Public}>
         <Route name="confirmation" path="/confirmation/:confirmationId" component={Confirmation}/>
-        <Route name="appointments" path="/:doctorUsername" component={Appointment}/>
-        <Route name="appointmentsWidget" path="/:doctorUsername?widget=:widget" component={Appointment}/>
-        <Route name="checkout" path="/:doctorUsername/appointment/checkout" component={Checkout}/>
+        <Route name="appointments" path="/:something/:doctorUsername" component={Appointment}/>
+        <Route name="appointmentsWidget" path="/:something/:doctorUsername?widget=:widget" component={Appointment}/>
+        <Route name="checkout" path="/:something/:doctorUsername/appointment/checkout" component={Checkout}/>
         <Route name="checkout" path="/appointment/success" component={AppointmentSuccessContainer}/>
       </Route>
     </Router>
