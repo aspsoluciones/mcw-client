@@ -2,7 +2,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import { Provider } from 'react-redux';
 
-import { Router, Route, browserHistory, History } from 'react-router'
+import { Router, Route, hashHistory, History } from 'react-router'
 
 import App from './containers/App';
 import Public from './containers/Public';
@@ -19,7 +19,8 @@ import configureStore from './store/configureStore';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 // import '../node_modules/jquery/dist/jquery';
-import '../node_modules/react-intl-tel-input/dist/libphonenumber.js';
+import 'file?name=libphonenumber.js!../node_modules/react-intl-tel-input/dist/libphonenumber.js';
+
 
 // require('../semantic/dist/semantic.min.js');
 // require('../semantic/dist/semantic.min.css');
@@ -34,7 +35,7 @@ import './styles/styles.scss'; //Yep, that's right. You can import SASS/CSS file
 render(
 
   <Provider store={store}>
-    <Router  onUpdate={() => window.scrollTo(0, 0)} history={browserHistory}>
+    <Router  onUpdate={() => window.scrollTo(0, 0)} history={hashHistory}>
       <Route name="forbidden" component={Forbidden}/>
       <Route name="doctor" path="/:something" component={Public}>
         <Route name="confirmation" path="/confirmation/:confirmationId" component={Confirmation}/>
