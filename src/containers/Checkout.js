@@ -356,7 +356,8 @@ class Checkout extends Component {
     const duracion_minutos = (keep && keep.appointment && keep.appointment.duracion_en_minutos) ? keep.appointment.duracion_en_minutos : null;
 
     let _modal = (this.state.openPatientModal) ? <PatientsModal patientsList={patients.patient}/> : null;
-    const setDisabled = (!patients.selectedPatient || patients.displayForm) && (!this.state.canSubmit || appointment.requestingAppointment || (!this.state.validatePhone && !this.state.validateLinePhone) || !this.state.recaptcha);
+    const setDisabled = appointment.requestingAppointment || (!patients.selectedPatient || patients.displayForm) && (!this.state.canSubmit || appointment.requestingAppointment || (!this.state.validatePhone && !this.state.validateLinePhone) || !this.state.recaptcha);
+
     console.log(setDisabled);
     let _changePatientButton = (patients.patient && patients.patient.length > 1) ? (<button className="ui button fluid bg-mcwBlue" onClick={this.reOpenPatientsModal.bind(this)}>
         Cambiar paciente
