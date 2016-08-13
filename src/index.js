@@ -2,7 +2,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import { Provider } from 'react-redux';
 
-import { Router, Route, browserHistory, History } from 'react-router'
+import { Router, Route, hashHistory, History } from 'react-router'
 
 import App from './containers/App';
 import Public from './containers/Public';
@@ -34,7 +34,7 @@ import './styles/styles.scss'; //Yep, that's right. You can import SASS/CSS file
 render(
 
   <Provider store={store}>
-    <Router  onUpdate={() => window.scrollTo(0, 0)} history={browserHistory}>
+    <Router  onUpdate={() => window.scrollTo(0, 0)} history={hashHistory}>
       <Route name="forbidden" component={Forbidden}/>
       <Route name="doctor" path="/" component={Public}>
         <Route name="confirmation" path="/confirmation/:confirmationId" component={Confirmation}/>
