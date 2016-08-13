@@ -269,7 +269,7 @@ class Checkout extends Component {
             <div className="ui column">
            <FormsyDate
               name="fecha_nacimiento"
-              required
+              
               floatingLabelText={languageJson.birth_date}
             />
             </div>
