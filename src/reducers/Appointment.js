@@ -19,7 +19,7 @@ import {
 } from "../constants/ActionTypes";
 
 import moment from 'moment';
-import { hashHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 
 const initialState = {
   loadingAppointments : false, readSuccess:false, loadingDoctorData : false, responsable_servicio: {}, selectedDay : moment()
